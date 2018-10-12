@@ -1,0 +1,5 @@
+string	anas
+Az	{ana=az[/Det|Pro]=az+[Nom], feats=[/Det|Pro][Nom], lemma=az, readable_ana=az[/Det|Pro] + [Nom]};{ana=az[/Det|art.Def]=az, feats=[/Det|art.Def], lemma=az, readable_ana=az[/Det|art.Def]};{ana=az[/N|Pro]=az+[Nom], feats=[/N|Pro][Nom], lemma=az, readable_ana=az[/N|Pro] + [Nom]}
+alma	{ana=alom[/N]=alm+a[Poss.3Sg]=a+[Nom], feats=[/N][Poss.3Sg][Nom], lemma=alom, readable_ana=alom[/N]=alm + a[Poss.3Sg] + [Nom]};{ana=alma[/N]=alma+[Nom], feats=[/N][Nom], lemma=alma, readable_ana=alma[/N] + [Nom]}
+szép	{ana=szép[/Adj]=szép+[Nom], feats=[/Adj][Nom], lemma=szép, readable_ana=szép[/Adj] + [Nom]};{ana=szép[/Adv|AdjMod]=szép, feats=[/Adv|AdjMod], lemma=szép, readable_ana=szép[/Adv|AdjMod]}
+.	_
