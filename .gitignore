@@ -108,4 +108,6 @@ venv.bak/
 
 # Temp file from editor
 *~
+.*.swp
+
 
