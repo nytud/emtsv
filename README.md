@@ -23,7 +23,6 @@ First results:
 `make test-chunk-chain`
 
 ```
-to be implemented: testing emMorph + emTag + emChunk
 cat test_input/input.test | sed "s/\([.,;:?!]\)/ \1/" | tr ' ' '\n' | python3 ./emMorphREST.py --pipe
 Traceback (most recent call last):
   File "./emMorphREST.py", line 11, in <module>
