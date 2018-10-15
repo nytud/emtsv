@@ -40,4 +40,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == '--pipe':  # TODO: It just a tech preview, implement it properly!
         from TSVRESTTools.tsvhandler import process
         sys.stdout.writelines(process(sys.stdin, em_chunk))
-    app.run(debug=True)
+    else:
+        app.run(debug=True)
