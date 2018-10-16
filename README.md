@@ -5,15 +5,24 @@ This is a quick and dirty RFC implementation. Bugs can happen!
 
 Please leave feedback!
 
+## Requirements
+
+python 3.5 <=
+
+## Install
+
+`git clone --recurse-submodules https://github.com/dlazesz/emTSV`
+
 ## Usage
 
-	```
+```
   python
 	>>> import requests
 	>>> r = requests.post('http://127.0.0.1:5000/command', files={'file':open('test.text', encoding='UTF-8')})
 	>>> print(r.text)
 	...
-	```
+```
+
 # testing :)
 
 `Makefile` created for testing purposes.
