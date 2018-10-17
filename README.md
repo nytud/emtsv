@@ -19,13 +19,13 @@ Clone together with submodules:
 
 Then install requirements for submodules:
 
-`pip install -r emmorphpy/requirements.txt`
+`pip3 install -r emmorphpy/requirements.txt`
 
-`pip install -r purepospy/requirements.txt`
+`pip3 install -r purepospy/requirements.txt`
 
-`pip install -r emdeppy/requirements.txt`
+`pip3 install -r emdeppy/requirements.txt`
 
-`pip install -r HunTag3/requirements.txt`
+`pip3 install -r HunTag3/requirements.txt`
 
 ## Usage
 
