@@ -43,3 +43,21 @@ Then install requirements for submodules:
 
 Morphological analysis (emMorph+emLem) + POS tagging (emTag=purepos) works! :)
 
+-----
+
+`./mnsz2_test.sh`
+
+```
+Traceback (most recent call last):
+  File "./emMorphREST.py", line 25, in <module>
+    app.run(debug=True)
+  File "/home/joker/tmp/emTSV-virtual/lib/python3.5/site-packages/flask/app.py", line 943, in run
+    run_simple(host, port, self, **options)
+  File "/home/joker/tmp/emTSV-virtual/lib/python3.5/site-packages/werkzeug/serving.py", line 795, in run_simple
+    s.bind(get_sockaddr(hostname, port, address_family))
+OSError: [Errno 98] Address already in use
+```
+
+Input: tokenized sentences separated by newlines (`\n`).
+What could be this one? :)
+
