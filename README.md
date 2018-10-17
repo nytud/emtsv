@@ -49,13 +49,17 @@ Morphological analysis (emMorph+emLem) + POS tagging (emTag=purepos) works! :)
 
 ```
 Traceback (most recent call last):
-  File "./emMorphREST.py", line 25, in <module>
-    app.run(debug=True)
-  File "/home/joker/tmp/emTSV-virtual/lib/python3.5/site-packages/flask/app.py", line 943, in run
-    run_simple(host, port, self, **options)
-  File "/home/joker/tmp/emTSV-virtual/lib/python3.5/site-packages/werkzeug/serving.py", line 795, in run_simple
-    s.bind(get_sockaddr(hostname, port, address_family))
-OSError: [Errno 98] Address already in use
+  File "./emTagREST.py", line 23, in <module>
+    sys.stdout.writelines(process(sys.stdin, em_tag))
+  File "/home/joker/tmp/emTSV-virtual/emTSV/TSVRESTTools/tsvhandler.py", line 37, in process
+    yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
+  File "./purepospy/purepospy.py", line 196, in process_sentence
+    m.anals[token] = self._add_ana_if_any(tok[field_indices[1]])
+IndexError: list index out of range
+Traceback (most recent call last):
+  File "./emMorphREST.py", line 23, in <module>
+    sys.stdout.writelines(process(sys.stdin, em_morph))
+BrokenPipeError: [Errno 32] Broken pipe
 ```
 
 Input: tokenized sentences separated by newlines (`\n`).
