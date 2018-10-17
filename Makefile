@@ -8,7 +8,8 @@ usage:
 	@echo " make test-morph-only"
 	@echo " make test-tag-only"
 	@echo " make test-dep-only"
-	@echo " make test-chunk-chain"
+	@echo " make test-morph-tag"
+	@echo " make test-morph-tag-chunk"
 	@echo
 
 install:
@@ -26,7 +27,11 @@ test-tag-only:
 test-dep-only:
 	cat test_input/emDep.test | python3 ./emDepREST.py --pipe
 
+# testing emMorph + emTag
+test-morph-tag:
+	( echo "string" ; cat test_input/input.test | sed "s/\([.,;:?!]\)/ \1/" | tr ' ' '\n' ) | python3 ./emMorphREST.py --pipe | python3 ./emTagREST.py --pipe
+
 # testing emMorph + emTag + emChunk
-test-chunk-chain:
+test-morph-tag-chunk:
 	( echo "string" ; cat test_input/input.test | sed "s/\([.,;:?!]\)/ \1/" | tr ' ' '\n' ) | python3 ./emMorphREST.py --pipe | python3 ./emTagREST.py --pipe | python3 ./emChunkREST.py --pipe
 
