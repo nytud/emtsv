@@ -110,6 +110,9 @@ venv.bak/
 *~
 .*.swp
 
-# temp output file
+# temp output/error files
 out
+err
+out.*
+err.*
 
