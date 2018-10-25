@@ -12,6 +12,7 @@ from huntag.tagger import Tagger
 from huntag.transmodel import TransModel
 from huntag.tools import get_featureset_yaml, data_sizes
 
+# TODO: Bálint: legyen a neve emSeqTag
 # Initialize tagger as wanted...
 model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'testNP')
 cfg_file = 'HunTag3/configs/maxnp.szeged.hfst.yaml'
