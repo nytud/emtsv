@@ -12,7 +12,7 @@ logger.addHandler(sh)
 
 
 def process_header(stream, target_fields):
-    fields = stream.readline().strip().split()                      # Read header to fields
+    fields = next(stream).strip().split()                           # Read header to fields
     fields.extend(target_fields)                                    # Add target fields
     field_names = {name: i for i, name in enumerate(fields)}        # Decode field names
     field_names.update({i: name for i, name in enumerate(fields)})  # Both ways...
