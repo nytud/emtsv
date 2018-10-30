@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'Dummy'))  # Needed to b
 from DummyTagger.dummy import DummyTagger
 
 # Setup the triplet: command, class, args (tuple), kwargs (dict)
-dummy_tagger = ('/dummy_tagger', DummyTagger, ('Params goes here...',), {})
+dummy_tagger = ('/dummy_tagger', DummyTagger, ('Params goes here', {'Source field names'}, ['Target field names']), {})
 
 
 # emMorph
@@ -21,7 +21,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorphpy'))  # Needed 
 from emmorphpy import EmMorphPy
 
 # TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
-em_morph = ('/emMorph', EmMorphPy, (), {})
+em_morph = ('/emMorph', EmMorphPy, (), {'source_fields': {'string'}, 'target_fields': ['anas']})
 
 # emTag
 
@@ -30,7 +30,8 @@ from purepospy import PurePOS
 
 model_name = 'models/emTag/test.purepos.model'
 
-em_tag = ('/emTag', PurePOS, (model_name,), {})
+em_tag = ('/emTag', PurePOS, (model_name,), {'source_fields': {'string', 'anas'},
+                                             'target_fields': ['lemma', 'hfstana']})
 
 # emDepTool
 
@@ -38,7 +39,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed 
 from deptoolpy.deptoolpy import DepToolPy
 
 
-em_deptool = ('/emDepTool', DepToolPy, (), {})
+em_deptool = ('/emDepTool', DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
 # emChunk
 
@@ -57,7 +58,9 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
            'labelcounter_filename': '{0}{1}'.format(model_name, '.labelNumbers.gz'),
            'tag_field': tag_field,
            'data_sizes': data_sizes,
-           'transmodel_filename': '{0}{1}'.format(model_name, '.transmodel')
+           'transmodel_filename': '{0}{1}'.format(model_name, '.transmodel'),
+           'source_fields': {},
+           'target_fields': ['NP_BIO']
            }
 
 features = get_featureset_yaml(cfg_file)
@@ -70,4 +73,4 @@ em_chunk = ('/emChunk', Tagger, (features, options), {})
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
 from emdeppy import EmDepPy
 
-em_dep = ('/emDep', EmDepPy, (), {})
+em_dep = ('/emDep', EmDepPy, ({'string', 'lemma', 'pos', 'feature'}, ['tokid', 'deptype', 'deptarget']), {})
