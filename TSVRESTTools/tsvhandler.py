@@ -11,8 +11,11 @@ sh.terminator = ''
 logger.addHandler(sh)
 
 
-def process_header(stream, target_fields):
+def process_header(stream, source_fields, target_fields):
     fields = next(stream).strip().split()                           # Read header to fields
+    if not source_fields.issubset(set(fields)):
+        raise NameError('Input does not have the required field names ({0}). The following field names found: {1}'.
+                        format(sorted(source_fields), fields))
     fields.extend(target_fields)                                    # Add target fields
     field_names = {name: i for i, name in enumerate(fields)}        # Decode field names
     field_names.update({i: name for i, name in enumerate(fields)})  # Both ways...
@@ -21,7 +24,7 @@ def process_header(stream, target_fields):
 
 # Only This method is public...
 def process(stream, internal_app):
-    header, field_names = process_header(stream, internal_app.target_fields)
+    header, field_names = process_header(stream, internal_app.source_fields, internal_app.target_fields)
     yield header
 
     # Like binding names to indices...

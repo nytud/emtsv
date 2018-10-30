@@ -59,7 +59,6 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
            'tag_field': tag_field,
            'data_sizes': data_sizes,
            'transmodel_filename': '{0}{1}'.format(model_name, '.transmodel'),
-           'source_fields': {},
            'target_fields': ['NP_BIO']
            }
 
