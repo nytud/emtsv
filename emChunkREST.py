@@ -4,7 +4,7 @@
 import os
 import sys
 
-from TSVRESTTools.common import create_app
+from TSVRESTTools.common import create_rest_app, create_cli_app
 
 # Import Tagger class, and parameters...
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
@@ -29,17 +29,16 @@ print('loading transition model...', end='', file=sys.stderr, flush=True)
 trans_model = TransModel.load_from_file('{0}{1}'.format(model_name, '.transmodel'))
 print('done', file=sys.stderr, flush=True)
 
-em_chunk = Tagger(get_featureset_yaml(cfg_file), trans_model, options)
+prog = Tagger(get_featureset_yaml(cfg_file), trans_model, options)
 
 # END tagger initialisation...
 
 # TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
 # Create app with the desired parameters...
-app = create_app(__name__, command='/emChunk', internal_app=em_chunk)
+app = create_rest_app(__name__, command='/emChunk', internal_app=prog)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == '--pipe':  # TODO: It just a tech preview, implement it properly!
-        from TSVRESTTools.tsvhandler import process
-        sys.stdout.writelines(process(sys.stdin, em_chunk))
+        create_cli_app(prog, sys.stdin, sys.stdout)
     else:
         app.run(debug=True)

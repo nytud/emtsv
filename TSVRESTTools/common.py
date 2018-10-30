@@ -15,7 +15,11 @@ from werkzeug.utils import redirect
 from TSVRESTTools.tsvhandler import process  # Only this is needed from the TSV handler...
 
 
-def create_app(name, command, internal_app):
+def create_cli_app(prog, input_stream, output_stream):
+    output_stream.writelines(process(input_stream, prog))
+
+
+def create_rest_app(name, command, internal_app):
     app = Flask(name)
     api = Api(app)
     add_params(api, command, internal_app)
