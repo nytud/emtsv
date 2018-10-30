@@ -1,21 +1,20 @@
 #!/usr/bin/python3
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
-import os
 import sys
 
 from TSVRESTTools.common import create_rest_app, create_cli_app
 
-# Import Tagger class, and parameters...
-sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed to be able to use git submodule...
-from deptoolpy.deptoolpy import DepToolPy
+# BEGIN Add personality...
+from personalities import em_deptool
 
-# Initialize tagger as wanted...
-prog = DepToolPy()
+command, tagger, args, kwargs = em_deptool
+prog = tagger(*args, **kwargs)
 
-# TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
+# END Add personality...
+
 # Create app with the desired parameters...
-app = create_rest_app(__name__, command='/depTool', internal_app=prog)
+app = create_rest_app(__name__, command=command, internal_app=prog)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == '--pipe':  # TODO: It just a tech preview, implement it properly!
