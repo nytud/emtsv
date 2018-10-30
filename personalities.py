@@ -4,7 +4,7 @@
 import os
 import sys
 
-# DummyTagger (EXAMPLE)
+# DummyTagger (EXAMPLE) ################################################################################################
 
 # Import Tagger class, and parameters...
 sys.path.append(os.path.join(os.path.dirname(__file__), 'Dummy'))  # Needed to be able to use git submodule...
@@ -14,7 +14,7 @@ from DummyTagger.dummy import DummyTagger
 dummy_tagger = ('/dummy_tagger', DummyTagger, ('Params goes here', {'Source field names'}, ['Target field names']), {})
 
 
-# emMorph
+# emMorph ##############################################################################################################
 
 # Import Tagger class, and parameters...
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorphpy'))  # Needed to be able to use git submodule...
@@ -23,32 +23,30 @@ from emmorphpy import EmMorphPy
 # TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
 em_morph = ('/emMorph', EmMorphPy, (), {'source_fields': {'string'}, 'target_fields': ['anas']})
 
-# emTag
+# emTag ################################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed to be able to use git submodule...
-from purepospy import PurePOS
+from purepospy import PurePOS, import_pyjnius
 
 model_name = 'models/emTag/test.purepos.model'
 
 em_tag = ('/emTag', PurePOS, (model_name,), {'source_fields': {'string', 'anas'},
                                              'target_fields': ['lemma', 'hfstana']})
 
-# emDepTool
+# emDepTool ############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed to be able to use git submodule...
-from deptoolpy.deptoolpy import DepToolPy
-
+from deptoolpy.deptoolpy import DepToolPy  # , import_pyjnius  # Already imported above...
 
 em_deptool = ('/emDepTool', DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
-# emChunk
+# emChunk ##############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
 from huntag.tagger import Tagger
 from huntag.tools import get_featureset_yaml, data_sizes
 
 # TODO: Bálint: legyen a neve emSeqTag
-# Initialize tagger as wanted...
 model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'testNP')
 cfg_file = 'HunTag3/configs/maxnp.szeged.hfst.yaml'
 tag_field = 'NP-BIO'
@@ -67,9 +65,15 @@ features = get_featureset_yaml(cfg_file)
 # TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
 em_chunk = ('/emChunk', Tagger, (features, options), {})
 
-# emDep
+# emDep ################################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
-from emdeppy import EmDepPy
+from emdeppy import EmDepPy  # , import_pyjnius  # Already imported above...
 
 em_dep = ('/emDep', EmDepPy, ({'string', 'lemma', 'pos', 'feature'}, ['tokid', 'deptype', 'deptarget']), {})
+
+########################################################################################################################
+
+# Map personalities to firendly names...
+tools = {'morph': em_morph, 'pos': em_tag, 'deptool': em_deptool, 'chunk': em_chunk, 'dep': em_dep}
+import_pyjnius_fun = import_pyjnius
