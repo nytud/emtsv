@@ -26,7 +26,7 @@ em_morph = ('/emMorph', EmMorphPy, (), {'source_fields': {'string'}, 'target_fie
 # emTag ################################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed to be able to use git submodule...
-from purepospy import PurePOS, import_pyjnius
+from purepospy import PurePOS
 
 model_name = 'models/emTag/test.purepos.model'
 
@@ -36,7 +36,7 @@ em_tag = ('/emTag', PurePOS, (model_name,), {'source_fields': {'string', 'anas'}
 # emDepTool ############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed to be able to use git submodule...
-from deptoolpy.deptoolpy import DepToolPy  # , import_pyjnius  # Already imported above...
+from deptoolpy.deptoolpy import DepToolPy
 
 em_deptool = ('/emDepTool', DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
@@ -57,7 +57,8 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
            'tag_field': tag_field,
            'data_sizes': data_sizes,
            'transmodel_filename': '{0}{1}'.format(model_name, '.transmodel'),
-           'target_fields': ['NP_BIO']
+           'target_fields': ['NP_BIO'],
+           'task': 'tag'
            }
 
 features = get_featureset_yaml(cfg_file)
@@ -68,12 +69,12 @@ em_chunk = ('/emChunk', Tagger, (features, options), {})
 # emDep ################################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
-from emdeppy import EmDepPy  # , import_pyjnius  # Already imported above...
+from emdeppy import EmDepPy
 
-em_dep = ('/emDep', EmDepPy, ({'string', 'lemma', 'pos', 'feature'}, ['tokid', 'deptype', 'deptarget']), {})
+em_dep = ('/emDep', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
+                                  'target_fields': ['tokid', 'deptype', 'deptarget']})
 
 ########################################################################################################################
 
 # Map personalities to firendly names...
 tools = {'morph': em_morph, 'pos': em_tag, 'deptool': em_deptool, 'chunk': em_chunk, 'dep': em_dep}
-import_pyjnius_fun = import_pyjnius
