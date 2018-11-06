@@ -28,7 +28,7 @@ em_morph = ('/emMorph', EmMorphPy, (), {'source_fields': {'string'}, 'target_fie
 sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed to be able to use git submodule...
 from purepospy import PurePOS
 
-model_name = 'models/emTag/test.purepos.model'
+model_name = 'models/emTag/szeged.model'
 
 em_tag = ('/emTag', PurePOS, (model_name,), {'source_fields': {'string', 'anas'},
                                              'target_fields': ['lemma', 'hfstana']})
