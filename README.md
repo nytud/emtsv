@@ -1,14 +1,18 @@
-# emTSV
+# e-magyar-tsv
 
-TSV style format and REST API for e-magyar implemented in Python
+e-magyar text processing system -- new version
+
+ * new architecture: inter-module communication system via tsv format
+ * command line interface
+ * REST API
+ * implemented in Python
 
  __8 Nov 2018 MILESTONE#1__ =
 morphological analysis + POS tagging
 (emMorph + emLem + emTag) tested and works.
 Also on a 1 million word chunk of text. :)
 
-This is a quick and dirty RFC implementation. Bugs can happen!
-Please leave feedback!
+If a bug is found please leave feedback.
 
 ## Requirements
 
@@ -18,7 +22,7 @@ python 3.5 <=
 
 Clone together with submodules:
 
-`git clone --recurse-submodules https://github.com/dlazesz/emTSV`
+`git clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv`
 
 Cloning time is about 3 minutes.
 
@@ -40,7 +44,7 @@ Then install requirements for submodules:
 
 ```
   echo "A kutya elment sétálni." > inputfile
-  make RAWINPUT=inputfile test-morph-tag > out
+  make RAWINPUT=inputfile test-morph-tag
 ```
 
 That's it. :)
