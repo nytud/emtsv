@@ -1,8 +1,13 @@
 # emTSV
+
 TSV style format and REST API for e-magyar implemented in Python
 
-This is a quick and dirty RFC implementation. Bugs can happen!
+ __8 Nov 2018 MILESTONE#1__ =
+morphological analysis + POS tagging
+(emMorph + emLem + emTag) tested and works.
+Also on a 1 million word chunk of text. :)
 
+This is a quick and dirty RFC implementation. Bugs can happen!
 Please leave feedback!
 
 ## Requirements
@@ -14,6 +19,8 @@ python 3.5 <=
 Clone together with submodules:
 
 `git clone --recurse-submodules https://github.com/dlazesz/emTSV`
+
+Cloning time is about 3 minutes.
 
 `pip3 install Cython` (for emdeppy, must be installed in a separate step)
 
@@ -29,6 +36,19 @@ Then install requirements for submodules:
 
 ## Usage
 
+### command line interface
+
+```
+  echo "A kutya elment sétálni." > inputfile
+  make RAWINPUT=inputfile test-morph-tag > out
+```
+
+That's it. :)
+
+### server
+
+XXX TODO. This is just an old example for reference.
+
 ```
   python
 	>>> import requests
@@ -39,29 +59,51 @@ Then install requirements for submodules:
 
 ## Testing
 
-`make test-morph-tag INPUT=test_input/puzser.test`
-
-Morphological analysis (emMorph+emLem) + POS tagging (emTag=purepos) works! :)
-
------
-
-`./mnsz2_test.sh`
-
 ```
-Traceback (most recent call last):
-  File "./emTagREST.py", line 23, in <module>
-    sys.stdout.writelines(process(sys.stdin, em_tag))
-  File "/home/joker/tmp/emTSV-virtual/emTSV/TSVRESTTools/tsvhandler.py", line 37, in process
-    yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
-  File "./purepospy/purepospy.py", line 196, in process_sentence
-    m.anals[token] = self._add_ana_if_any(tok[field_indices[1]])
-IndexError: list index out of range
-Traceback (most recent call last):
-  File "./emMorphREST.py", line 23, in <module>
-    sys.stdout.writelines(process(sys.stdin, em_morph))
-BrokenPipeError: [Errno 32] Broken pipe
+time make test-morph > out.input.morph
+time make test-morph-tag > out.input.morph-tag
+time make test-tokenizedinput-morph-tag > out.input.morph-tag_alt
+tkdiff out.input.morph out.input.morph-tag
+diff out.input.morph-tag out.input.morph-tag_alt
 ```
 
-Input: tokenized sentences separated by newlines (`\n`).
-What could be this one? :)
+The first diff shows the result of POS tagging.
+<br/>
+The second diff outputs nothing = the two files are the same.
 
+
+There are some larger pre-tokenized testfiles available locally,
+see `Makefile`.
+<br/>
+This command processes a 100 thousand words chunk of text,
+works only on juniper and can take about 2 minutes:
+
+```
+time make TOKENIZEDINPUT=/store/projects/e-magyar/test_input/mnsz2_radio_100e.tok.test test-tokenizedinput-morph-tag > out.100e.tokenizedinput-morph-tag
+```
+
+To investigate the results:
+
+```
+view out.100e.tokenizedinput-morph-tag
+```
+
+An even larger text (1 million words) can be processed smoothly,
+this works also only on juniper and can take about 20 (!) minutes:
+
+```
+time make TOKENIZEDINPUT=/store/projects/e-magyar/test_input/mnsz2_radio_1mio.tok.test test-tokenizedinput-morph-tag > out.1mio.tokenizedinput-morph-tag
+```
+
+```
+view out.1mio.tokenizedinput-morph-tag
+```
+
+To test the guesser, type:
+
+```
+make RAWINPUT=test_input/halandzsa.test test-morph-tag > out.halandzsa.morph-tag
+view out.halandzsa.morph-tag
+```
+
+The guesser also seems to work. :)
