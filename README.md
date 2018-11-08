@@ -16,7 +16,8 @@ If a bug is found please leave feedback.
 
 ## Requirements
 
-python 3.5 <=
+- Python 3.5 <=
+- HFST 3.13 <=
 
 ## Install
 
@@ -40,7 +41,9 @@ Then install requirements for submodules:
 
 ## Usage
 
-### command line interface
+__WARNING: The old API is deprecated and will be removed. Please consider testing emTSV20.py__
+
+### Command-line interface
 
 ```
   echo "A kutya elment sétálni." > inputfile
@@ -49,17 +52,56 @@ Then install requirements for submodules:
 
 That's it. :)
 
-### server
+### REST API
 
-XXX TODO. This is just an old example for reference.
+Run the server of the desired program, or the pipeline. The commands are the following:
 
+```bash
+	# emMorph+emLem URL: http://127.0.0.1:5000/emMorph
+	python3 ./emMorphREST.py
+	# emTag URL: http://127.0.0.1:5000/emTag
+	python3 ./emTagREST.py
+	# DepTool URL: http://127.0.0.1:5000/emDepTool
+	python3 ./depToolREST.py
+	# emDep URL: http://127.0.0.1:5000/emDep
+	python3 ./emDepREST.py
+	# Chunker (XXX currently not working)
+	python3 ./emChunkREST.py  URL: http://127.0.0.1:5000/emChunk
+	# For the pipeline API 2.0 version (XXX beta):
+	python3 ./emTSV20.py
 ```
-  python
+
+The 2.0 API can be called with the URL scheme below where __command__ can be composed arbitrarily off the following modules separated by /:
+
+- morph
+- pos
+- deptool
+- chunk
+- dep
+
+__WARNING: The new API is still in Beta. Things may break without further notice!__
+
+Example URLs:
+
+- http://127.0.0.1:5000/morph
+- http://127.0.0.1:5000/morph/pos
+- http://127.0.0.1:5000/morph/pos/deptool/dep
+- http://127.0.0.1:5000/deptool/dep
+
+And the clients should call the server like below:
+
+```python
 	>>> import requests
 	>>> r = requests.post('http://127.0.0.1:5000/command', files={'file':open('test.text', encoding='UTF-8')})
 	>>> print(r.text)
 	...
 ```
+
+The format of __test.text__ file or stream must comply to the emTSV standards (header, column names, etc.) as for the CLI version. Please consult the examples for guidance!
+
+### Python library
+
+XXX Comming soon!
 
 ## Testing
 
