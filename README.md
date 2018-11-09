@@ -18,6 +18,8 @@ If a bug is found please leave feedback.
 
 - Python 3.5 <=
 - HFST 3.13 <=
+- OpenJDK 8 =
+- An UTF-8 locale must be set!
 
 ## Install
 
