@@ -39,15 +39,16 @@ If a bug is found please leave feedback.
 
 - Python 3.5 <=
 - HFST 3.13 <=
-<br/>
-On Ubuntu 18.04,
-an `apt-get install hfst` is enough,
-as HFST 3.13 is the default is this version.
 - OpenJDK 8
+- An UTF-8 locale must be set.
+
+_Remarks:_
+<br/>
+On Ubuntu 18.04, an `apt-get install hfst` is enough,
+as HFST 3.13 is the default is this version.
 <br/>
 We encountered problems using OpenJDK 11 (#1),
 so we recommend using OpenJDK 8.
-- An UTF-8 locale must be set.
 
 ## Install
 
