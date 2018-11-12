@@ -12,14 +12,17 @@ logger.addHandler(sh)
 
 
 def process_header(stream, source_fields, target_fields):
-    fields = next(stream).strip().split()                           # Read header to fields
-    if not source_fields.issubset(set(fields)):
-        raise NameError('Input does not have the required field names ({0}). The following field names found: {1}'.
-                        format(sorted(source_fields), fields))
+    fields = []
+    if source_fields:
+        fields = next(stream).strip().split()                           # Read header to fields
+        if not source_fields.issubset(set(fields)):
+            raise NameError('Input does not have the required field names ({0}). The following field names found: {1}'.
+                            format(sorted(source_fields), fields))
     fields.extend(target_fields)                                    # Add target fields
     field_names = {name: i for i, name in enumerate(fields)}        # Decode field names
     field_names.update({i: name for i, name in enumerate(fields)})  # Both ways...
-    return '{0}\n'.format('\t'.join(fields)), field_names
+    header = '{0}\n'.format('\t'.join(fields))
+    return header, field_names
 
 
 # Only This method is public...
