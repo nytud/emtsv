@@ -119,3 +119,5 @@ err.*
 # local input files
 test_input/mnsz2_*
 
+# test
+inputfile
