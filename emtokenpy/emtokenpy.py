@@ -25,12 +25,19 @@ class EmTokenPy:
             fh.flush()
             cmd = '{0} -f vert {1}'.format(os.path.join(os.path.dirname(__file__), 'bin', 'quntoken'), fh.name)
             res = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE).stdout
-            res = res.decode(encoding='utf-8')
-            res = res.split('\n')
-            res = [[x] for x in res if x]
+        res = res.decode(encoding='utf-8')
+        res = [[x] for x in res.split('\n')]
+        # remove unnecessary empty strings from the end of sentences
+        count = 0
+        for i in res[::-1]:
+            if i == ['']:
+                count += 1
+            else:
+                break
+        while count > 0:
+            res.pop()
+            count -= 1
         return res
-        # print(res)
-        # return [[]]
 
     def prepare_fields(self, field_names):
         return field_names
