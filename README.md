@@ -37,6 +37,7 @@ If a bug is found please leave feedback.
 
 ## Requirements
 
+- GIT LFS
 - Python 3.5 <=
 - HFST 3.13 <=
 - OpenJDK 8
@@ -54,7 +55,7 @@ so we recommend using OpenJDK 8.
 
 Clone together with submodules (it takes about 3 minutes):
 
-`git clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv`
+`git lfs clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv`
 
 Install `Cython` for `emdeppy`. It must be installed in a separate step.
 
@@ -175,6 +176,84 @@ view out.halandzsa.morph-tag
 The guesser also seems to work. :)
 
 -----
+
+# Frequently Asked Questions
+
+- Errors like below is because `JAVA_HOME` environment variable is not set properly.
+
+```Python
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python3.5/site-packages/jnius/__init__.py", line 13, in <module>
+    from .reflect import *  # noqa
+  File "/usr/lib/python3.5/site-packages/jnius/reflect.py", line 15, in <module>
+    class Class(with_metaclass(MetaJavaClass, JavaClass)):
+  File "/usr/lib/python3.5/site-packages/six.py", line 827, in __new__
+    return meta(name, bases, d)
+  File "jnius/jnius_export_class.pxi", line 111, in jnius.MetaJavaClass.__new__
+  File "jnius/jnius_export_class.pxi", line 161, in jnius.MetaJavaClass.resolve_class
+  File "jnius/jnius_env.pxi", line 11, in jnius.get_jnienv
+  File "jnius/jnius_jvm_dlopen.pxi", line 90, in jnius.get_platform_jnienv
+  File "jnius/jnius_jvm_dlopen.pxi", line 45, in jnius.create_jnienv
+  File "/usr/lib/python3.5/os.py", line 725, in __getitem__
+    raise KeyError(key) from None
+KeyError: 'JAVA_HOME'
+```
+
+- Errors like below is because the JRE version is not compatible.
+
+```Python
+Traceback (most recent call last):
+  File "/app/emTagREST.py", line 12, in <module>
+    prog = tagger(*args, **kwargs)
+  File "/app/purepospy/purepospy.py", line 66, in __init__
+    self._autoclass = import_pyjnius(PurePOS.class_path)
+  File "/app/purepospy/purepospy.py", line 34, in import_pyjnius
+    from jnius import autoclass
+  File "/usr/lib/python3.7/site-packages/jnius/__init__.py", line 13, in <module>
+    from .reflect import *  # noqa
+  File "/usr/lib/python3.7/site-packages/jnius/reflect.py", line 15, in <module>
+    class Class(with_metaclass(MetaJavaClass, JavaClass)):
+  File "/usr/lib/python3.7/site-packages/six.py", line 827, in __new__
+    return meta(name, bases, d)
+  File "jnius/jnius_export_class.pxi", line 111, in jnius.MetaJavaClass.__new__
+  File "jnius/jnius_export_class.pxi", line 161, in jnius.MetaJavaClass.resolve_class
+  File "jnius/jnius_env.pxi", line 11, in jnius.get_jnienv
+  File "jnius/jnius_jvm_dlopen.pxi", line 90, in jnius.get_platform_jnienv
+  File "jnius/jnius_jvm_dlopen.pxi", line 59, in jnius.create_jnienv
+SystemError: Error calling dlopen(b'/usr/lib/jvm/default-java/jre/lib/amd64/server/libjvm.so': b'/usr/lib/jvm/default-java/jre/lib/amd64/server/libjvm.so: cannot open shared object file: No such file or directory'
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+```
+
+- Errors like below is due to missing modelfile because `git lfs` is not installed before clone.
+
+```Python
+  File "/app/purepospy/purepospy.py", line 168, in tag_sentence
+    read_mod = serializer().readModelEx(self._model_jfile)
+  File "jnius/jnius_export_class.pxi", line 733, in jnius.JavaMethod.__call__
+  File "jnius/jnius_export_class.pxi", line 899, in jnius.JavaMethod.call_staticmethod
+  File "jnius/jnius_utils.pxi", line 93, in jnius.check_exception
+jnius.JavaException: JVM exception occurred: invalid stream header: 76657273
+```
+
+- Errors like below is because no __Unicode-aware locale__ (eg. hu_HU.UTF-8) is set.
+
+```Python
+File "/app/emmorphpy/emmorphpy/emmorphpy.py", line 76, in _load_config
+props = jprops.load_properties(fp)
+File "/usr/lib/python3.6/site-packages/jprops.py", line 43, in load_properties
+return mapping(iter_properties(fh))
+File "/usr/lib/python3.6/site-packages/jprops.py", line 107, in iter_properties
+for line in _property_lines(fh):
+File "/usr/lib/python3.6/site-packages/jprops.py", line 271, in _property_lines
+for line in _read_lines(fp):
+File "/usr/lib/python3.6/site-packages/jprops.py", line 263, in _universal_newlines
+for line in lines:
+File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
+return codecs.ascii_decode(input, self.errors)[0]
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xc5 in position 603: ordinal not in range(128)
+```
 
 # Work in progress
 
