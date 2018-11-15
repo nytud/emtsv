@@ -38,6 +38,13 @@ from deptoolpy.deptoolpy import DepToolPy
 
 em_deptool = ('/emDepTool', DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
+# emMorph2Dep ##########################################################################################################
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorph2ud'))  # Needed to be able to use git submodule...
+from emmorph2ud.converter import EmMorph2UD
+
+em_morph2ud = ('/emMorph2UD', EmMorph2UD, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
+
 # emChunk ##############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
@@ -45,7 +52,7 @@ from huntag.tagger import Tagger
 from huntag.tools import get_featureset_yaml, data_sizes
 
 # TODO: Bálint: legyen a neve emSeqTag
-model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'testNP')
+model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')
 cfg_file = 'HunTag3/configs/maxnp.szeged.hfst.yaml'
 tag_field = 'NP-BIO'
 
@@ -72,7 +79,17 @@ from emdeppy import EmDepPy
 em_dep = ('/emDep', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
                                   'target_fields': ['tokid', 'deptype', 'deptarget']})
 
+# emDep ################################################################################################################
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
+from emdeppy import EmDepPy
+
+em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
+                                      'target_fields': ['tokid', 'deptype', 'deptarget'],
+                                      'model_file': 'szk.mate.ud.model'})  # TODO: fix model path later!
+
 ########################################################################################################################
 
 # Map personalities to firendly names...
-tools = {'morph': em_morph, 'pos': em_tag, 'deptool': em_deptool, 'chunk': em_chunk, 'dep': em_dep}
+tools = {'morph': em_morph, 'pos': em_tag, 'deptool': em_deptool, 'uddeptool': em_morph2ud, 'chunk': em_chunk,
+         'dep': em_dep, 'uddep': em_depud}

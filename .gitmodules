@@ -13,3 +13,6 @@
 [submodule "deptoolpy"]
 	path = deptoolpy
 	url = https://github.com/dlazesz/deptoolpy.git
+[submodule "emmorph2ud"]
+	path = emmorph2ud
+	url = https://github.com/vadno/emmorph2ud.git
