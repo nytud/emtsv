@@ -98,16 +98,24 @@ em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos'
                                       'model_file': os.path.join(os.path.dirname(os.path.abspath(
                                           sys.modules[EmDepPy.__module__].__file__)), 'szk.mate.ud.model')})
 
+# emCons ###############################################################################################################
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'emconspy'))  # Needed to be able to use git submodule...
+from emconspy import EmConsPy
+
+import jnius_config
+jnius_config.add_options('-Xmx4096m')  # TODO: Hack, Rework PyJNIus import: detecting if PyJNIus is loaded is not work!
+em_cons = ('/emCons', EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
+                                     'target_fields': ['tokid', 'cons'],
+                                     'model_file': os.path.join(os.path.dirname(os.path.abspath(
+                                          sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
+
 ########################################################################################################################
 
 # Map personalities to firendly names...
-tools = {
-    'tok': em_token,
-    'morph': em_morph,
-    'pos': em_tag,
-    'deptool': em_deptool,
-    'uddeptool': em_morph2ud,
-    'chunk': em_chunk,
-    'dep': em_dep,
-    'uddep': em_depud
-}
+tools = {'tok': em_token, 'morph': em_morph, 'pos': em_tag, 'chunk': em_chunk,
+         'conll-deptool': em_deptool, 'conll-dep': em_dep,
+         'uddeptool': em_morph2ud, 'uddep': em_depud,
+         'deptool': em_morph2ud, 'dep': em_depud,  # Default is UD
+
+         }

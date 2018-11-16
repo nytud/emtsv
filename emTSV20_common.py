@@ -49,7 +49,6 @@ def import_pyjnius(class_path):
 
 
 def import_pyjnius_w_common_classpath(available_tools):
-    global _
     # Set potentially required classpaths and import PyJNIus with proper classpaths...
     class_paths = []
     for _, t, *_ in available_tools.values():

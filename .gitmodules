@@ -19,3 +19,6 @@
 [submodule "emtokenpy"]
 	path = emtokenpy
 	url = https://github.com/dlt-rilmta/emtokenpy.git
+[submodule "emconspy"]
+	path = emconspy
+	url = https://github.com/dlazesz/emconspy.git
