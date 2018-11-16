@@ -14,6 +14,15 @@ from DummyTagger.dummy import DummyTagger
 dummy_tagger = ('/dummy_tagger', DummyTagger, ('Params goes here', {'Source field names'}, ['Target field names']), {})
 
 
+# emToken ##############################################################################################################
+
+# Import Tagger class, and parameters...
+sys.path.append(os.path.join(os.path.dirname(__file__), 'emtokenpy'))  # Needed to be able to use git submodule...
+from emtokenpy import EmTokenPy
+
+# TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
+em_token = ('/emToken', EmTokenPy, (), {'source_fields': set(), 'target_fields': ['string']})
+
 # emMorph ##############################################################################################################
 
 # Import Tagger class, and parameters...
@@ -91,5 +100,13 @@ em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos'
 ########################################################################################################################
 
 # Map personalities to firendly names...
-tools = {'morph': em_morph, 'pos': em_tag, 'deptool': em_deptool, 'uddeptool': em_morph2ud, 'chunk': em_chunk,
-         'dep': em_dep, 'uddep': em_depud}
+tools = {
+    'tok': em_token,
+    'morph': em_morph,
+    'pos': em_tag,
+    'deptool': em_deptool,
+    'uddeptool': em_morph2ud,
+    'chunk': em_chunk,
+    'dep': em_dep,
+    'uddep': em_depud
+}
