@@ -95,7 +95,8 @@ from emdeppy import EmDepPy
 
 em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
                                       'target_fields': ['tokid', 'deptype', 'deptarget'],
-                                      'model_file': 'szk.mate.ud.model'})  # TODO: fix model path later!
+                                      'model_file': os.path.join(os.path.dirname(os.path.abspath(
+                                          sys.modules[EmDepPy.__module__].__file__)), 'szk.mate.ud.model')})
 
 ########################################################################################################################
 
