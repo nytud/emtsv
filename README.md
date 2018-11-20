@@ -71,6 +71,12 @@ Then install requirements for submodules:
 
 `pip3 install -r HunTag3/requirements.txt`
 
+## Toolchain
+
+Current toolchain is the following:
+
+![current toolchain](doc/e-magyar-tsv_modules.pdf)
+
 ## Usage
 
 _Remark:_ Now we use tsvAPI1.0.
