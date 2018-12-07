@@ -71,6 +71,8 @@ Then install requirements for submodules:
 
 `pip3 install -r HunTag3/requirements.txt`
 
+`make -C emtokenpy/ all`
+
 ## Toolchain
 
 Current toolchain is the following:
