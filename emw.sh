@@ -3,9 +3,9 @@
 
 # here-document
 read -d '' USAGE <<- EOF
-emw (e-magyar wrapper) reads from files, processes the text with the e-magyar
+emw (e-magyar wrapper) reads from stdin, processes the text with the e-magyar
 toolchain and writes to standard output.
-USAGE: emw.sh [OPTION]... [FILE]...
+USAGE: emw.sh [OPTION]...
 OPTIONS:
     -h, --help           display this help and exit
     -t, --target TARGET  targeted level of analisys (default:all)
@@ -19,9 +19,12 @@ Valid targets:
     ner: NER tagger
     all: all e-magyar modules are active (this is the default)
 Examples:
-    emw.sh input.txt
-    emw.sh -t ner *.txt
+    emw.sh <input.txt
+    cat *.txt | emw.sh -t ner
 EOF
+
+
+MYDIR=$(dirname "$0")
 
 
 # commandline arguments
@@ -38,18 +41,9 @@ do
             shift
             shift
             ;;
-        -h|--help)
+        *)
             echo "$USAGE"
             exit 0
-            ;;
-        *)
-            if [[ -f "$1" ]] ; then
-                FILES+=" $1"
-            else
-                echo "$0: $1: No such file or directory! Exit."
-                exit 1
-            fi
-            shift
             ;;
     esac
 done
@@ -73,13 +67,13 @@ case $TARGET in
         MODULES='morph,pos'
         ;;
     dep)
-        MODULES='morph,pos,deptool,dep'
+        MODULES='morph,pos,conv-morph,dep'
         ;;
     # con)
     #     MODULES=''
     #     ;;
     # npc)
-    #     MODULES=''
+    #     MODULES='tok,morph,pos,chunk'
     #     ;;
     # ner)
     #     MODULES=''
@@ -93,15 +87,12 @@ case $TARGET in
         ;;
 esac
 
+
 if [[ -z $MODULES ]] ; then
     CMD="cat -";
 else
-    CMD="python3 emTSV20.py $MODULES"
+    CMD="python3 ${MYDIR}/emTSV20.py $MODULES"
 fi
 
 
-for file in $FILES; do
-    { echo 'string' ; ./emtokenpy/bin/quntoken -f vert $file ; } | $CMD
-done
-
-
+cat - |  { echo 'string' ; python3 ${MYDIR}/emtokenpy/quntoken/quntoken.py ; } | $CMD
