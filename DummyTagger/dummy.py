@@ -3,7 +3,7 @@
 
 
 class DummyTagger:
-    class_path = ''  # TODO: Fill this variable if module requires JAVA...
+    class_path = ''  # TODO: Fill this as the CLASS_PATH environment variable when module requires JAVA...
 
     def __init__(self, source_fields=None, target_fields=None):
 

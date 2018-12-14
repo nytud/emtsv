@@ -8,18 +8,23 @@ from flask import Flask, request, Response, stream_with_context
 from flask_restful import Api, Resource
 from werkzeug.exceptions import abort
 
+from config import presets
 from xtsv.tsvhandler import process
 
 
 def init_everything(available_tools):  # Init everything properly
     initialised_tools = {}
     for prog_name, prog_params in available_tools.items():
-        _, prog, prog_args, prog_kwargs = prog_params  # Inint programs...
+        prog, prog_args, prog_kwargs = prog_params  # Inint programs...
         initialised_tools[prog_name] = prog(*prog_args, **prog_kwargs)
     return initialised_tools
 
 
 def build_pipeline(inp_stream, used_tools, available_tools):
+    # Resolve presets to module names to enable shorter URLs...
+    if len(used_tools) == 1 and used_tools[0] in presets:
+        used_tools = presets[used_tools[0]]
+
     # Peek header...
     header = next(inp_stream)
     # ...and restore iterator...
@@ -80,12 +85,12 @@ class RESTapp(Resource):
         return Response(stream_with_context((line.encode('UTF-8') for line in last_prog)),
                         direct_passthrough=True)
 
-    def __init__(self, internal_app=None):
+    def __init__(self, internal_apps=None):
         """
         Init REST API class
-        :param internal_app: pre-inicialised applications
+        :param internal_apps: pre-inicialised applications
         """
-        self._internal_apps = internal_app
+        self._internal_apps = internal_apps
         # atexit.register(self._internal_apps.__del__)  # For clean exit...
 
 

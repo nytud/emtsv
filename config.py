@@ -12,8 +12,8 @@ import jnius_config
 sys.path.append(os.path.join(os.path.dirname(__file__), 'Dummy'))  # Needed to be able to use git submodule...
 from DummyTagger.dummy import DummyTagger
 
-# Setup the triplet: command, class, args (tuple), kwargs (dict)
-dummy_tagger = ('/dummy_tagger', DummyTagger, ('Params goes here', {'Source field names'}, ['Target field names']), {})
+# Setup the triplet: class, args (tuple), kwargs (dict)
+dummy_tagger = (DummyTagger, ('Params goes here', {'Source field names'}, ['Target field names']), {})
 
 
 # emToken ##############################################################################################################
@@ -22,8 +22,7 @@ dummy_tagger = ('/dummy_tagger', DummyTagger, ('Params goes here', {'Source fiel
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emtokenpy'))  # Needed to be able to use git submodule...
 from emtokenpy import EmTokenPy
 
-# TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
-em_token = ('/emToken', EmTokenPy, (), {'source_fields': set(), 'target_fields': ['string']})
+em_token = (EmTokenPy, (), {'source_fields': set(), 'target_fields': ['string']})
 
 # emMorph ##############################################################################################################
 
@@ -31,8 +30,7 @@ em_token = ('/emToken', EmTokenPy, (), {'source_fields': set(), 'target_fields':
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorphpy'))  # Needed to be able to use git submodule...
 from emmorphpy import EmMorphPy
 
-# TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
-em_morph = ('/emMorph', EmMorphPy, (), {'source_fields': {'string'}, 'target_fields': ['anas']})
+em_morph = (EmMorphPy, (), {'source_fields': {'string'}, 'target_fields': ['anas']})
 
 # emTag ################################################################################################################
 
@@ -40,8 +38,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed 
 from purepospy import PurePOS
 jnius_config.add_classpath(PurePOS.class_path)
 
-em_tag = ('/emTag', PurePOS, (), {'source_fields': {'string', 'anas'},
-                                  'target_fields': ['lemma', 'hfstana']})
+em_tag = (PurePOS, (), {'source_fields': {'string', 'anas'},
+                        'target_fields': ['lemma', 'hfstana']})
 
 # emDepTool ############################################################################################################
 
@@ -49,19 +47,19 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed 
 from deptoolpy.deptoolpy import DepToolPy
 jnius_config.add_classpath(DepToolPy.class_path)
 
-em_deptool = ('/emDepTool', DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
+em_deptool = (DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
 # emMorph2Dep ##########################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorph2ud'))  # Needed to be able to use git submodule...
 from emmorph2ud.converter import EmMorph2UD
 
-em_morph2ud = ('/emMorph2UD', EmMorph2UD, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
+em_morph2ud = (EmMorph2UD, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
 # emChunk ##############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
-from huntag.tagger import Tagger
+from huntag.tagger import Tagger as EmTag
 from huntag.tools import get_featureset_yaml, data_sizes
 
 # TODO: Bálint: legyen a neve emSeqTag
@@ -81,8 +79,7 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
 
 features = get_featureset_yaml(cfg_file)
 
-# TODO: Bálint: command should be the usual names e.g. /emMorph, /emDep, etc.
-em_chunk = ('/emChunk', Tagger, (features, options), {})
+em_chunk = (EmTag, (features, options), {})
 
 # emDep ################################################################################################################
 
@@ -90,8 +87,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to
 from emdeppy import EmDepPy
 jnius_config.add_classpath(EmDepPy.class_path)
 
-em_dep = ('/emDep', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
-                                  'target_fields': ['tokid', 'deptype', 'deptarget']})
+em_dep = (EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
+                        'target_fields': ['tokid', 'deptype', 'deptarget']})
 
 # emDep ################################################################################################################
 
@@ -99,10 +96,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to
 from emdeppy import EmDepPy
 jnius_config.add_classpath(EmDepPy.class_path)
 
-em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
-                                      'target_fields': ['tokid', 'deptype', 'deptarget'],
-                                      'model_file': os.path.join(os.path.dirname(os.path.abspath(
-                                          sys.modules[EmDepPy.__module__].__file__)), 'szk.mate.ud.model')})
+em_depud = (EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
+                          'target_fields': ['tokid', 'deptype', 'deptarget'],
+                          'model_file': os.path.join(os.path.dirname(os.path.abspath(
+                              sys.modules[EmDepPy.__module__].__file__)), 'szk.mate.ud.model')})
 
 # emCons ###############################################################################################################
 
@@ -110,10 +107,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emconspy'))  # Needed t
 from emconspy import EmConsPy
 jnius_config.add_classpath(EmConsPy.class_path)
 jnius_config.add_options('-Xmx4096m')  # TODO: Ezt is tudja az EmConstPy class és ne legyen hardcodeolva!
-em_cons = ('/emCons', EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
-                                     'target_fields': ['tokid', 'cons'],
-                                     'model_file': os.path.join(os.path.dirname(os.path.abspath(
-                                          sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
+em_cons = (EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
+                          'target_fields': ['tokid', 'cons'],
+                          'model_file': os.path.join(os.path.dirname(os.path.abspath(
+                              sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
 
 ########################################################################################################################
 
