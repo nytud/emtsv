@@ -3,6 +3,8 @@
 
 
 class DummyTagger:
+    class_path = ''  # TODO: Fill this variable if module requires JAVA...
+
     def __init__(self, source_fields=None, target_fields=None):
 
         # Field names for e-magyar TSV

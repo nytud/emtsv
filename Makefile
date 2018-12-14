@@ -28,9 +28,13 @@ usage:
 	@echo " make install :)"
 	@echo " make test-morph"
 	@echo " make test-morph-tag"
+	@echo " make test-morph-tag-single"
 #	@echo " make test-morph-tag-chunk"
+#	@echo " make test-morph-tag-chunk-single"
 	@echo " make test-tokenizedinput-morph-tag"
+	@echo " make test-tokenizedinput-morph-tag-single"
 #	@echo " make test-tokenizedinput-morph-tag-deptool"
+#	@echo " make test-tokenizedinput-morph-tag-deptool-single"
 #	@echo " make test-tag"
 #	@echo " make test-dep"
 	@echo
@@ -46,23 +50,34 @@ install:
 test-morph:
 	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
      | ./trivSentSplit.sh \
-     | python3 ./emMorphREST.py --pipe
+     | python3 ./emTSV20.py morph
 
 # testing emMorph + emTag
 test-morph-tag:
 	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
      | ./trivSentSplit.sh \
-     | python3 ./emMorphREST.py --pipe \
-     | python3 ./emTagREST.py --pipe
+     | python3 ./emTSV20.py morph \
+     | python3 ./emTSV20.py pos
+
+# testing emMorph + emTag single pyhton interpreter (single threaded)
+test-morph-tag-single:
+	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
+     | ./trivSentSplit.sh \
+     | python3 ./emTSV20.py morph,pos
 
 # testing emMorph + emTag + emChunk -- ezt majd!
 #test-morph-tag-chunk:
 #	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
 #     | ./trivSentSplit.sh \
-#     | python3 ./emMorphREST.py --pipe \
-#     | python3 ./emTagREST.py --pipe \
-#     | python3 ./emChunkREST.py --pipe
+#     | python3 ./emTSV20.py morph \
+#     | python3 ./emTSV20.py pos \
+#     | python3 ./emTSV20.py chunk
 
+# testing emMorph + emTag + emChunk single pyhton interpreter (single threaded) -- ezt majd!
+#test-morph-tag-chunk-single:
+#	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
+#     | ./trivSentSplit.sh \
+#     | python3 ./emTSV20.py morph,pos,chunk
 
 # ----------
 
@@ -83,26 +98,37 @@ test-morph-tag:
 test-tokenizedinput-morph-tag:
 	@( echo "string" ; cat $(TOKENIZEDINPUT) ; echo ) | tr ' ' '\n' \
      | ./trivSentSplit.sh \
-     | python3 ./emMorphREST.py --pipe \
-     | python3 ./emTagREST.py --pipe
+     | python3 ./emTSV20.py morph \
+     | python3 ./emTSV20.py pos
+
+test-tokenizedinput-morph-tag-single:
+	@( echo "string" ; cat $(TOKENIZEDINPUT) ; echo ) | tr ' ' '\n' \
+     | ./trivSentSplit.sh \
+     | python3 ./emTSV20.py morph,pos
 
 # testing emMorph + emTag + depTool -- ezt majd!
 #test-tokenizedinput-morph-tag-deptool:
 #	@( echo "string" ; cat $(TOKENIZEDINPUT) ; echo ) | tr ' ' '\n' \
 #     | ./trivSentSplit.sh \
-#     | python3 ./emMorphREST.py --pipe \
-#     | python3 ./emTagREST.py --pipe \
-#     | python3 ./depToolREST.py --pipe
+#     | python3 ./emTSV20.py morph \
+#     | python3 ./emTSV20.py pos \
+#     | python3 ./emTSV20.py deptool
+
+# testing emMorph + emTag + depTool single pyhton interpreter (single threaded) -- ezt majd!
+#test-tokenizedinput-morph-tag-deptool-single:
+#	@( echo "string" ; cat $(TOKENIZEDINPUT) ; echo ) | tr ' ' '\n' \
+#     | ./trivSentSplit.sh \
+#     | python3 ./emTSV20.py morph,pos,deptool
 
 # ----------
 
 # testing emTag only -- ezt majd!
 #test-tag:
 #	@cat $(TAGINPUT) \
-#    | python3 ./emTagREST.py --pipe
+#    | python3 ./emTSV20.py pos
 
 #	testing emDep only -- ezt majd!
 #test-dep:
 #	@cat $(DEPINPUT) \
-#    | python3 ./emDepREST.py --pipe
+#    | python3 ./emTSV20.py dep
 
