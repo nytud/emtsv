@@ -53,15 +53,8 @@ def sentence_iterator(input_stream):
     curr_comment = None
     for line in input_stream:
         line = line.strip()
-        # Comment handling
-        if line.startswith('#'):
-            if len(curr_sen) == 0:  # Comment before sentence
-                curr_comment = line
-            else:  # Error: Comment in the middle of sentence
-                print('ERROR: comments are only allowed before a sentence!', file=sys.stderr, flush=True)
-                sys.exit(1)
         # Blank line handling
-        elif len(line) == 0:
+        if len(line) == 0:
             if curr_sen:  # End of sentence
                 yield curr_sen, curr_comment
                 curr_sen = []
