@@ -113,21 +113,23 @@ em_cons = (EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
 
 ########################################################################################################################
 
-# Map personalities to firendly names...
+# Map module personalities to firendly names...
 tools = {'tok': em_token, 'emToken': em_token,
          'morph': em_morph, 'emMorph': em_morph,
          'pos': em_tag, 'emTag': em_tag,
-         'chunk': em_chunk, 'emChunk': em_chunk,
+         'chunk': em_chunk, 'emChunk': em_chunk,  # TODO: Chunk and NER model + NER config
          # Default is UD
          'conv-morph': em_morph2ud, 'conv-hfst2ud': em_morph2ud, 'conv-hfst2conll': em_deptool, 'emDepTool': em_deptool,
          'dep': em_depud, 'emDep-ud': em_depud, 'emDep-conll': em_dep, 'emDep': em_dep,
+         'cons': em_cons, 'emCons': em_cons,
          }
 
-presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep'],  # Full pipeline
+presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons'],  # Full pipeline
            'tok-morph': ['tok', 'morph'],
            'tok-pos': ['tok', 'morph', 'pos'],
            'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
            'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
+           'tok-cons': ['tok', 'morph', 'pos', 'cons'],
            }
 
 # cat input.txt | ./emtsv.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emtsv.py tok-dep
