@@ -59,10 +59,9 @@ em_morph2ud = (EmMorph2UD, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']),
 # emChunk ##############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
-from huntag.tagger import Tagger as EmTag
+from huntag.tagger import Tagger as EmSeqTag
 from huntag.tools import get_featureset_yaml, data_sizes
 
-# TODO: Bálint: legyen a neve emSeqTag
 model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')
 cfg_file = 'HunTag3/configs/maxnp.szeged.hfst.yaml'
 tag_field = 'NP-BIO'
@@ -79,7 +78,7 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
 
 features = get_featureset_yaml(cfg_file)
 
-em_chunk = (EmTag, (features, options), {})
+em_chunk = (EmSeqTag, (features, options), {})
 
 # emDep ################################################################################################################
 
@@ -106,7 +105,7 @@ em_depud = (EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'}
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emconspy'))  # Needed to be able to use git submodule...
 from emconspy import EmConsPy
 jnius_config.add_classpath(EmConsPy.class_path)
-jnius_config.add_options('-Xmx4096m')  # TODO: Ezt is tudja az EmConstPy class és ne legyen hardcodeolva!
+jnius_config.add_options(EmConsPy.vm_opts)
 em_cons = (EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
                           'target_fields': ['tokid', 'cons'],
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
