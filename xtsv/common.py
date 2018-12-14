@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
-
-import os
 import sys
 import codecs
 from itertools import chain
@@ -13,53 +11,7 @@ from werkzeug.exceptions import abort
 from xtsv.tsvhandler import process
 
 
-def import_pyjnius(class_path):
-    """
-    PyJNIus can only be imported once per Python interpreter and one must set the classpath before importing...
-    """
-    # Check if autoclass is already imported...
-    if 'autoclass' not in locals() and 'autoclass' not in globals():
-
-        # Tested on Ubuntu 16.04 64bit with openjdk-8 JDK and JRE installed:
-        # sudo apt install openjdk-8-jdk-headless openjdk-8-jre-headless
-
-        # Set JAVA_HOME for this session
-        try:
-            os.environ['JAVA_HOME']
-        except KeyError:
-            os.environ['JAVA_HOME'] = '/usr/lib/jvm/java-8-openjdk-amd64/'
-
-        os.environ['CLASSPATH'] = ':'.join((class_path, os.environ.get('CLASSPATH', ''))).rstrip(':')
-
-        # Set path and import jnius for this session
-        from jnius import autoclass
-    else:
-        import sys
-        from jnius import cast, autoclass  # Dummy autoclass import to silence the IDE
-        class_loader = autoclass('java.lang.ClassLoader')
-        cl = class_loader.getSystemClassLoader()
-        ucl = cast('java.net.URLClassLoader', cl)
-        urls = ucl.getURLs()
-        cp = ':'.join(url.getFile() for url in urls)
-
-        print('Warning: PyJNIus is already imported with the following classpath: {0}'.format(cp), file=sys.stderr)
-
-    # Return autoclass for later use...
-    return autoclass
-
-
-def import_pyjnius_w_common_classpath(available_tools):
-    # Set potentially required classpaths and import PyJNIus with proper classpaths...
-    class_paths = []
-    for _, t, *_ in available_tools.values():
-        if hasattr(t, 'class_path'):
-            class_paths.append(t.class_path)
-    class_path = ':'.join(class_paths)
-    import_pyjnius(class_path)
-
-
 def init_everything(available_tools):  # Init everything properly
-    import_pyjnius_w_common_classpath(available_tools)
     initialised_tools = {}
     for prog_name, prog_params in available_tools.items():
         _, prog, prog_args, prog_kwargs = prog_params  # Inint programs...

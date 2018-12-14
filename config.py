@@ -4,6 +4,8 @@
 import os
 import sys
 
+import jnius_config
+
 # DummyTagger (EXAMPLE) ################################################################################################
 
 # Import Tagger class, and parameters...
@@ -36,6 +38,7 @@ em_morph = ('/emMorph', EmMorphPy, (), {'source_fields': {'string'}, 'target_fie
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed to be able to use git submodule...
 from purepospy import PurePOS
+jnius_config.add_classpath(PurePOS.class_path)
 
 em_tag = ('/emTag', PurePOS, (), {'source_fields': {'string', 'anas'},
                                   'target_fields': ['lemma', 'hfstana']})
@@ -44,6 +47,7 @@ em_tag = ('/emTag', PurePOS, (), {'source_fields': {'string', 'anas'},
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed to be able to use git submodule...
 from deptoolpy.deptoolpy import DepToolPy
+jnius_config.add_classpath(DepToolPy.class_path)
 
 em_deptool = ('/emDepTool', DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
 
@@ -84,6 +88,7 @@ em_chunk = ('/emChunk', Tagger, (features, options), {})
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
 from emdeppy import EmDepPy
+jnius_config.add_classpath(EmDepPy.class_path)
 
 em_dep = ('/emDep', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
                                   'target_fields': ['tokid', 'deptype', 'deptarget']})
@@ -92,6 +97,7 @@ em_dep = ('/emDep', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'f
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
 from emdeppy import EmDepPy
+jnius_config.add_classpath(EmDepPy.class_path)
 
 em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
                                       'target_fields': ['tokid', 'deptype', 'deptarget'],
@@ -102,9 +108,8 @@ em_depud = ('/emDepUD', EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos'
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emconspy'))  # Needed to be able to use git submodule...
 from emconspy import EmConsPy
-
-import jnius_config
-jnius_config.add_options('-Xmx4096m')  # TODO: Hack, Rework PyJNIus import: detecting if PyJNIus is loaded is not work!
+jnius_config.add_classpath(EmConsPy.class_path)
+jnius_config.add_options('-Xmx4096m')  # TODO: Ezt is tudja az EmConstPy class és ne legyen hardcodeolva!
 em_cons = ('/emCons', EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
                                      'target_fields': ['tokid', 'cons'],
                                      'model_file': os.path.join(os.path.dirname(os.path.abspath(
