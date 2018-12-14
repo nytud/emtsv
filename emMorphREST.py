@@ -6,7 +6,7 @@ import sys
 from TSVRESTTools.common import create_rest_app, create_cli_app
 
 # BEGIN Add personality...
-from personalities import em_morph
+from config import em_morph
 
 command, tagger, args, kwargs = em_morph
 prog = tagger(*args, **kwargs)

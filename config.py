@@ -122,11 +122,11 @@ tools = {'tok': em_token, 'emToken': em_token,
          'dep': em_depud, 'emDep-ud': em_depud, 'emDep-conll': em_dep, 'emDep': em_dep,
          }
 
-presets = {'analyze': 'tok,morph,pos,chunk,conv-morph,dep',  # Full pipeline
-           'ana-morph': ['tok', 'morph'],                    # TODO: Find some proper name for this...
-           'ana-pos': ['tok', 'morph', 'pos'],               # i.e. do not confuse 'pos' = 'just pos' with
-           'ana-chunk': ['tok', 'morph', 'pos', 'chunk'],    # 'ana-pos' = 'tok->pos'
-           'ana-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
+presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep'],  # Full pipeline
+           'tok-morph': ['tok', 'morph'],
+           'tok-pos': ['tok', 'morph', 'pos'],
+           'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
+           'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
            }
 
-# cat input.txt | ./emTSV20.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emTSV20.py ana-dep
+# cat input.txt | ./emTSV20.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emTSV20.py tok-dep

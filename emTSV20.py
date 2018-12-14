@@ -4,10 +4,10 @@
 import sys
 
 from emTSV20_common import init_everything, build_pipeline, pipeline_rest_api
-from personalities import tools, presets
+from config import tools, presets
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:  # TODO: Implement this properly
+    if len(sys.argv) > 1:  # TODO: Implement this properly = Argparse
         if sys.argv[1] in presets:
             used_tools = presets[sys.argv[1]]
         else:

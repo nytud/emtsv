@@ -6,7 +6,7 @@ import sys
 from TSVRESTTools.common import create_rest_app, create_cli_app
 
 # BEGIN Add personality...
-from personalities import dummy_tagger
+from config import dummy_tagger
 
 command, tagger, args, kwargs = dummy_tagger
 prog = tagger(*args, **kwargs)
