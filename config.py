@@ -129,4 +129,4 @@ presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep'],  # 
            'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
            }
 
-# cat input.txt | ./emTSV20.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emTSV20.py tok-dep
+# cat input.txt | ./emtsv.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emtsv.py tok-dep

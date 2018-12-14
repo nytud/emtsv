@@ -3,7 +3,7 @@
 
 import sys
 
-from emTSV20_common import init_everything, build_pipeline, pipeline_rest_api
+from xtsv.common import init_everything, build_pipeline, pipeline_rest_api
 from config import tools, presets
 
 if __name__ == '__main__':

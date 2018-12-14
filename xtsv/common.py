@@ -10,7 +10,7 @@ from flask import Flask, request, Response, stream_with_context
 from flask_restful import Api, Resource
 from werkzeug.exceptions import abort
 
-from TSVRESTTools.tsvhandler import process
+from xtsv.tsvhandler import process
 
 
 def import_pyjnius(class_path):

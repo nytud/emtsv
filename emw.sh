@@ -91,7 +91,7 @@ esac
 if [[ -z $MODULES ]] ; then
     CMD="cat -";
 else
-    CMD="python3 ${MYDIR}/emTSV20.py $MODULES"
+    CMD="python3 ${MYDIR}/emtsv.py $MODULES"
 fi
 
 
