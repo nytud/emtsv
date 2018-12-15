@@ -63,7 +63,7 @@ from huntag.tagger import Tagger as EmSeqTag
 from huntag.tools import get_featureset_yaml, data_sizes
 
 model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')
-cfg_file = 'HunTag3/configs/maxnp.szeged.hfst.yaml'
+cfg_file =  os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'maxnp.szeged.hfst.yaml')
 tag_field = 'NP-BIO'
 
 options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
@@ -114,8 +114,8 @@ em_cons = (EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
 ########################################################################################################################
 
 # Map module personalities to firendly names...
-tools = {'tok': em_token, 'emToken': em_token,
-         'morph': em_morph, 'emMorph': em_morph,
+tools = {'tok': em_token, 'emToken': em_token,  # TODO: Need singletons from init_everything because the aliases!
+         'morph': em_morph, 'emMorph': em_morph,  # TOOD: Show PyJNIus warning only once!
          'pos': em_tag, 'emTag': em_tag,
          'chunk': em_chunk, 'emChunk': em_chunk,  # TODO: Chunk and NER model + NER config
          # Default is UD

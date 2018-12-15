@@ -30,7 +30,7 @@ def import_pyjnius():
         from jnius import autoclass
     else:
         import sys
-        from jnius import cast, autoclass  # Dummy autoclass import to silence the IDE
+        from jnius import cast, autoclass
         class_loader = autoclass('java.lang.ClassLoader')
         cl = class_loader.getSystemClassLoader()
         ucl = cast('java.net.URLClassLoader', cl)
@@ -45,7 +45,7 @@ def import_pyjnius():
 
 
 if __name__ == '__main__':
-    import_pyjnius()
+    autoclass = import_pyjnius()
     if len(sys.argv) > 1:  # TODO: Implement this properly = Argparse
         used_tools = sys.argv[1].split(',')
         if len(used_tools) == 1 and used_tools[0] in presets:
