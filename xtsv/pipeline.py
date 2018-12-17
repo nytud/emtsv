@@ -3,21 +3,35 @@
 import sys
 import codecs
 from itertools import chain
+from collections import defaultdict
 
 from flask import Flask, request, Response, stream_with_context
 from flask_restful import Api, Resource
 from werkzeug.exceptions import abort
 
-from config import presets
+from config import presets, initialised_tools, alias_store
 from xtsv.tsvhandler import process
 
 
-def init_everything(available_tools):  # Init everything properly
-    initialised_tools = {}
+def init_everything(available_tools, init_once=True):  # Init everything properly
+    if init_once:
+        current_initialised_tools = initialised_tools  # The singleton store
+        currrent_alias_store = alias_store
+    else:
+        current_initialised_tools = {}
+        currrent_alias_store = defaultdict(list)
+
     for prog_name, prog_params in available_tools.items():
-        prog, prog_args, prog_kwargs = prog_params  # Inint programs...
-        initialised_tools[prog_name] = prog(*prog_args, **prog_kwargs)
-    return initialised_tools
+        prog, prog_args, prog_kwargs = prog_params
+        # Dealias aliases to find the initialized versions
+        for inited_prog_name, curr_prog_params in currrent_alias_store[prog]:
+            if curr_prog_params == prog_params:
+                current_initialised_tools[prog_name] = current_initialised_tools[inited_prog_name]
+                break
+        else:  # No initialized alias found... Initialize and store as initialized alias!
+            current_initialised_tools[prog_name] = prog(*prog_args, **prog_kwargs)  # Inint programs...
+            currrent_alias_store[prog].append((prog_name, prog_params))
+    return current_initialised_tools
 
 
 def build_pipeline(inp_stream, used_tools, available_tools):
