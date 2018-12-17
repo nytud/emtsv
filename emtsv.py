@@ -28,6 +28,8 @@ def import_pyjnius():
 
         # Set path and import jnius for this session
         from jnius import autoclass
+    elif hasattr(jnius_config, 'classpath_show_warning') and not jnius_config.classpath_show_warning:
+        from jnius import autoclass  # Warning already had shown. It is enough to show it only once!
     else:
         import sys
         from jnius import cast, autoclass
@@ -37,6 +39,7 @@ def import_pyjnius():
         urls = ucl.getURLs()
         cp = ':'.join(url.getFile() for url in urls)
 
+        jnius_config.classpath_show_warning = False
         print('Warning: PyJNIus is already imported with the following classpath: {0} Please check if it is ok!'.
               format(cp), file=sys.stderr)
 

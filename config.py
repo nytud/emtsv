@@ -117,7 +117,7 @@ em_cons = (EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
 tools = {'tok': em_token, 'emToken': em_token,  # TODO: Need singletons from init_everything because the aliases!
          'morph': em_morph, 'emMorph': em_morph,  # TOOD: Show PyJNIus warning only once!
          'pos': em_tag, 'emTag': em_tag,
-         'chunk': em_chunk, 'emChunk': em_chunk,  # TODO: Chunk and NER model + NER config
+         # 'chunk': em_chunk, 'emChunk': em_chunk,  # TODO: Chunk and NER model + NER config
          # Default is UD
          'conv-morph': em_morph2ud, 'conv-hfst2ud': em_morph2ud, 'conv-hfst2conll': em_deptool, 'emDepTool': em_deptool,
          'dep': em_depud, 'emDep-ud': em_depud, 'emDep-conll': em_dep, 'emDep': em_dep,
