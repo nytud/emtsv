@@ -52,7 +52,7 @@ def sentence_iterator(input_stream):
     curr_sen = []
     curr_comment = None
     for line in input_stream:
-        line = line.strip()
+        line = line.strip('\t')
         # Blank line handling
         if len(line) == 0:
             if curr_sen:  # End of sentence

@@ -21,6 +21,7 @@ __e-magyar__ text processing system -- new version
 morphological analysis + POS tagging
 (emMorph + emLem + emTag) tested and works.
 Also on a 1 million word chunk of text. :)
+See commit: abfbc4bcabfa1b73ad1987e7ef0c5f9007aeca26
 
 If you use __e-magyar-tsv__,
 please cite the following former articles
@@ -33,7 +34,7 @@ please cite the following former articles
 This system is a replacement for the original
 https://github.com/dlt-rilmta/hunlp-GATE system.
 
-If a bug is found please leave feedback.
+If a bug is found please leave feedback with the exact details.
 
 ## Requirements
 
@@ -51,11 +52,51 @@ as HFST 3.13 is the default is this version.
 We encountered problems using OpenJDK 11 (#1),
 so we recommend using OpenJDK 8.
 
+## Creating a Docker image
+
+Use the following recpie as _Dockerfile_:
+
+    FROM ubuntu:18.04
+
+    WORKDIR /app
+
+    # Add curl here
+    RUN apt-get -y update && apt-get -y install openjdk-8-jdk hfst python3 python3-pip git curl wget
+
+    # Install git-lfs repo
+    RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+
+    # Install git-lfs
+    RUN apt-get -y install git-lfs
+
+    # Use git lfs for clone to make the process foolproof
+    RUN git lfs clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv .
+
+    RUN pip3 install Cython
+    RUN pip3 install -r emmorphpy/requirements.txt
+    RUN pip3 install -r purepospy/requirements.txt
+    RUN pip3 install -r emdeppy/requirements.txt
+    RUN pip3 install -r HunTag3/requirements.txt
+
+    # Install locales. Any UTF-8 locale will do.
+    RUN apt-get -y install locales
+    RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+    ENV LANG en_US.UTF-8
+    ENV LANGUAGE en_US:en
+    ENV LC_ALL en_US.UTF-8
+
+    RUN make -C emtokenpy/ all
+
+    RUN echo "A kutya elment sétálni." > inputfile
+    CMD ["make", "RAWINPUT=inputfile", "test-morph-tag"]
+
 ## Install
 
 Clone together with submodules (it takes about 3 minutes):
 
 `git lfs clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv`
+
+Note: Ignore the deprecation warning. (This command ensures that GIT LFS is installed and workking.)
 
 Install `Cython` for `emdeppy`. It must be installed in a separate step.
 
@@ -77,13 +118,14 @@ Then install requirements for submodules:
 
 Current toolchain is the following:
 
-![current toolchain](doc/e-magyar-tsv_modules.pdf)
+[current toolchain](doc/e-magyar-tsv_modules.pdf)
 
 ## Usage
 
 _Remark:_ Now we use tsvAPI1.0.
 This will be deprecated, removed and changed to tsvAPI2.0
 (maybe at __MILESTONE#3__).
+_Remark2:_ tsvAPI1.0 is removed, documentation update is pending, see Milestone #1 commit for the last known working state.
 
 ### Command-line interface
 
@@ -185,7 +227,7 @@ The guesser also seems to work. :)
 
 -----
 
-# Frequently Asked Questions
+# Troubleshooting
 
 - Errors like below is because `JAVA_HOME` environment variable is not set properly.
 
@@ -263,6 +305,24 @@ return codecs.ascii_decode(input, self.errors)[0]
 UnicodeDecodeError: 'ascii' codec can't decode byte 0xc5 in position 603: ordinal not in range(128)
 ```
 
+- Errors like below is because the classpath in `jnius_config.get_classpath()` is not set properly.
+Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath.
+
+```Python
+Traceback (most recent call last):
+  File "/app/emtsv.py", line 60, in <module>
+    inited_tools = init_everything(tools)
+  File "/app/xtsv/pipeline.py", line 32, in init_everything
+    current_initialised_tools[prog_name] = prog(*prog_args, **prog_kwargs)  # Inint programs...
+  File "/app/emdeppy/emdeppy/emdeppy.py", line 56, in __init__
+    self._parser = self._autoclass('is2.parser.Parser')(self._jstr(model_file.encode('UTF-8')))
+  File "/usr/local/lib/python3.5/dist-packages/jnius/reflect.py", line 159, in autoclass
+    c = find_javaclass(clsname)
+  File "jnius/jnius_export_func.pxi", line 26, in jnius.find_javaclass (jnius/jnius.c:17089)
+jnius.JavaException: Class not found b'is2/parser/Parser'
+```
+
+
 # Work in progress
 
 _WARNING:_ Everything below is at most in beta
@@ -288,9 +348,7 @@ we call a central controller (?) and give the modules to run as parameters,
 even together in one step.
 
 Expandability:
-the module should be added to personalities.py and that's all.
-<br/>
-(XXX personalities.py could be called config.py)
+the module should be added to config.py and that's all.
 <br/>
 (XXX TODO tutorial for creating a new module)
 
@@ -323,4 +381,3 @@ for __SOMEDAY__:
  - Python library (under [Usage](#usage)) -- as a third use mode
 besides CLI and REST API.
  - `--pipe` XOR `--rest`
-

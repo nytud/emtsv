@@ -49,6 +49,7 @@ def import_pyjnius():
 
 if __name__ == '__main__':
     autoclass = import_pyjnius()
+    jnius_config.classpath_show_warning = False  # Suppress warning. # TODO: Add --verbose CLI option for this warning!
     if len(sys.argv) > 1:  # TODO: Implement this properly = Argparse
         used_tools = sys.argv[1].split(',')
         if len(used_tools) == 1 and used_tools[0] in presets:
