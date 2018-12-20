@@ -8,7 +8,7 @@ minden, ami azon túl van, az legyen a
 részben (jövőbeli MILESTONE-ok szerint).
 -->
 
-# e-magyar-tsv
+# emtsv
 
 __e-magyar__ text processing system -- new version
 
@@ -23,7 +23,7 @@ morphological analysis + POS tagging
 Also on a 1 million word chunk of text. :)
 See commit: abfbc4bcabfa1b73ad1987e7ef0c5f9007aeca26
 
-If you use __e-magyar-tsv__,
+If you use __emtsv__,
 please cite the following former articles
 (while our new paper is in preparation):
 
@@ -94,9 +94,10 @@ Use the following recpie as _Dockerfile_:
 
 Clone together with submodules (it takes about 3 minutes):
 
-`git lfs clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv`
+`git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv`
 
-Note: Ignore the deprecation warning. (This command ensures that GIT LFS is installed and workking.)
+Note: please, ignore the deprecation warning.
+(This command requires that GIT LFS is installed and working.)
 
 Install `Cython` for `emdeppy`. It must be installed in a separate step.
 
@@ -118,23 +119,28 @@ Then install requirements for submodules:
 
 Current toolchain is the following:
 
-[current toolchain](doc/e-magyar-tsv_modules.pdf)
+[current toolchain](doc/emtsv_modules.pdf)
 
 ## Usage
 
 _Remark:_ Now we use tsvAPI1.0.
 This will be deprecated, removed and changed to tsvAPI2.0
 (maybe at __MILESTONE#3__).
-_Remark2:_ tsvAPI1.0 is removed, documentation update is pending, see Milestone #1 commit for the last known working state.
+
+_Remark2:_ 2018.12.19. tsvAPI1.0 is removed,
+documentation update is pending,
+see MILESTONE#1 commit for the last known working state.
 
 ### Command-line interface
 
 ```bash
   echo "A kutya elment sétálni." > inputfile
-  make RAWINPUT=inputfile test-morph-tag
+  make RAWINPUT=inputfile test-tok-morph-tag
 ```
 
 That's it. :)
+
+(XXX write down the steps <- from `Makefile`)
 
 ### REST API
 
@@ -164,68 +170,55 @@ To use the started servers the clients should call them like:
 ```
 
 The format of `test.text` file or stream
-must comply to the __e-magyar-tsv__ standards (header, column names, etc.)
+must comply to the __emtsv__ standards (header, column names, etc.)
 as for the CLI version. Please consult the examples for guidance.
 (XXX which examples?)
 
 ## Testing
 
-_Remark:_ This testing uses tsvAPI1.0.
-This will be deprecated, removed and changed to tsvAPI2.0
-(maybe at __MILESTONE#3__).
-In the meantime,
-please consider testing emTSV20.py which is built with tsvAPI2.0.
-
 ```bash
-time make test-morph > out.input.morph
-time make test-morph-tag > out.input.morph-tag
-time make test-tokenizedinput-morph-tag > out.input.morph-tag_alt
-tkdiff out.input.morph out.input.morph-tag
-diff out.input.morph-tag out.input.morph-tag_alt
+time make test-tok-morph > out.input.tok-morph
+time make test-tok-morph-tag > out.input.tok-morph-tag
+time make test-tok-morph-tag-single > out.input.tok-morph-tag-single
+tkdiff out.input.tok-morph out.input.tok-morph-tag
+diff out.input.tok-morph-tag out.input.tok-morph-tag-single
 ```
 
 The first diff shows the result of POS tagging.
 <br/>
-The second diff outputs nothing = the two files are the same.
+The second diff outputs nothing = the two files are the same:
+`make test-tok-morph-tag` runs the modules separately
+connected to each other by unix pipes, while 
+`make test-tok-morph-tag-single` runs the same modules in one step.
 
+(Please note that there is a warning during normal operation:
+"PyJNIus is already imported with the following classpath: ...")
 
-There are some larger pre-tokenized testfiles available locally,
-see `Makefile`.
-<br/>
-This command processes a 100 thousand words chunk of text,
-works only on juniper and can take about 2 minutes:
+To test the guesser, type:
 
 ```bash
-time make TOKENIZEDINPUT=/store/projects/e-magyar/test_input/mnsz2_radio_100e.tok.test test-tokenizedinput-morph-tag > out.100e.tokenizedinput-morph-tag
+make RAWINPUT=test_input/halandzsa.test test-tok-morph-tag > out.halandzsa.tok-morph-tag
+view out.halandzsa.tok-morph-tag
+```
+
+The guesser also seems to work. :)
+
+There are also some larger pre-tokenized testfiles available locally
+(on juniper) for development staff, see `Makefile`.
+<br/>
+This command processes a 100 thousand words chunk of text
+(can take about 3 minutes to run):
+
+```bash
+time make RAWINPUT=/store/projects/e-magyar/test_input/hundredthousandwords.txt test-tok-morph-tag > out.100.tok-morph-tag
 ```
 
 To investigate the results:
 
 ```bash
-view out.100e.tokenizedinput-morph-tag
+view out.100.tok-morph-tag
 ```
 
-An even larger text (1 million words) can be processed smoothly,
-this works also only on juniper and can take about 20 (!) minutes:
-
-```bash
-time make TOKENIZEDINPUT=/store/projects/e-magyar/test_input/mnsz2_radio_1mio.tok.test test-tokenizedinput-morph-tag > out.1mio.tokenizedinput-morph-tag
-```
-
-```bash
-view out.1mio.tokenizedinput-morph-tag
-```
-
-To test the guesser, type:
-
-```bash
-make RAWINPUT=test_input/halandzsa.test test-morph-tag > out.halandzsa.morph-tag
-view out.halandzsa.morph-tag
-```
-
-The guesser also seems to work. :)
-
------
 
 # Troubleshooting
 
@@ -322,7 +315,6 @@ Traceback (most recent call last):
 jnius.JavaException: Class not found b'is2/parser/Parser'
 ```
 
-
 # Work in progress
 
 _WARNING:_ Everything below is at most in beta
@@ -330,12 +322,6 @@ _WARNING:_ Everything below is at most in beta
 Things below may break without further notice!
 
 for __MILESTONE#2__ (might be completed in 2018):
-
-`emToken`
-
-`DepTool`, `emDep`, maybe: `emChunk`, `emNer`, and even possibly: `emCons`
-
-for __MILESTONE#3__ (might be completed in 2018):
 
 ### tsvAPI2.0
 
@@ -349,8 +335,6 @@ even together in one step.
 
 Expandability:
 the module should be added to config.py and that's all.
-<br/>
-(XXX TODO tutorial for creating a new module)
 
 ### REST API -- tsvAPI2.0
 
@@ -376,8 +360,17 @@ Example URLs:
 - http://127.0.0.1:5000/morph/pos/deptool/dep
 - http://127.0.0.1:5000/deptool/dep
 
+for __MILESTONE#3__ (might be completed in 2018):
+
+`emToken`
+
+`DepTool`, `emDep`, maybe: `emChunk`, `emNer`, and even possibly: `emCons`
+
 for __SOMEDAY__:
 
  - Python library (under [Usage](#usage)) -- as a third use mode
 besides CLI and REST API.
  - `--pipe` XOR `--rest`
+
+ - XXX TODO tutorial for creating a new module
+

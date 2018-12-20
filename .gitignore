@@ -111,10 +111,10 @@ venv.bak/
 .*.swp
 
 # temp output/error files
-out
-err
-out.*
-err.*
+#out
+#err
+#out.*
+#err.*
 
 # local input files
 test_input/mnsz2_*
