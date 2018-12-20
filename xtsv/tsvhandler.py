@@ -12,12 +12,10 @@ logger.addHandler(sh)
 
 
 def process_header(stream, source_fields, target_fields):
-    fields = []
-    if source_fields:
-        fields = next(stream).strip().split()                           # Read header to fields
-        if not source_fields.issubset(set(fields)):
-            raise NameError('Input does not have the required field names ({0}). The following field names found: {1}'.
-                            format(sorted(source_fields), fields))
+    fields = next(stream).strip().split()                           # Read header to fields
+    if not source_fields.issubset(set(fields)):
+        raise NameError('Input does not have the required field names ({0}). The following field names found: {1}'.
+                        format(sorted(source_fields), fields))
     fields.extend(target_fields)                                    # Add target fields
     field_names = {name: i for i, name in enumerate(fields)}        # Decode field names
     field_names.update({i: name for i, name in enumerate(fields)})  # Both ways...
@@ -27,32 +25,36 @@ def process_header(stream, source_fields, target_fields):
 
 # Only This method is public...
 def process(stream, internal_app):
-    header, field_names = process_header(stream, internal_app.source_fields, internal_app.target_fields)
-    yield header
+    if len(internal_app.source_fields) > 0:
+        header, field_names = process_header(stream, internal_app.source_fields, internal_app.target_fields)
+        yield header
 
-    # Like binding names to indices...
-    field_values = internal_app.prepare_fields(field_names)
+        # Like binding names to indices...
+        field_values = internal_app.prepare_fields(field_names)
 
-    logger.debug('processing sentences...')
-    sen_count = 0
-    for sen_count, (sen, comment) in enumerate(sentence_iterator(stream)):
-        sen_count += 1
-        if comment:
-            yield '{0}\n'.format(comment)
+        logger.debug('processing sentences...')
+        sen_count = 0
+        for sen_count, (sen, comment) in enumerate(sentence_iterator(stream)):
+            sen_count += 1
+            if comment:
+                yield '{0}\n'.format(comment)
 
-        yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
-        yield '\n'
+            yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
+            yield '\n'
 
-        if sen_count % 1000 == 0:
-            logger.debug('{0}...'.format(sen_count))
-    logger.debug('{0}...done\n'.format(sen_count))
+            if sen_count % 1000 == 0:
+                logger.debug('{0}...'.format(sen_count))
+        logger.debug('{0}...done\n'.format(sen_count))
+    else:
+        yield '{0}\n'.format('\t'.join(internal_app.target_fields))
+        yield from ('{0}\n'.format(tok[0]) for tok in internal_app.process_sentence(stream))
 
 
 def sentence_iterator(input_stream):
     curr_sen = []
     curr_comment = None
     for line in input_stream:
-        line = line.strip('\t')
+        line = line.strip()
         # Blank line handling
         if len(line) == 0:
             if curr_sen:  # End of sentence
