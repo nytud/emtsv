@@ -34,7 +34,7 @@ def init_everything(available_tools, init_once=True):  # Init everything properl
     return current_initialised_tools
 
 
-def build_pipeline(inp_stream, used_tools, available_tools):
+def build_pipeline(inp_stream, used_tools, available_tools, conll_comments=False):
     # Resolve presets to module names to enable shorter URLs...
     if len(used_tools) == 1 and used_tools[0] in presets:
         used_tools = presets[used_tools[0]]
@@ -59,7 +59,7 @@ def build_pipeline(inp_stream, used_tools, available_tools):
                 raise NameError('ERROR: {0} program requires {1} columns but the previous program {2}'
                                 ' has only {3} columns'.format(program, pr.source_fields, pipeline_prod,
                                                                pipeline_end_friendly))
-            pipeline_end = process(pipeline_end, pr)
+            pipeline_end = process(pipeline_end, pr, conll_comments)
             pipeline_prod |= set(pr.target_fields)
         else:
             raise NameError('ERROR: \'{0}\' program not found. Available programs: {1}'.
@@ -68,12 +68,12 @@ def build_pipeline(inp_stream, used_tools, available_tools):
     return pipeline_end
 
 
-def add_params(restapi, resource_class, internal_apps):
+def add_params(restapi, resource_class, internal_apps, conll_comments):
     if internal_apps is None:
         print('No internal_app is given!', file=sys.stderr)
         exit(1)
 
-    kwargs = {'internal_app': internal_apps}
+    kwargs = {'internal_app': internal_apps, 'conll_comments': conll_comments}
     # To bypass using self and @route together, default values are at the function declarations
     restapi.add_resource(resource_class, '/', '/<path:path>', resource_class_kwargs=kwargs)
 
@@ -92,24 +92,26 @@ class RESTapp(Resource):
         last_prog = ()  # Silence, dummy IDE
 
         try:
-            last_prog = build_pipeline(inp_file, path.split('/'), self._internal_apps)
+            # TODO: Maybe enable per request setting of allowing conll-style comments
+            last_prog = build_pipeline(inp_file, path.split('/'), self._internal_apps, self._conll_comments)
         except NameError as e:
             abort(400, e)
 
         return Response(stream_with_context((line.encode('UTF-8') for line in last_prog)),
                         direct_passthrough=True)
 
-    def __init__(self, internal_apps=None):
+    def __init__(self, internal_apps=None, conll_comments=False):
         """
         Init REST API class
         :param internal_apps: pre-inicialised applications
         """
         self._internal_apps = internal_apps
+        self._conll_comments = conll_comments
         # atexit.register(self._internal_apps.__del__)  # For clean exit...
 
 
-def pipeline_rest_api(available_tools, name):
+def pipeline_rest_api(available_tools, name, conll_comments):
     app = Flask(name)
     api = Api(app)
-    add_params(api, RESTapp, available_tools)
+    add_params(api, RESTapp, available_tools, conll_comments)
     return app

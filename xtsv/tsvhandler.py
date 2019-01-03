@@ -24,7 +24,7 @@ def process_header(stream, source_fields, target_fields):
 
 
 # Only This method is public...
-def process(stream, internal_app):
+def process(stream, internal_app, conll_comments=False):
     if len(internal_app.source_fields) > 0:
         header, field_names = process_header(stream, internal_app.source_fields, internal_app.target_fields)
         yield header
@@ -34,10 +34,10 @@ def process(stream, internal_app):
 
         logger.debug('processing sentences...')
         sen_count = 0
-        for sen_count, (sen, comment) in enumerate(sentence_iterator(stream)):
+        for sen_count, (sen, comment) in enumerate(sentence_iterator(stream, conll_comments)):
             sen_count += 1
-            if comment:
-                yield '{0}\n'.format(comment)
+            if len(comment) > 0:
+                yield comment
 
             yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
             yield '\n'
@@ -46,21 +46,25 @@ def process(stream, internal_app):
                 logger.debug('{0}...'.format(sen_count))
         logger.debug('{0}...done\n'.format(sen_count))
     else:
+        # This is intended to be used by the first module in the pipeline which deals with raw text (eg. tokenizer) only
         yield '{0}\n'.format('\t'.join(internal_app.target_fields))
         yield from ('{0}\n'.format(tok[0]) for tok in internal_app.process_sentence(stream))
 
 
-def sentence_iterator(input_stream):
+def sentence_iterator(input_stream, conll_comments=False):
     curr_sen = []
-    curr_comment = None
+    curr_comment = ''
     for line in input_stream:
         line = line.strip()
+        # Comment handling: Before sentence, line starts with # and comments are allowed by parameter
+        if len(curr_sen) == 0 and line.startswith('#') and conll_comments:
+                curr_comment += '{0}\n'.format(line)  # Comment before sentence
         # Blank line handling
-        if len(line) == 0:
+        elif len(line) == 0:
             if curr_sen:  # End of sentence
                 yield curr_sen, curr_comment
                 curr_sen = []
-                curr_comment = None
+                curr_comment = ''
             else:  # WARNING: Multiple blank line
                 print('WARNING: wrong formatted sentences, only one blank line allowed!', file=sys.stderr, flush=True)
         else:
