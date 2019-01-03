@@ -1,7 +1,7 @@
 
 <!--
- - M#1-nek megfelelő README.md legyen =
-maradjunk meg a production release-re (jelenleg ez a MILESTONE#1)
+ - M#2-nek megfelelő README.md legyen =
+maradjunk meg a production release-re (jelenleg ez a MILESTONE#2)
 vonatkozó infók közlésénél,
 minden, ami azon túl van, az legyen a
 [Work in progress](#work-in-progress)
@@ -17,11 +17,14 @@ __e-magyar__ text processing system -- new version
  * convenient REST API
  * implemented in Python
 
- __8 Nov 2018 MILESTONE#1 (production)__ =
-morphological analysis + POS tagging
-(emMorph + emLem + emTag) tested and works.
-Also on a 1 million word chunk of text. :)
-See commit: abfbc4bcabfa1b73ad1987e7ef0c5f9007aeca26
+ __3 Jan 2019 MILESTONE#2 (production)__ =
+`xtsv` tsv-handling framework finalized.
+Tokenization + morphological analysis + POS tagging
+(emToken + emMorph + emLem + emTag) tested and work.
+Also on a 100.000 word chunk of text.
+<!-- XXX See commit: abfbc4bcabfa1b73ad1987e7ef0c5f9007aeca26 -->
+
+If a bug is found please leave feedback with the exact details.
 
 If you use __emtsv__,
 please cite the following former articles
@@ -34,7 +37,6 @@ please cite the following former articles
 This system is a replacement for the original
 https://github.com/dlt-rilmta/hunlp-GATE system.
 
-If a bug is found please leave feedback with the exact details.
 
 ## Requirements
 
@@ -46,15 +48,45 @@ If a bug is found please leave feedback with the exact details.
 
 _Remarks:_
 <br/>
-On Ubuntu 18.04, an `apt-get install hfst` is enough,
+On Ubuntu 18.04, for installing HFST an `apt-get install hfst` is enough,
 as HFST 3.13 is the default is this version.
 <br/>
 We encountered problems using OpenJDK 11 (#1),
 so we recommend using OpenJDK 8.
 
+
+## Installation
+
+Clone together with submodules (it takes about 3 minutes):
+
+`git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv`
+
+_Note:_ please, ignore the deprecation warning.
+(GIT LFS is necessary for properly cloning `emtsv`.
+This command checks and ensures that GIT LFS is installed and working.)
+
+Install `Cython` for `emdeppy` (it must be installed in a separate step):
+
+`pip3 install Cython`
+
+Then install requirements for submodules:
+
+`pip3 install -r emmorphpy/requirements.txt`
+
+`pip3 install -r purepospy/requirements.txt`
+
+`pip3 install -r emdeppy/requirements.txt`
+
+`pip3 install -r HunTag3/requirements.txt`
+
+Then download `emToken` binary:
+
+`make -C emtokenpy/ all`
+
+
 ## Creating a Docker image
 
-Use the following recpie as _Dockerfile_:
+Use the following recipe as _Dockerfile_:
 
     FROM ubuntu:18.04
 
@@ -70,7 +102,7 @@ Use the following recpie as _Dockerfile_:
     RUN apt-get -y install git-lfs
 
     # Use git lfs for clone to make the process foolproof
-    RUN git lfs clone --recurse-submodules https://github.com/dlt-rilmta/e-magyar-tsv .
+    RUN git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv .
 
     RUN pip3 install Cython
     RUN pip3 install -r emmorphpy/requirements.txt
@@ -88,61 +120,36 @@ Use the following recpie as _Dockerfile_:
     RUN make -C emtokenpy/ all
 
     RUN echo "A kutya elment sétálni." > inputfile
-    CMD ["make", "RAWINPUT=inputfile", "test-morph-tag"]
+    CMD ["make", "RAWINPUT=inputfile", "test-morph-tag-single"]
 
-## Install
-
-Clone together with submodules (it takes about 3 minutes):
-
-`git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv`
-
-Note: please, ignore the deprecation warning.
-(This command requires that GIT LFS is installed and working.)
-
-Install `Cython` for `emdeppy`. It must be installed in a separate step.
-
-`pip3 install Cython`
-
-Then install requirements for submodules:
-
-`pip3 install -r emmorphpy/requirements.txt`
-
-`pip3 install -r purepospy/requirements.txt`
-
-`pip3 install -r emdeppy/requirements.txt`
-
-`pip3 install -r HunTag3/requirements.txt`
-
-`make -C emtokenpy/ all`
-
-## Toolchain
-
-Current toolchain is the following:
-
-[current toolchain](doc/emtsv_modules.pdf)
 
 ## Usage
-
-_Remark:_ Now we use tsvAPI1.0.
-This will be deprecated, removed and changed to tsvAPI2.0
-(maybe at __MILESTONE#3__).
-
-_Remark2:_ 2018.12.19. tsvAPI1.0 is removed,
-documentation update is pending,
-see MILESTONE#1 commit for the last known working state.
 
 ### Command-line interface
 
 ```bash
-  echo "A kutya elment sétálni." > inputfile
-  make RAWINPUT=inputfile test-tok-morph-tag
+  echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos
 ```
 
 That's it. :)
 
-(XXX write down the steps <- from `Makefile`)
+The above simply calls `emtsv.py` with the parameter `tok,morph,pos`
+and gives the input on stdin.
+Using the `xtsv` tsv-handling framework only this has to be done:
+call the central controller and give the modules to run as parameters.
+Modules are defined in `config.py`.
+Modules can be run together or one-by-one,
+so the following two approaches give the same result:
+`python3 emtsv.py tok,morph` and
+`python3 emtsv.py tok | python3 emtsv.py morph`.
+This is possible thank to the standardized inter-module communication
+via tsv (with appropriate headers).
+To extend the toolchain is straightforward:
+add new modules to `config.py` and that's all.
 
 ### REST API
+
+_Remark: this chapter is outdated!_
 
 To start the server of the desired module,
 use (without the `--pipe` switch):
@@ -174,7 +181,21 @@ must comply to the __emtsv__ standards (header, column names, etc.)
 as for the CLI version. Please consult the examples for guidance.
 (XXX which examples?)
 
+
+## Toolchain
+
+[Current toolchain](doc/emtsv_modules.pdf) in a figure.
+
+
 ## Testing
+
+To automatically check that everything is ok simply run:
+
+```bash
+./test.sh
+```
+
+Or go through the following steps manually:
 
 ```bash
 time make test-tok-morph > out.input.tok-morph
@@ -219,8 +240,9 @@ To investigate the results:
 view out.100.tok-morph-tag
 ```
 
+## Troubleshooting
 
-# Troubleshooting
+Below are some common error messages and for what reasons they usually appear.
 
 - Errors like below is because `JAVA_HOME` environment variable is not set properly.
 
@@ -315,28 +337,19 @@ Traceback (most recent call last):
 jnius.JavaException: Class not found b'is2/parser/Parser'
 ```
 
-# Work in progress
+## Work in progress
 
 _WARNING:_ Everything below is at most in beta
 (or just a plan which may be realized or not).
 Things below may break without further notice!
 
-for __MILESTONE#2__ (might be completed in 2018):
+for __MILESTONE#2__ (might be completed now):
 
 ### tsvAPI2.0
 
-The change in a nutshell is:
-<br/>
-tsvAPI1.0 = `a | b | c` -> tsvAPI2.0 = `e -a | e -b | e -c` = `e -a,b,c`
-<br/>
-Instead of calling different modules,
-we call a central controller (?) and give the modules to run as parameters,
-even together in one step.
-
-Expandability:
-the module should be added to config.py and that's all.
-
 ### REST API -- tsvAPI2.0
+
+(XXX TODO how does this work?)
 
 To start the server of the pipeline (tsdAPI2.0), use:
 
@@ -360,9 +373,7 @@ Example URLs:
 - http://127.0.0.1:5000/morph/pos/deptool/dep
 - http://127.0.0.1:5000/deptool/dep
 
-for __MILESTONE#3__ (might be completed in 2018):
-
-`emToken`
+for __MILESTONE#3__ (might be completed in 2019 Q1):
 
 `DepTool`, `emDep`, maybe: `emChunk`, `emNer`, and even possibly: `emCons`
 
