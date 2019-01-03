@@ -23,7 +23,7 @@ dummy_tagger = (DummyTagger, ('Params goes here', {'Source field names'}, ['Targ
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emtokenpy'))  # Needed to be able to use git submodule...
 from emtokenpy import EmTokenPy
 
-em_token = (EmTokenPy, (), {'source_fields': set(), 'target_fields': ['string']})
+em_token = (EmTokenPy, (), {'source_fields': set(), 'target_fields': ['form']})
 
 # emMorph ##############################################################################################################
 
@@ -31,7 +31,7 @@ em_token = (EmTokenPy, (), {'source_fields': set(), 'target_fields': ['string']}
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorphpy'))  # Needed to be able to use git submodule...
 from emmorphpy import EmMorphPy
 
-em_morph = (EmMorphPy, (), {'source_fields': {'string'}, 'target_fields': ['anas']})
+em_morph = (EmMorphPy, (), {'source_fields': {'form'}, 'target_fields': ['anas']})
 
 # emTag ################################################################################################################
 
@@ -39,8 +39,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed 
 from purepospy import PurePOS
 jnius_config.add_classpath(PurePOS.class_path)
 
-em_tag = (PurePOS, (), {'source_fields': {'string', 'anas'},
-                        'target_fields': ['lemma', 'hfstana']})
+em_tag = (PurePOS, (), {'source_fields': {'form', 'anas'},
+                        'target_fields': ['lemma', 'xpostag']})
 
 # emDepTool ############################################################################################################
 
@@ -48,14 +48,14 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed 
 from deptoolpy.deptoolpy import DepToolPy
 jnius_config.add_classpath(DepToolPy.class_path)
 
-em_deptool = (DepToolPy, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
+em_deptool = (DepToolPy, ({'form', 'lemma', 'xpostag'}, ['upostag', 'feats']), {})
 
 # emMorph2Dep ##########################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorph2ud'))  # Needed to be able to use git submodule...
 from emmorph2ud.converter import EmMorph2UD
 
-em_morph2ud = (EmMorph2UD, ({'string', 'lemma', 'hfstana'}, ['pos', 'feature']), {})
+em_morph2ud = (EmMorph2UD, ({'form', 'lemma', 'xpostag'}, ['upostag', 'feats']), {})
 
 # emChunk ##############################################################################################################
 
@@ -73,7 +73,7 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
            'tag_field': tag_field,
            'data_sizes': data_sizes,
            'transmodel_filename': '{0}{1}'.format(model_name, '.transmodel'),
-           'target_fields': ['NP_BIO'],
+           'target_fields': ['NP-BIO'],
            'task': 'tag'
            }
 
@@ -87,8 +87,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to
 from emdeppy import EmDepPy
 jnius_config.add_classpath(EmDepPy.class_path)
 
-em_dep = (EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
-                        'target_fields': ['tokid', 'deptype', 'deptarget']})
+em_dep = (EmDepPy, (), {'source_fields': {'form', 'lemma', 'upostag', 'feats'},
+                        'target_fields': ['id', 'deprel', 'head']})
 
 # emDep ################################################################################################################
 
@@ -96,8 +96,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to
 from emdeppy import EmDepPy
 jnius_config.add_classpath(EmDepPy.class_path)
 
-em_depud = (EmDepPy, (), {'source_fields': {'string', 'lemma', 'pos', 'feature'},
-                          'target_fields': ['tokid', 'deptype', 'deptarget'],
+em_depud = (EmDepPy, (), {'source_fields': {'form', 'lemma', 'upostag', 'feats'},
+                          'target_fields': ['id', 'deprel', 'head'],
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
                               sys.modules[EmDepPy.__module__].__file__)), 'szk.mate.ud.model')})
 
@@ -107,8 +107,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'emconspy'))  # Needed t
 from emconspy import EmConsPy
 jnius_config.add_classpath(EmConsPy.class_path)
 jnius_config.add_options(EmConsPy.vm_opts)
-em_cons = (EmConsPy, (), {'source_fields': {'string', 'lemma', 'hfstana'},
-                          'target_fields': ['tokid', 'cons'],
+em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
+                          'target_fields': ['id', 'cons'],
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
                               sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
 
