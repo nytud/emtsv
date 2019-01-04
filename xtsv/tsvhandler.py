@@ -48,7 +48,7 @@ def process(stream, internal_app, conll_comments=False):
     else:
         # This is intended to be used by the first module in the pipeline which deals with raw text (eg. tokenizer) only
         yield '{0}\n'.format('\t'.join(internal_app.target_fields))
-        yield from ('{0}\n'.format(tok[0]) for tok in internal_app.process_sentence(stream))
+        yield from internal_app.process_sentence(stream)
 
 
 def sentence_iterator(input_stream, conll_comments=False):
