@@ -83,8 +83,10 @@ Then download `emToken` binary:
 
 `make -C emtokenpy/ all`
 
-Or create a _Docker image_ with the provided `Dockerfile`.
+Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder):
 
+    docker build test -t emtsv:stable
+    docker run -p5000:5000 -it emtsv:stable
 
 ## Usage
 
