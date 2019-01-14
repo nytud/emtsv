@@ -106,7 +106,8 @@ em_depud = (EmDepPy, (), {'source_fields': {'form', 'lemma', 'upostag', 'feats'}
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emconspy'))  # Needed to be able to use git submodule...
 from emconspy import EmConsPy
 jnius_config.add_classpath(EmConsPy.class_path)
-jnius_config.add_options(EmConsPy.vm_opts)
+# jnius_config.add_options(EmConsPy.vm_opts)  # Add more memory for the whole REST API
+jnius_config.add_options('-Xmx6144m')
 em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
                           'target_fields': ['id', 'cons'],
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(

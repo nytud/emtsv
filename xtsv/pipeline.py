@@ -73,7 +73,7 @@ def add_params(restapi, resource_class, internal_apps, conll_comments):
         print('No internal_app is given!', file=sys.stderr)
         exit(1)
 
-    kwargs = {'internal_app': internal_apps, 'conll_comments': conll_comments}
+    kwargs = {'internal_apps': internal_apps, 'conll_comments': conll_comments}
     # To bypass using self and @route together, default values are at the function declarations
     restapi.add_resource(resource_class, '/', '/<path:path>', resource_class_kwargs=kwargs)
 
