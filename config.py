@@ -14,12 +14,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'Dummy'))  # Needed to b
 from DummyTagger.dummy import DummyTagger
 
 # Setup the triplet: class, args (tuple), kwargs (dict)
-dummy_tagger = (DummyTagger, ('Params goes here', {'Source field names'}, ['Target field names']), {})
-
+dummy_tagger = (DummyTagger, ('Params', 'goes', 'here'),
+                {'source_fields': {'Source field names'}, 'target_fields': ['Target field names']})
 
 # emToken ##############################################################################################################
 
-# Import Tagger class, and parameters...
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emtokenpy'))  # Needed to be able to use git submodule...
 from emtokenpy import EmTokenPy
 
@@ -27,7 +26,6 @@ em_token = (EmTokenPy, (), {'source_fields': set(), 'target_fields': ['form']})
 
 # emMorph ##############################################################################################################
 
-# Import Tagger class, and parameters...
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorphpy'))  # Needed to be able to use git submodule...
 from emmorphpy import EmMorphPy
 
@@ -39,8 +37,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'purepospy'))  # Needed 
 from purepospy import PurePOS
 jnius_config.add_classpath(PurePOS.class_path)
 
-em_tag = (PurePOS, (), {'source_fields': {'form', 'anas'},
-                        'target_fields': ['lemma', 'xpostag']})
+em_tag = (PurePOS, (), {'source_fields': {'form', 'anas'}, 'target_fields': ['lemma', 'xpostag']})
 
 # emDepTool ############################################################################################################
 
@@ -48,14 +45,14 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed 
 from deptoolpy.deptoolpy import DepToolPy
 jnius_config.add_classpath(DepToolPy.class_path)
 
-em_deptool = (DepToolPy, ({'form', 'lemma', 'xpostag'}, ['upostag', 'feats']), {})
+em_deptool = (DepToolPy, (), {'source_fields': {'form', 'lemma', 'xpostag'}, 'target_fields': ['upostag', 'feats']})
 
 # emMorph2Dep ##########################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emmorph2ud'))  # Needed to be able to use git submodule...
 from emmorph2ud.converter import EmMorph2UD
 
-em_morph2ud = (EmMorph2UD, ({'form', 'lemma', 'xpostag'}, ['upostag', 'feats']), {})
+em_morph2ud = (EmMorph2UD, (), {'source_fields': {'form', 'lemma', 'xpostag'}, 'target_fields': ['upostag', 'feats']})
 
 # emChunk ##############################################################################################################
 
