@@ -17,7 +17,7 @@ __e-magyar__ text processing system -- new version
  * convenient REST API
  * implemented in Python
 
- __3 Jan 2019 MILESTONE#2 (production)__ =
+ __XXX Jan 2019 MILESTONE#2 (production)__ =
 `xtsv` tsv-handling framework finalized.
 Tokenization + morphological analysis + POS tagging
 (emToken + emMorph + emLem + emTag) tested and work.
@@ -128,7 +128,7 @@ Use the following recipe as _Dockerfile_:
 ### Command-line interface
 
 ```bash
-  echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos
+echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos
 ```
 
 That's it. :)
@@ -149,37 +149,41 @@ add new modules to `config.py` and that's all.
 
 ### REST API
 
-_Remark: this chapter is outdated!_
-
-To start the server of the desired module,
-use (without the `--pipe` switch):
+To start the server, use `emtsv.py` without any parameters
+(it takes a few minutes):
 
 ```bash
-	# emMorph+emLem URL: http://127.0.0.1:5000/emMorph
-	python3 ./emMorphREST.py
-	# emTag URL: http://127.0.0.1:5000/emTag
-	python3 ./emTagREST.py
-	# DepTool URL: http://127.0.0.1:5000/emDepTool
-	python3 ./depToolREST.py
-	# emDep URL: http://127.0.0.1:5000/emDep
-	python3 ./emDepREST.py
-	# emChunk URL: http://127.0.0.1:5000/emChunk -- XXX currently not working
-	python3 ./emChunkREST.py
+python3 ./emtsv.py
 ```
 
-To use the started servers the clients should call them like:
+When the server outputs a message like `* Running on`
+then it is ready to accept requests.
+
+To use the started server, clients should call it this way from Python:
 
 ```python
-	>>> import requests
-	>>> r = requests.post('http://127.0.0.1:5000/command', files={'file':open('test.text', encoding='UTF-8')})
-	>>> print(r.text)
-	...
+>>> import requests
+>>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('test_input/input.test', encoding='UTF-8')})
+>>> print(r.text)
+...
 ```
 
-The format of `test.text` file or stream
+The `tok/morph/pos` part of the URL are the modules to run,
+separated by `/`.
+This part can be composed from the modules defined in `config.py`.
+The server checks whether all necessary data columns are availabe
+at each point between two modules, and gives an error message
+if there are any problems.
+
+The format of the input file or stream
+(`test_input/input.test` in this case)
 must comply to the __emtsv__ standards (header, column names, etc.)
-as for the CLI version. Please consult the examples for guidance.
-(XXX which examples?)
+and must contain every necessary data columns for the first module to run,
+as for the CLI version.
+Please consult the examples in `test_output` directory for guidance.
+
+Running the first request can take more time (a few minutes)
+as the server loads some models then.
 
 
 ## Toolchain
@@ -189,7 +193,10 @@ as for the CLI version. Please consult the examples for guidance.
 
 ## Testing
 
-To automatically check that everything is ok simply run:
+### Command-line interface
+
+To automatically check that everything is ok
+with the command-line interface simply run:
 
 ```bash
 ./test.sh
@@ -239,6 +246,16 @@ To investigate the results:
 ```bash
 view out.100.tok-morph-tag
 ```
+
+### REST API
+
+To check that everything is ok
+with the REST API, start the server first and then run:
+
+```bash
+./testrest.sh
+```
+
 
 ## Troubleshooting
 
@@ -342,36 +359,6 @@ jnius.JavaException: Class not found b'is2/parser/Parser'
 _WARNING:_ Everything below is at most in beta
 (or just a plan which may be realized or not).
 Things below may break without further notice!
-
-for __MILESTONE#2__ (might be completed now):
-
-### tsvAPI2.0
-
-### REST API -- tsvAPI2.0
-
-(XXX TODO how does this work?)
-
-To start the server of the pipeline (tsdAPI2.0), use:
-
-```bash
-	# for the whole pipeline using tsvAPI2.0
-	python3 ./emTSV20.py
-```
-
-The tsvAPI2.0 can be called with the URL scheme below where __command__ can be composed arbitrarily off the following modules separated by /:
-
-- morph
-- pos
-- deptool
-- chunk
-- dep
-
-Example URLs:
-
-- http://127.0.0.1:5000/morph
-- http://127.0.0.1:5000/morph/pos
-- http://127.0.0.1:5000/morph/pos/deptool/dep
-- http://127.0.0.1:5000/deptool/dep
 
 for __MILESTONE#3__ (might be completed in 2019 Q1):
 
