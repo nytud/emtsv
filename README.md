@@ -17,7 +17,7 @@ __e-magyar__ text processing system -- new version
  * convenient REST API
  * implemented in Python
 
- __XXX Jan 2019 MILESTONE#2 (production)__ =
+ __15 Jan 2019 MILESTONE#2 (production)__ =
 `xtsv` tsv-handling framework finalized.
 Tokenization + morphological analysis + POS tagging
 (emToken + emMorph + emLem + emTag) tested and work.
