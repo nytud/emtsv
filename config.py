@@ -106,7 +106,7 @@ jnius_config.add_classpath(EmConsPy.class_path)
 # jnius_config.add_options(EmConsPy.vm_opts)  # Add more memory for the whole REST API
 jnius_config.add_options('-Xmx6144m')
 em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
-                          'target_fields': ['id', 'cons'],
+                          'target_fields': ['cons'],
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
                               sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
 
