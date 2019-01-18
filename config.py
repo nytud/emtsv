@@ -60,11 +60,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
 from huntag.tagger import Tagger as EmSeqTag
 from huntag.tools import get_featureset_yaml, data_sizes
 
-model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')
-cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'maxnp.szeged.hfst.yaml')
+model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')  # TODO: Train new model!
+cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'maxnp.szeged.emmorph.yaml')
 tag_field = 'NP-BIO'
 
-options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
+options = {'model_filename': '{0}{1}'.format(model_name, '.model'),  # TODO: Hide options as it rarely needed!
            'featcounter_filename': '{0}{1}'.format(model_name, '.featureNumbers.gz'),
            'labelcounter_filename': '{0}{1}'.format(model_name, '.labelNumbers.gz'),
            'tag_field': tag_field,
@@ -76,7 +76,7 @@ options = {'model_filename': '{0}{1}'.format(model_name, '.model'),
 
 features = get_featureset_yaml(cfg_file)
 
-em_chunk = (EmSeqTag, (features, options), {})
+em_chunk = (EmSeqTag, (features, options), {})  # TODO: Modify to use target_fields!
 
 # emDep ################################################################################################################
 
@@ -105,6 +105,7 @@ from emconspy import EmConsPy
 jnius_config.add_classpath(EmConsPy.class_path)
 # jnius_config.add_options(EmConsPy.vm_opts)  # Add more memory for the whole REST API
 jnius_config.add_options('-Xmx6144m')
+
 em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
                           'target_fields': ['cons'],
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
@@ -128,6 +129,7 @@ presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'con
            'tok-pos': ['tok', 'morph', 'pos'],
            'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
            'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
+           'tok-dep-conll': ['tok', 'morph', 'pos', 'emDepTool', 'emDep-conll'],
            'tok-cons': ['tok', 'morph', 'pos', 'cons'],
            }
 
