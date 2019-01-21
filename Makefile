@@ -46,10 +46,23 @@ test-tok-morph-tag:
      | python3 ./emtsv.py morph \
      | python3 ./emtsv.py pos
 
-# testing emMorph + emTag single python interpreter (single threaded)
+# testing emMorph + emTag
+# single python interpreter (single threaded)
 test-tok-morph-tag-single:
 	@cat $(RAWINPUT) \
      | python3 ./emtsv.py tok,morph,pos
+
+# testing emMorph + emTag + em_morph2UD + emDepUD
+# single python interpreter (single threaded)
+test-tok-dep-single:
+	@cat $(RAWINPUT) \
+     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep
+
+# testing emMorph + emTag + em_morph2UD + emDepUD + emCons
+# single python interpreter (single threaded)
+test-tok-cons-single:
+	@cat $(RAWINPUT) \
+     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,cons
 
 # ----------
 

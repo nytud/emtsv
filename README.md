@@ -93,16 +93,21 @@ Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder
 ### Command-line interface
 
 ```bash
-echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos
+echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos,conv-morph,dep
 ```
 
 That's it. :)
 
-The above simply calls `emtsv.py` with the parameter `tok,morph,pos`
+The above simply calls `emtsv.py` with the parameter
+`tok,morph,pos,conv-morph,dep`
 and gives the input on stdin.
 Using the `xtsv` tsv-handling framework only this has to be done:
 call the central controller and give the modules to run as parameters.
 Modules are defined in `config.py`.
+We use here a tokenizer, a morphological analyzer, a POS tagger,
+a morphology converter and a dependency parser.
+(The converter is needed as the POS tagger and the dependency parser
+ works with different morphological coding systems.) 
 Modules can be run together or one-by-one,
 so the following two approaches give the same result:
 `python3 emtsv.py tok,morph` and
@@ -184,7 +189,7 @@ The second diff outputs nothing = the two files are the same:
 connected to each other by unix pipes, while 
 `make test-tok-morph-tag-single` runs the same modules in one step.
 
-(Please note that there is a warning during normal operation:
+(Please note that there can be a warning during normal operation:
 "PyJNIus is already imported with the following classpath: ...")
 
 To test the guesser, type:
@@ -211,6 +216,13 @@ To investigate the results:
 ```bash
 view out.100.tok-morph-tag
 ```
+
+To test the pipeline up to the dependency parser, type:
+
+```bash
+make test-tok-dep-single > out.input.tok-dep
+```
+
 
 ### REST API
 

@@ -13,7 +13,7 @@ test_one() {
   M=$5
 
   echo "Testing '$T' on '$I' $M"
-  make RAWINPUT=$I test-$T > $O
+  time make RAWINPUT=$I test-$T > $O
   if diff $G $O; then
     echo "Test succeeded! :)"
   else
@@ -28,6 +28,8 @@ test_one tok-morph \
   out.input.tok-morph \
   test_output/out.input.tok-morph \
   ""
+
+# ----- tok-morph-tag
 
 echo
 
@@ -62,5 +64,26 @@ test_one tok-morph-tag \
   out.100.tok-morph-tag \
   /store/projects/e-magyar/test_output/out.100.tok-morph-tag \
   "testing with a 100.000 word file (~3min)"
+fi
+
+# ----- tok-dep
+
+echo
+
+test_one tok-dep-single \
+  test_input/input.test \
+  out.input.tok-dep \
+  test_output/out.input.tok-dep \
+  "(~1min)"
+
+echo
+
+# testing on a large file
+if [ "$HOSTNAME" = juniper ]; then
+test_one tok-dep-single \
+  /store/projects/e-magyar/test_input/hundredthousandwords.txt \
+  out.100.tok-dep \
+  /store/projects/e-magyar/test_output/out.100.tok-dep \
+  "testing with a 100.000 word file (~15min)"
 fi
 
