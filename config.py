@@ -58,25 +58,13 @@ em_morph2ud = (EmMorph2UD, (), {'source_fields': {'form', 'lemma', 'xpostag'}, '
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
 from huntag.tagger import Tagger as EmSeqTag
-from huntag.tools import get_featureset_yaml, data_sizes
 
 model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')  # TODO: Train new model!
 cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'maxnp.szeged.emmorph.yaml')
-tag_field = 'NP-BIO'
+target_field = 'NP-BIO'
 
-options = {'model_filename': '{0}{1}'.format(model_name, '.model'),  # TODO: Hide options as it rarely needed!
-           'featcounter_filename': '{0}{1}'.format(model_name, '.featureNumbers.gz'),
-           'labelcounter_filename': '{0}{1}'.format(model_name, '.labelNumbers.gz'),
-           'tag_field': tag_field,
-           'data_sizes': data_sizes,
-           'transmodel_filename': '{0}{1}'.format(model_name, '.transmodel'),
-           'target_fields': ['NP-BIO'],
-           'task': 'tag'
-           }
-
-features = get_featureset_yaml(cfg_file)
-
-em_chunk = (EmSeqTag, (features, options), {})  # TODO: Modify to use target_fields!
+em_chunk = (EmSeqTag, ({'cfg_file': cfg_file, 'model_name': model_name},),
+            {'source_fields': set(), 'target_fields': [target_field]})
 
 # emDep ################################################################################################################
 
