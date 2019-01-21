@@ -59,12 +59,24 @@ em_morph2ud = (EmMorph2UD, (), {'source_fields': {'form', 'lemma', 'xpostag'}, '
 sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
 from huntag.tagger import Tagger as EmSeqTag
 
-model_name = os.path.join(os.path.dirname(__file__), 'models', 'emChunk', 'maxNP-szeged-hfst')  # TODO: Train new model!
+model_name = os.path.join(os.path.dirname(__file__), 'HunTag3', 'models', 'maxnp.szeged.emmorph')
 cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'maxnp.szeged.emmorph.yaml')
 target_field = 'NP-BIO'
 
 em_chunk = (EmSeqTag, ({'cfg_file': cfg_file, 'model_name': model_name},),
             {'source_fields': set(), 'target_fields': [target_field]})
+
+# emNER ################################################################################################################
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'HunTag3'))
+from huntag.tagger import Tagger as EmSeqTag
+
+model_name = os.path.join(os.path.dirname(__file__), 'HunTag3', 'models', 'ner.szeged.emmorph')
+cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'ner.szeged.emmorph.yaml')
+target_field = 'NP-BIO'
+
+em_ner = (EmSeqTag, ({'cfg_file': cfg_file, 'model_name': model_name},),
+          {'source_fields': set(), 'target_fields': [target_field]})
 
 # emDep ################################################################################################################
 
@@ -105,7 +117,8 @@ em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
 tools = {'tok': em_token, 'emToken': em_token,
          'morph': em_morph, 'emMorph': em_morph,
          'pos': em_tag, 'emTag': em_tag,
-         # 'chunk': em_chunk, 'emChunk': em_chunk,  # TODO: Chunk and NER model + NER config
+         'chunk': em_chunk, 'emChunk': em_chunk,
+         'ner': em_ner, 'emNER': em_ner,
          # Default is UD
          'conv-morph': em_morph2ud, 'conv-hfst2ud': em_morph2ud, 'conv-hfst2conll': em_deptool, 'emDepTool': em_deptool,
          'dep': em_depud, 'emDep-ud': em_depud, 'emDep-conll': em_dep, 'emDep': em_dep,
@@ -116,6 +129,7 @@ presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'con
            'tok-morph': ['tok', 'morph'],
            'tok-pos': ['tok', 'morph', 'pos'],
            'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
+           'tok-ner': ['tok', 'morph', 'pos', 'ner'],
            'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
            'tok-dep-conll': ['tok', 'morph', 'pos', 'emDepTool', 'emDep-conll'],
            'tok-cons': ['tok', 'morph', 'pos', 'cons'],
