@@ -73,7 +73,7 @@ from huntag.tagger import Tagger as EmSeqTag
 
 model_name = os.path.join(os.path.dirname(__file__), 'HunTag3', 'models', 'ner.szeged.emmorph')
 cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'ner.szeged.emmorph.yaml')
-target_field = 'NP-BIO'
+target_field = 'NER-BIO'
 
 em_ner = (EmSeqTag, ({'cfg_file': cfg_file, 'model_name': model_name},),
           {'source_fields': set(), 'target_fields': [target_field]})
