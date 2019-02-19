@@ -17,7 +17,7 @@ __e-magyar__ text processing system -- new version
  * convenient REST API
  * implemented in Python
 
- __XXX Feb 2019 MILESTONE#3 (production)__ =
+ __19 Feb 2019 MILESTONE#3 (production)__ =
 tokenization, morphological analysis, POS tagging,
 dependency parsing, chunking and named entity recognition
 (emToken + emMorph + emLem + emTag + emDep + emChunk + emNer)
