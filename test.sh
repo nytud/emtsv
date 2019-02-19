@@ -76,14 +76,24 @@ test_one tok-dep-single \
   test_output/out.input.tok-dep \
   "(~1min)"
 
+# ----- all (without cons)
+
+echo
+
+test_one all-single \
+  test_input/input.test \
+  out.input.all \
+  test_output/out.input.all \
+  "(~1min)"
+
 echo
 
 # testing on a large file
 if [ "$HOSTNAME" = juniper ]; then
-test_one tok-dep-single \
+test_one all-single \
   /store/projects/e-magyar/test_input/hundredthousandwords.txt \
-  out.100.tok-dep \
-  /store/projects/e-magyar/test_output/out.100.tok-dep \
+  out.100.all \
+  /store/projects/e-magyar/test_output/out.100.all \
   "testing with a 100.000 word file (~15min)"
 fi
 

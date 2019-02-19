@@ -17,12 +17,12 @@ __e-magyar__ text processing system -- new version
  * convenient REST API
  * implemented in Python
 
- __15 Jan 2019 MILESTONE#2 (production)__ =
-`xtsv` tsv-handling framework finalized.
-Tokenization + morphological analysis + POS tagging
-(emToken + emMorph + emLem + emTag) tested and work.
+ __XXX Feb 2019 MILESTONE#3 (production)__ =
+tokenization, morphological analysis, POS tagging,
+dependency parsing, chunking and named entity recognition
+(emToken + emMorph + emLem + emTag + emDep + emChunk + emNer)
+tested and work.
 Also on a 100.000 word chunk of text.
-<!-- XXX See commit: abfbc4bcabfa1b73ad1987e7ef0c5f9007aeca26 -->
 
 If a bug is found please leave feedback with the exact details.
 
@@ -93,19 +93,20 @@ Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder
 ### Command-line interface
 
 ```bash
-echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos,conv-morph,dep
+echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,chunk,ner
 ```
 
 That's it. :)
 
 The above simply calls `emtsv.py` with the parameter
-`tok,morph,pos,conv-morph,dep`
+`tok,morph,pos,conv-morph,dep,chunk,ner`
 and gives the input on stdin.
 Using the `xtsv` tsv-handling framework only this has to be done:
 call the central controller and give the modules to run as parameters.
 Modules are defined in `config.py`.
 We use here a tokenizer, a morphological analyzer, a POS tagger,
-a morphology converter and a dependency parser.
+a morphology converter, a dependency parser, a chunker
+and a named entity recognizer.
 (The converter is needed as the POS tagger and the dependency parser
  works with different morphological coding systems.) 
 Modules can be run together or one-by-one,
@@ -217,10 +218,11 @@ To investigate the results:
 view out.100.tok-morph-tag
 ```
 
-To test the pipeline up to the dependency parser, type:
+To test the pipeline with all modules up to the named entity recognizer,
+type:
 
 ```bash
-make test-tok-dep-single > out.input.tok-dep
+make test-all-single > out.input.all
 ```
 
 
@@ -337,11 +339,9 @@ _WARNING:_ Everything below is at most in beta
 (or just a plan which may be realized or not).
 Things below may break without further notice!
 
-for __MILESTONE#3__ (might be completed in 2019 Q1):
-
-`DepTool`, `emDep`, maybe: `emChunk`, `emNer`, and even possibly: `emCons`
-
 for __SOMEDAY__:
+
+ - `emCons` (works but rather slow)
 
  - Python library (under [Usage](#usage)) -- as a third use mode
 besides CLI and REST API.

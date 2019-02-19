@@ -23,67 +23,50 @@ usage:
 	@echo " make test-tok-morph"
 	@echo " make test-tok-morph-tag"
 	@echo " make test-tok-morph-tag-single"
-#	@echo " make test-tok-morph-tag-chunk"
-#	@echo " make test-tok-morph-tag-chunk-single"
-#	@echo " make test-tok-morph-tag-deptool"
-#	@echo " make test-tok-morph-tag-deptool-single"
+	@echo " make test-tok-dep-single"
+	@echo " make test-tok-chunk-ner-single"
+	@echo " make test-tok-cons-single"
 #	@echo " make test-tag"
 #	@echo " make test-dep"
 	@echo
 
 # ----------
 
-# testing emMorph only
+# testing emTok + emMorph (separately)
 test-tok-morph:
 	@cat $(RAWINPUT) \
      | python3 ./emtsv.py tok \
      | python3 ./emtsv.py morph
 
-# testing emMorph + emTag
+# testing emTok + emMorph + emTag (separately)
 test-tok-morph-tag:
 	@cat $(RAWINPUT) \
      | python3 ./emtsv.py tok \
      | python3 ./emtsv.py morph \
      | python3 ./emtsv.py pos
 
-# testing emMorph + emTag
-# single python interpreter (single threaded)
+# testing emTok + emMorph + emTag
 test-tok-morph-tag-single:
 	@cat $(RAWINPUT) \
      | python3 ./emtsv.py tok,morph,pos
 
-# testing emMorph + emTag + em_morph2UD + emDepUD
-# single python interpreter (single threaded)
+# testing emTok + emMorph + emTag + em_morph2UD + emDepUD
 test-tok-dep-single:
 	@cat $(RAWINPUT) \
      | python3 ./emtsv.py tok,morph,pos,conv-morph,dep
 
-# testing emMorph + emTag + em_morph2UD + emDepUD + emCons
-# single python interpreter (single threaded)
-test-tok-cons-single:
+# testing emTok + emMorph + emTag + em_morph2UD + emDepUD + emChunk + emNer
+# XXX currently without emCons
+test-all-single:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,cons
+     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,chunk,ner
 
 # ----------
 
-# testing emMorph + emTag + emChunk -- ezt majd!
-#test-tok-morph-tag-chunk:
-#	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
-#     | ./trivSentSplit.sh \
-#     | python3 ./emtsv.py morph \
-#     | python3 ./emtsv.py pos \
-#     | python3 ./emtsv.py chunk
-
-# testing emMorph + emTag + emChunk single pyhton interpreter (single threaded) -- ezt majd!
-#test-tok-morph-tag-chunk-single:
-#	@( echo "string" ; cat $(RAWINPUT) | ./trivToken.sh ) \
-#     | ./trivSentSplit.sh \
-#     | python3 ./emtsv.py morph,pos,chunk
-
-# XXX ugyanez kell deptool-ra majd
-# XXX ugyanez kell emdep-re majd
-# XXX ugyanez kell emcons-ra majd
-# XXX ... meg a teljes eszközláncra! :)
+# testing emTok + emMorph + emTag + em_morph2UD + emDepUD + emCons
+test-tok-cons-single:
+	@cat $(RAWINPUT) \
+     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,cons
 
 # ----------
 
