@@ -87,7 +87,7 @@ Then download `emToken` binary:
 Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder):
 
     docker build -t emtsv:stable .
-    docker run -p5000:5000 -it emtsv:stable
+    docker run --rm -p5000:5000 -it emtsv:stable
 
 ## Usage
 
