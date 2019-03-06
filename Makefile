@@ -70,6 +70,15 @@ test-tok-cons-single:
 
 # ----------
 
+update_repo:
+	@if [ "$$(git status --porcelain)" ] ; then \
+		echo 'Working dir is dirty!' ; \
+		exit 1 ; \
+		fi
+	@git submodule foreach git pull origin master && git pull
+.PHONY: update_repo
+
+
 # testing emTag only -- ezt majd!
 #test-tag:
 #	@cat $(TAGINPUT) \
