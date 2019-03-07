@@ -11,11 +11,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 # Install needed packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install openjdk-8-jdk hfst python3 python3-pip python3-setuptools python3-dev build-essential git curl wget locales uwsgi uwsgi-plugin-python3 supervisor
 
+COPY . /app
 # Install git-lfs repo
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+# RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
 
 # Install git-lfs
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install git-lfs
+# RUN DEBIAN_FRONTEND=noninteractive apt-get -y install git-lfs
 
 # Install locales. Any UTF-8 locale will do.
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
@@ -28,7 +29,7 @@ RUN groupadd uwsgi && useradd -g uwsgi uwsgi
 RUN chown -R uwsgi:uwsgi /app
 
 # Use git lfs for clone to make the process foolproof
-RUN su - uwsgi -c 'git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv /app'
+# RUN su - uwsgi -c 'git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv /app'
 
 # We do not need shell for uwsgi anymore
 RUN usermod -s /sbin/nologin uwsgi
