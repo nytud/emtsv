@@ -103,8 +103,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#PyCharm
+# IDE
 .idea/
+.vscode/
 
 # Temp file from editor
 *~
@@ -124,3 +125,4 @@ inputfile
 
 # egyeb...
 *INFO
+docker/id.txt
