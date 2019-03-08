@@ -89,3 +89,33 @@ update_repo:
 #	@cat $(DEPINPUT) \
 #    | python3 ./emtsv.py dep
 
+
+# ----------------------
+# Docker related targets
+# ----------------------
+
+## build docker image
+dbuild:
+	docker build -t emtsv:latest .
+.PHONY: dbuild
+
+
+## run docker container in background, without volume mapping
+drun:
+	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
+	@ docker run -p 5000:5000 --rm -d emtsv:latest >docker/id.txt
+.PHONY: drun
+
+
+## enter into the container
+dshell:
+	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
+	@docker run -p 5000:5000 --rm -it emtsv:latest sh
+.PHONY: dshell
+
+
+## stop running docker container, based on container ID in id.txt file
+dstop: id.txt
+	@docker container stop $$(cat docker/id.txt)
+	@rm docker/id.txt
+.PHONY: dstop
