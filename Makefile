@@ -104,6 +104,7 @@ dbuild:
 drun:
 	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
 	@ docker run -p 5000:5000 --rm -d emtsv:latest >docker/id.txt
+	# @ docker run --cpus=2 --memory=13G -p 5000:5000 --rm -d emtsv:latest >docker/id.txt
 .PHONY: drun
 
 
@@ -115,7 +116,7 @@ dshell:
 
 
 ## stop running docker container, based on container ID in id.txt file
-dstop: id.txt
+dstop: docker/id.txt
 	@docker container stop $$(cat docker/id.txt)
 	@rm docker/id.txt
 .PHONY: dstop
