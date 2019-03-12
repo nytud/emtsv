@@ -28,7 +28,10 @@ RUN apt-get update && \
         -r purepospy/requirements.txt \
         -r emdeppy/requirements.txt \
         -r HunTag3/requirements.txt && \
-    cp /app/docker/supervisor-app.conf /etc/supervisor/conf.d/
+    cp /app/docker/supervisor-app.conf /etc/supervisor/conf.d/ && \
+    groupadd uwsgi && \
+    useradd -g uwsgi uwsgi && \
+    usermod -s /sbin/nologin uwsgi
 
 ENV PYTHONUNBUFFERED 1
 ENV LANG en_US.UTF-8

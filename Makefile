@@ -120,3 +120,13 @@ dstop: docker/id.txt
 	@docker container stop $$(cat docker/id.txt)
 	@rm docker/id.txt
 .PHONY: dstop
+
+
+## show images and containers
+dls:
+	@echo 'IMAGES:'
+	@docker image ls
+	@echo
+	@echo 'CONTAINERS:'
+	@docker container ls
+.PHONY: dls
