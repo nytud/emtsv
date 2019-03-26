@@ -1,36 +1,37 @@
-FROM python:3.7-alpine3.8
+FROM mittelholcz/hfst-docker:v3.15.0
 
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+
+ENV PYTHONUNBUFFERED 1
+ENV LANGUAGE en_US:en
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
+ENV PATH="$JAVA_HOME/bin:${PATH}"
 
 RUN apk --no-cache add \
-    python3-dev \
-    build-base \
-    libffi-dev \
-    linux-headers \
-    musl-dev \
-    readline-dev \
+    alpine-sdk \
     openblas-dev \
-    git \
-    autoconf \
-    automake \
-    libtool \
-    file \
-    flex \
-    bison \
-    glib \
-    glib-dev
+    openjdk8 \
+    py3-setuptools \
+    python3-dev \
+    supervisor \
+    uwsgi \
+    uwsgi-python3
 
-COPY docker/install-hfst.sh /install-hfst.sh
+WORKDIR /app
+COPY . /app
 
-RUN ./install-hfst.sh
+RUN pip3 install Cython && pip3 install \
+        -r emmorphpy/requirements.txt \
+        -r purepospy/requirements.txt \
+        -r emdeppy/requirements.txt \
+        -r HunTag3/requirements.txt
 
-# TODO:
-# - kivenni az omorfi-s fuggosegeket
-# - kiszedni a git-et es targz-bol dolgozni
-# - az ujabb stabil hfst kiadast probalni
-# - readline
+RUN mkdir -p /etc/supervisor.d/ && \
+    cp /app/docker/supervisor-emtsv.ini /etc/supervisor.d/
 
+    # adduser -S uwsgi -G uwsgi -H -s /sbin/nologin
+    # addgroup -S uwsgi && \
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # FROM ubuntu:18.04
 
 # WORKDIR /app
