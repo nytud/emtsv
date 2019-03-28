@@ -3,33 +3,46 @@ FROM mittelholcz/hfst-docker:v3.15.0
 
 ENV PYTHONUNBUFFERED 1
 ENV LANGUAGE en_US:en
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
-ENV PATH="$JAVA_HOME/bin:${PATH}"
 
 RUN apk --no-cache add \
-    alpine-sdk \
+    build-base \
+    gfortran \
+    linux-headers \
+    musl-dev \
     openblas-dev \
     openjdk8 \
     py3-setuptools \
     python3-dev \
     supervisor \
     uwsgi \
-    uwsgi-python3
+    uwsgi-python3 \
+    ;
+
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
+ENV PATH="$JAVA_HOME/bin:${PATH}"
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64/server/
 
 WORKDIR /app
-COPY . /app
 
-RUN pip3 install Cython && pip3 install \
-        -r emmorphpy/requirements.txt \
-        -r purepospy/requirements.txt \
-        -r emdeppy/requirements.txt \
-        -r HunTag3/requirements.txt
+COPY emmorphpy/requirements.txt /app/emmorphpy/
+COPY purepospy/requirements.txt /app/purepospy/
+COPY emdeppy/requirements.txt /app/emdeppy/
+COPY HunTag3/requirements.txt /app/HunTag3/
+
+RUN pip3 install --no-cache-dir Cython && pip3 install --no-cache-dir \
+    -r HunTag3/requirements.txt \
+    -r emmorphpy/requirements.txt \
+    -r purepospy/requirements.txt \
+    -r emdeppy/requirements.txt \
+    ;
+
+COPY . /app
 
 RUN mkdir -p /etc/supervisor.d/ && \
     cp /app/docker/supervisor-emtsv.ini /etc/supervisor.d/
 
-    # adduser -S uwsgi -G uwsgi -H -s /sbin/nologin
-    # addgroup -S uwsgi && \
+# CMD ["supervisord", "-n"]
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # FROM ubuntu:18.04

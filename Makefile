@@ -130,3 +130,10 @@ dls:
 	@echo 'CONTAINERS:'
 	@docker container ls
 .PHONY: dls
+
+
+## delete unnecessary containers and images
+dclean:
+	@docker container prune -f
+	@docker image prune -f
+.PHONY: dclean
