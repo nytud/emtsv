@@ -1,4 +1,4 @@
-FROM mittelholcz/hfst-docker:v3.15.0
+FROM mittelholcz/hfst:hfst-v3.15.0
 
 
 ENV PYTHONUNBUFFERED 1
