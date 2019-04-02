@@ -12,5 +12,13 @@ find_free_port() {
 
 myport=$(find_free_port)
 
-echo $myport
+echo ${myport}
+
+# if [ -z "$myport" ] ; then
+#     (>&2 echo 'ERROR: no free port' )
+#     exit 1
+# else
+#     echo "$myport"
+# fi
+
 
