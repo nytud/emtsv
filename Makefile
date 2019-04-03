@@ -96,7 +96,7 @@ update_repo:
 
 ## build docker image
 dbuild:
-	docker build -t emtsv:latest .
+	docker build -t mtaril/emtsv:latest .
 .PHONY: dbuild
 
 
@@ -105,7 +105,7 @@ drun:
 	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
 	@myport=$$(./docker/freeportfinder.sh) ; \
 		if [ -z "$${myport}" ] ; then echo 'ERROR: no free port' ; exit 1 ; fi ; \
-		docker run -p $${myport}:5000 --rm -d emtsv:latest >docker/id.txt ; \
+		docker run -p $${myport}:5000 --rm -d mtaril/emtsv:latest >docker/id.txt ; \
 		echo "OK: emtsv container run on port $${myport}" ;
 .PHONY: drun
 
@@ -122,7 +122,7 @@ dconnect:
 ## enter into the container
 dshell:
 	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
-	@docker run -p 5000:5000 --rm -it emtsv:latest sh
+	@docker run -p 5000:5000 --rm -it mtaril/emtsv:latest sh
 .PHONY: dshell
 
 
