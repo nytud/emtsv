@@ -88,6 +88,7 @@ Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder
 
     docker build -t emtsv:stable .
     docker run --rm -p5000:5000 -it emtsv:stable
+    cat input.txt | docker run -i emtsv:stable tok,morph,pos > output.txt
 
 ## Usage
 
