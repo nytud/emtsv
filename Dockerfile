@@ -36,10 +36,11 @@ RUN pip3 install --no-cache-dir uwsgi Cython && pip3 install --no-cache-dir \
 
 COPY . /app
 
-RUN mkdir -p /etc/supervisor.d/ && \
-    cp /app/docker/supervisor-emtsv.ini /etc/supervisor.d/
+#RUN mkdir -p /etc/supervisor.d/ && \
+#    cp /app/docker/supervisor-emtsv.ini /etc/supervisor.d/
 
 RUN addgroup uwsgi ; adduser -H -S -s /sbin/nologin -G uwsgi uwsgi
 
-CMD ["supervisord", "-n"]
+# CMD ["supervisord", "-n"]
 
+ENTRYPOINT ["/app/docker/entrypoint.sh"]
