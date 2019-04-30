@@ -13,7 +13,6 @@ RUN apk --no-cache add \
     openjdk8 \
     py3-setuptools \
     python3-dev \
-    supervisor \
     ;
 
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
@@ -36,11 +35,6 @@ RUN pip3 install --no-cache-dir uwsgi Cython && pip3 install --no-cache-dir \
 
 COPY . /app
 
-#RUN mkdir -p /etc/supervisor.d/ && \
-#    cp /app/docker/supervisor-emtsv.ini /etc/supervisor.d/
-
 RUN addgroup uwsgi ; adduser -H -S -s /sbin/nologin -G uwsgi uwsgi
-
-# CMD ["supervisord", "-n"]
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
