@@ -102,35 +102,31 @@ dbuild:
 
 ## run docker container in background, without volume mapping
 drun:
-	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
+	@make -s dstop
 	@myport=$$(./docker/freeportfinder.sh) ; \
 		if [ -z "$${myport}" ] ; then echo 'ERROR: no free port' ; exit 1 ; fi ; \
-		docker run -p $${myport}:5000 --rm -d mtaril/emtsv:latest >docker/id.txt ; \
+		docker run --name emtsv -p $${myport}:5000 --rm -d mtaril/emtsv:latest ; \
 		echo "OK: emtsv container run on port $${myport}" ;
 .PHONY: drun
 
 
-# connect container that is already running
+# connect emtsv container that is already running
 dconnect:
-	@if [ -z "$(NAME)" ] ; then \
-		echo 'usage: make dconnect NAME=container_name' ; \
-		exit 1 ; fi
-	@echo "connect to container: $(NAME)"
-	@docker exec -it $(NAME) /bin/sh
+	@if [ "$$(docker container ls -f name=emtsv -q)" ] ; then \
+		docker exec -it emtsv /bin/sh ; \
+	else \
+		echo 'no running emtsv container' ; \
+	fi
 .PHONY: dconnect
 
-## enter into the container
-dshell:
-	@ if [ -f docker/id.txt ] ; then make -s dstop ; fi
-	@docker run -p 5000:5000 --rm -it mtaril/emtsv:latest sh
-.PHONY: dshell
 
-
-## stop running docker container, based on container ID in id.txt file
-dstop: docker/id.txt
-	@docker container stop $$(cat docker/id.txt) || \
-		echo "WARNING: container not found: $$(cat docker/id.txt)"
-	@rm docker/id.txt
+## stop running emtsv container
+dstop:
+	@if [ "$$(docker container ls -f name=emtsv -q)" ] ; then \
+		docker container stop emtsv ; \
+	else \
+		echo 'no running emtsv container' ; \
+	fi
 .PHONY: dstop
 
 
