@@ -9,6 +9,8 @@ from __init__ import init_everything, build_pipeline, pipeline_rest_api, import_
 
 
 if __name__ == '__main__':
+    input_iterator = sys.stdin  # TODO: Set from CLI -i and -o
+    output_iterator = sys.stdout
     autoclass = import_pyjnius()
     jnius_config.classpath_show_warning = False  # Suppress warning. # TODO: Add --verbose CLI option for this warning!
     conll_comments = False  # TODO: Allow conll comments for compatibility or disable them for safety...
@@ -18,7 +20,7 @@ if __name__ == '__main__':
             used_tools = presets[used_tools[0]]  # Resolve presets to module names to init only the needed modules...
 
         inited_tools = init_everything({k: v for k, v in tools.items() if k in set(used_tools)})
-        sys.stdout.writelines(build_pipeline(sys.stdin, used_tools, inited_tools, conll_comments))
+        output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools, conll_comments))
     else:
         inited_tools = init_everything(tools)
         app = pipeline_rest_api(inited_tools, name='e-magyar-tsv', conll_comments=conll_comments)

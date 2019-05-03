@@ -22,3 +22,6 @@
 [submodule "emconspy"]
 	path = emconspy
 	url = https://github.com/dlazesz/emconspy.git
+[submodule "emconll"]
+	path = emconll
+	url = https://github.com/vadno/emconll.git

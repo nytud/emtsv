@@ -116,6 +116,12 @@ em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
                               sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
 
+# emCoNLL ##############################################################################################################
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'emconll'))  # Needed to be able to use git submodule...
+from emconll.converter import EmCoNLL
+em_conll = (EmCoNLL, (), {'source_fields': {'form'}, 'target_fields': []})
+
 ########################################################################################################################
 
 # Map module personalities to firendly names...
@@ -130,6 +136,7 @@ tools = {'tok': em_token, 'emToken': em_token,
          'dep': em_depud, 'emDep-ud': em_depud,
          # 'emDep-conll': em_dep, 'emDep': em_dep,
          'cons': em_cons, 'emCons': em_cons,
+         'conll': em_conll, 'emCoNLL': em_conll,
          }
 
 presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons'],  # Full pipeline
