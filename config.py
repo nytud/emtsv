@@ -39,6 +39,8 @@ jnius_config.add_classpath(PurePOS.class_path)
 
 em_tag = (PurePOS, (), {'source_fields': {'form', 'anas'}, 'target_fields': ['lemma', 'xpostag']})
 
+"""
+Disable OBSOLETE emDep instance
 # emDepTool ############################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'deptoolpy'))  # Needed to be able to use git submodule...
@@ -46,6 +48,7 @@ from deptoolpy.deptoolpy import DepToolPy
 jnius_config.add_classpath(DepToolPy.class_path)
 
 em_deptool = (DepToolPy, (), {'source_fields': {'form', 'lemma', 'xpostag'}, 'target_fields': ['upostag', 'feats']})
+"""
 
 # emMorph2Dep ##########################################################################################################
 
@@ -78,6 +81,8 @@ target_field = 'NER-BIO'
 em_ner = (EmSeqTag, ({'cfg_file': cfg_file, 'model_name': model_name},),
           {'source_fields': set(), 'target_fields': [target_field]})
 
+"""
+Disable OBSOLETE emDep instance
 # emDep ################################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
@@ -86,7 +91,7 @@ jnius_config.add_classpath(EmDepPy.class_path)
 
 em_dep = (EmDepPy, (), {'source_fields': {'form', 'lemma', 'upostag', 'feats'},
                         'target_fields': ['id', 'deprel', 'head']})
-
+"""
 # emDep ################################################################################################################
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emdeppy'))  # Needed to be able to use git submodule...
@@ -120,8 +125,10 @@ tools = {'tok': em_token, 'emToken': em_token,
          'chunk': em_chunk, 'emChunk': em_chunk,
          'ner': em_ner, 'emNER': em_ner,
          # Default is UD
-         'conv-morph': em_morph2ud, 'conv-hfst2ud': em_morph2ud, 'conv-hfst2conll': em_deptool, 'emDepTool': em_deptool,
-         'dep': em_depud, 'emDep-ud': em_depud, 'emDep-conll': em_dep, 'emDep': em_dep,
+         'conv-morph': em_morph2ud, 'conv-hfst2ud': em_morph2ud,
+         # 'conv-hfst2conll': em_deptool, 'emDepTool': em_deptool,
+         'dep': em_depud, 'emDep-ud': em_depud,
+         # 'emDep-conll': em_dep, 'emDep': em_dep,
          'cons': em_cons, 'emCons': em_cons,
          }
 
@@ -131,7 +138,7 @@ presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'con
            'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
            'tok-ner': ['tok', 'morph', 'pos', 'ner'],
            'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
-           'tok-dep-conll': ['tok', 'morph', 'pos', 'emDepTool', 'emDep-conll'],
+           # 'tok-dep-conll': ['tok', 'morph', 'pos', 'emDepTool', 'emDep-conll'],
            'tok-cons': ['tok', 'morph', 'pos', 'cons'],
            }
 
