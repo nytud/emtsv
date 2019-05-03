@@ -5,6 +5,7 @@
 class DummyTagger:
     class_path = ''  # TODO: Fill this as the CLASS_PATH environment variable when module requires JAVA...
     vm_opts = ''  # TODO: Fill this with the additional JAVA VM options when module requires JAVA...
+    pass_header = True  # TODO: Fill this as needed (True if not final module)
 
     def __init__(self, source_fields=None, target_fields=None):
 

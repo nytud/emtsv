@@ -27,7 +27,8 @@ def process_header(stream, source_fields, target_fields):
 def process(stream, internal_app, conll_comments=False):
     if len(internal_app.source_fields) > 0:
         header, field_names = process_header(stream, internal_app.source_fields, internal_app.target_fields)
-        yield header
+        if internal_app.pass_header:  # Pass or hold back the header TODO: Maybe there shoud be an option to modify it
+            yield header
 
         # Like binding names to indices...
         field_values = internal_app.prepare_fields(field_names)
@@ -58,10 +59,10 @@ def sentence_iterator(input_stream, conll_comments=False):
         line = line.strip()
         # Comment handling: Before sentence, line starts with # and comments are allowed by parameter
         if len(curr_sen) == 0 and line.startswith('#') and conll_comments:
-                curr_comment += '{0}\n'.format(line)  # Comment before sentence
+            curr_comment += '{0}\n'.format(line)  # Comment before sentence
         # Blank line handling
         elif len(line) == 0:
-            if curr_sen:  # End of sentence
+            if len(curr_sen) > 0:  # End of sentence
                 yield curr_sen, curr_comment
                 curr_sen = []
                 curr_comment = ''
