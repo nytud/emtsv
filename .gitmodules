@@ -12,7 +12,7 @@
 	url = https://github.com/dlt-rilmta/emdeppy.git
 [submodule "deptoolpy"]
 	path = deptoolpy
-	url = https://github.com/dlazesz/deptoolpy.git
+	url = https://github.com/dlt-rilmta/deptoolpy.git
 [submodule "emmorph2ud"]
 	path = emmorph2ud
 	url = https://github.com/vadno/emmorph2ud.git
@@ -21,7 +21,7 @@
 	url = https://github.com/dlt-rilmta/emtokenpy.git
 [submodule "emconspy"]
 	path = emconspy
-	url = https://github.com/dlazesz/emconspy.git
+	url = https://github.com/dlt-rilmta/emconspy.git
 [submodule "emconll"]
 	path = emconll
 	url = https://github.com/vadno/emconll.git
