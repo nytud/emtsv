@@ -44,7 +44,7 @@ https://github.com/dlt-rilmta/hunlp-GATE system.
 - GIT LFS
 - Python 3.5 <=
 - HFST 3.13 <=
-- OpenJDK 8
+- OpenJDK 8 JDK (not JRE)
 - An UTF-8 locale must be set.
 
 _Remarks:_
@@ -54,7 +54,9 @@ as HFST 3.13 is the default is this version.
 <br/>
 We encountered problems using OpenJDK 11 (#1),
 so we recommend using OpenJDK 8.
-
+<br/>
+On Ubuntu 18.04, for installing OpenJDK 8 JDK an `apt-get install openjdk-8-jdk` is enough.
+<br/>
 
 ## Installation
 
@@ -89,6 +91,12 @@ Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder
     docker build -t emtsv:stable .
     docker run --rm -p5000:5000 -it emtsv:stable
     cat input.txt | docker run -i emtsv:stable tok,morph,pos > output.txt
+
+Or use prebuilt __Docker image__ from [https://hub.docker.com/r/mtaril/emtsv](https://hub.docker.com/r/mtaril/emtsv):
+
+    docker pull mtaril/emtsv:latest
+    docker run --rm -p5000:5000 -it mtaril/emtsv
+    cat input.txt | docker run -i mtaril/emtsv tok,morph,pos > output.txt
 
 ## Usage
 
@@ -158,6 +166,45 @@ Please consult the examples in `test_output` directory for guidance.
 Running the first request can take more time (a few minutes)
 as the server loads some models then.
 
+### As Python Library
+
+1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
+2. `import emtsv`
+3. Now you have the following API under `emtsv`
+    - `import_pyjnius`: Import the PyJNIus library with setting the approrpiate PATH environment
+    - `tools`: The dictionary of tools where different names are used as keys and classes (to be initialised) are used as values
+    - `presets`: The dictionary of shorthands for tasks which are defined as list of tools to be run in a pipeline
+    - `init_everything(available_tools, init_once=True) -> inited_tools`: Init the (subset of) available tools defined config.py and stored in `tools` variable returns the dictionary of inited tools
+    - `build_pipeline(inp_stream, used_tools, available_tools, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream and the list of the elements of the desired pipeline chosen from the available tools returning an output iterator.
+    - `pipeline_rest_api(available_tools, name, conll_comments) -> app`: Creates a Flask application with the REST API on the available tools with the desired name. Run Flask's built-in server with with `app.run()`
+    - `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
+
+Example:
+
+```Python
+import sys
+import jnius_config
+
+from emtsv import init_everything, build_pipeline, import_pyjnius, tools, presets
+
+import_pyjnius()
+jnius_config.classpath_show_warning = False  # To suppress warning
+
+# Imports end here. Must do only once per Python session
+
+# Set input and output iterators...
+input_iterator = sys.stdin
+output_iterator = sys.stdout
+
+# Select a task to do or provide your own list of pipeline elements
+used_tools = presets['tok-dep']
+
+# Init the selected tools
+inited_tools = init_everything({k: v for k, v in tools.items() if k in set(used_tools)})
+
+# Run the pipeline on input and write result to the output...
+output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools))
+```
 
 ## Toolchain
 
