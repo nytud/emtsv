@@ -10,15 +10,15 @@ import jnius_config
 # DummyTagger (EXAMPLE) ################################################################################################
 
 # Import Tagger class, and parameters...
-sys.path.append(os.path.join(os.path.dirname(__file__), 'emdummy'))  # Needed to be able to use git submodule...
 from emdummy.dummy import DummyTagger
 
 # Setup the triplet: class, args (tuple), kwargs (dict)
-dummy_tagger = (DummyTagger, ('Params', 'goes', 'here'),
-                {'source_fields': {'Source field names'}, 'target_fields': ['Target field names']})
+em_dummy = (DummyTagger, ('Params', 'goes', 'here'),
+            {'source_fields': {'Source field names'}, 'target_fields': ['Target field names']})
 
 # emToken ##############################################################################################################
 
+# TODO: Remove the need of sys.path.append with smart imports...
 sys.path.append(os.path.join(os.path.dirname(__file__), 'emtokenpy'))  # Needed to be able to use git submodule...
 from emtokenpy import EmTokenPy
 
@@ -131,12 +131,13 @@ tools = {'tok': em_token, 'emToken': em_token,
          'chunk': em_chunk, 'emChunk': em_chunk,
          'ner': em_ner, 'emNER': em_ner,
          # Default is UD
-         'conv-morph': em_morph2ud, 'conv-hfst2ud': em_morph2ud,
+         'conv-morph': em_morph2ud, 'emmorph2ud': em_morph2ud,
          # 'conv-hfst2conll': em_deptool, 'emDepTool': em_deptool,
          'dep': em_depud, 'emDep-ud': em_depud,
          # 'emDep-conll': em_dep, 'emDep': em_dep,
          'cons': em_cons, 'emCons': em_cons,
          'conll': em_conll, 'emCoNLL': em_conll,
+         'dummy-tagger': em_dummy, 'emDummy': em_dummy,
          }
 
 presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons'],  # Full pipeline

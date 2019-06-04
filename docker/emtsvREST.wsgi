@@ -3,11 +3,12 @@
 
 import jnius_config
 
-from __init__ import init_everything, pipeline_rest_api, import_pyjnius, tools
+from __init__ import init_everything, pipeline_rest_api, import_pyjnius, tools, presets
 
 
 autoclass = import_pyjnius()
 jnius_config.classpath_show_warning = False  # Suppress warning. # TODO: Add --verbose CLI option for this warning!
 conll_comments = False  # TODO: Allow conll comments for compatibility or disable them for safety...
 inited_tools = init_everything(tools)
-application = pipeline_rest_api(inited_tools, name='e-magyar-tsv', conll_comments=conll_comments)
+application = pipeline_rest_api(name='e-magyar-tsv', available_tools=inited_tools, presets=presets,
+                                conll_comments=conll_comments)

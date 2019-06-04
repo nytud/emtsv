@@ -20,8 +20,9 @@ if __name__ == '__main__':
             used_tools = presets[used_tools[0]]  # Resolve presets to module names to init only the needed modules...
 
         inited_tools = init_everything({k: v for k, v in tools.items() if k in set(used_tools)})
-        output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools, conll_comments))
+        output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools, presets, conll_comments))
     else:
         inited_tools = init_everything(tools)
-        app = pipeline_rest_api(inited_tools, name='e-magyar-tsv', conll_comments=conll_comments)
+        app = pipeline_rest_api(name='e-magyar-tsv', available_tools=inited_tools, presets=presets,
+                                conll_comments=conll_comments)
         app.run(debug=True)

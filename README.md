@@ -69,7 +69,7 @@ _Note:_ please, ignore the deprecation warning.
 (GIT LFS is necessary for properly cloning `emtsv`.
 This command checks and ensures that GIT LFS is installed and working.)
 <br/>
-_Note2:_ If you are certain about GIT LFS is installed, you can use: `git clone` to avoid the warning. (This command also works without GIT LFS installed, but as the model files will not be downloaded emtsv might not work. See _Troubleshooting_ section for details.)
+_Note2:_ If you are certain about GIT LFS is installed, you can use: `git clone` to avoid the warning. (This command also works without GIT LFS installed, but as the model files will not be downloaded emtsv might not work. See [Troubleshooting](#troubleshooting) section for details.)
 <br/>
 
 Install `Cython` for `emdeppy` (it must be installed in a separate step before `PyJNIus`):
@@ -186,9 +186,9 @@ as the server loads some models then.
     - `import_pyjnius()`: Import the PyJNIus library with setting the approrpiate PATH environment (defined in `config.py`)
     - `tools`: The dictionary of tools where different names are used as keys and raw classes (to be initialised) are used as values
     - `presets`: The dictionary of shorthands for tasks which are defined as list of tools to be run in a pipeline
-    - `init_everything(available_tools, init_once=True) -> inited_tools`: Init the (arbitrarily chosen subset of) available tools defined `config.py` and stored in `tools` variable returns the dictionary of inited tools
-    - `build_pipeline(inp_stream, used_tools, available_tools, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream and the list of the elements of the desired pipeline chosen from the available initialised tools returning an output iterator.
-    - `pipeline_rest_api(available_tools, name, conll_comments) -> app`: Creates a Flask application with the REST API on the available initialised tools with the desired name. Run Flask's built-in server with with `app.run()` (__It is not recommended for production!__)
+    - `init_everything(available_tools, init_singleton=None) -> inited_tools`: Init the (arbitrarily chosen subset of) available tools defined `config.py` and stored in `tools` variable returns the dictionary of inited tools
+    - `build_pipeline(inp_stream, used_tools, available_tools, presets, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream, the list of the elements of the desired pipeline chosen from the available initialised tools and presets returning an output iterator.
+    - `pipeline_rest_api(name, available_tools, presets, conll_comments) -> app`: Creates a Flask application with the REST API on the available initialised tools and presets with the desired name. Run Flask's built-in server with with `app.run()` (__It is not recommended for production!__)
     - `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
 
 Example:
@@ -215,13 +215,13 @@ used_tools = presets['tok-dep']
 inited_tools = init_everything({k: v for k, v in tools.items() if k in set(used_tools)})
 
 # Run the pipeline on input and write result to the output...
-output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools))
+output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools, presets))
 
 # Alternative: Run specific tool for input (still in emtsv format):
 output_iterator.writelines(process(input_iterator, inited_tools['morph']))
 
 # Alternative2: Run REST API debug server
-app = pipeline_rest_api(tools, 'TEST', False)
+app = pipeline_rest_api('TEST', inited_tools, presets,  False)
 app.run()
 ```
 
