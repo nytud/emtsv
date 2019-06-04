@@ -25,3 +25,6 @@
 [submodule "emconll"]
 	path = emconll
 	url = https://github.com/vadno/emconll.git
+[submodule "xtsv"]
+	path = xtsv
+	url = https://github.com/dlt-rilmta/xtsv.git
