@@ -227,7 +227,59 @@ app.run()
 
 ## Toolchain
 
-[Current toolchain](doc/emtsv_modules.pdf) in a figure.
+The current toolchain is consists of the following modules can be called by their name (or using their shorthand names in brackets):
+
+- `emToken` (`tok`): Tokenizer
+- `emMorph` (`morph`): Morphological analyser together with emLem lemmatiser
+- `emTag` (`pos`): POS-tagger
+- `emChunk` (`chunk`): Maximal NP-chunker
+- `emNER` (`ner`): Named-entity recogniser
+- `emmorph2ud` (`conv-morph`): Converter from emMorph code to UD upos and feats format
+- `emDep-ud` (`dep`): Dependency parser
+- `emCons` (`cons`): Constituent parser
+- `emCoNLL` (`conll`): Converter from emtsv to CoNLL-U format
+- `emDummy` (`dummy-tagger`): Example module
+
+The following presets are defined as shorthand for the common tasks:
+
+- `analyze`: Run the full pipeline, same as: `emToken,emMorph,emTag,emChunk,emNER,emmorph2ud,emDep-ud,emCons`
+- `tok-morph`: From tokenisation to morphological analysis, same as `emToken,emMorph`
+- `tok-pos`: From tokenisation to POS-tagging, same as `emToken,emMorph,emTag`
+- `tok-chunk`: From tokenisation to maximal NP-chunking, same as `emToken,emMorph,emTag,emChunk`
+- `tok-ner`: From tokenisation to named-entity recognition, same as `emToken,emMorph,emTag,emNER`
+- `tok-dep`: From tokenisation to maximal dependency parsing, same as `emToken,emMorph,emTag,emmorph2ud,emDep-ud`
+- `tok-cons`: From tokenisation to maximal constituent parsing, same as `emToken,emMorph,emTag,emCons`
+
+
+See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview.
+
+
+## Creating a module
+
+The following requirements apply for a new module:
+
+1) It must provide (at least) the mandatory API (see [emDummy](https://github.com/dlt-rilmta/emdummy) for a well-documented example)
+2) It must conform to the field-name conventions of emtsv and the format conventions of xtsv
+3) It must have an LGPL 3.0 compatible lisence
+
+The following steps are needed to insert the new module into the pipeline:
+
+1) Add the new module as submodule to the repository
+2) Insert the configuration in `config.py`:
+
+    ```python
+    # a) Add to path if needed
+    sys.path.append(os.path.join(os.path.dirname(__file__), 'emdummy'))
+    # b) Import the class
+    from emdummy.dummy import DummyTagger
+
+    # c) Setup the triplet: class, args (tuple), kwargs (dict)
+    em_dummy = (DummyTagger, ('Params', 'goes', 'here'),
+                {'source_fields': {'Source field names'}, 'target_fields': ['Target field names']})
+    ```
+
+3) Add the new module to `tools` dict in `config.py`, optionally also to `presets` dictionary
+4) Test, commit and push
 
 
 ## Testing
@@ -410,10 +462,4 @@ Things below may break without further notice!
 for __SOMEDAY__:
 
  - `emCons` (works but rather slow)
-
- - Python library (under [Usage](#usage)) -- as a third use mode
-besides CLI and REST API.
  - `--pipe` XOR `--rest`
-
- - XXX TODO tutorial for creating a new module
-
