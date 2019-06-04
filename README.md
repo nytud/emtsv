@@ -57,7 +57,8 @@ so we recommend using OpenJDK 8.
 <br/>
 On Ubuntu 18.04, for installing OpenJDK 8 JDK an `apt-get install openjdk-8-jdk` is enough.
 <br/>
-
+On Ubuntu 18.04, UTF-8 locale is set by default. Can be checked typing `locale` in the terminal. (Lines end with '.UTF-8')
+<br/>
 ## Installation
 
 Clone together with submodules (it takes about 3 minutes):
@@ -67,8 +68,11 @@ Clone together with submodules (it takes about 3 minutes):
 _Note:_ please, ignore the deprecation warning.
 (GIT LFS is necessary for properly cloning `emtsv`.
 This command checks and ensures that GIT LFS is installed and working.)
+<br/>
+_Note2:_ If you are certain about GIT LFS is installed, you can use: `git clone` to avoid the warning. (This command also works without GIT LFS installed, but as the model files will not be downloaded emtsv might not work. See _Troubleshooting_ section for details.)
+<br/>
 
-Install `Cython` for `emdeppy` (it must be installed in a separate step):
+Install `Cython` for `emdeppy` (it must be installed in a separate step before `PyJNIus`):
 
 `pip3 install Cython`
 
@@ -86,17 +90,23 @@ Then download `emToken` binary:
 
 `make -C emtokenpy/ all`
 
-Or create a __Docker image__ with the provided `Dockerfile` (see `docker` folder):
+## __Docker image__
 
+emtsv can be used with docker through the command-line and REST API interfaces
+
+- with the provided `Dockerfile` (see `docker` folder):
+    ```bash
     docker build -t emtsv:stable .
-    docker run --rm -p5000:5000 -it emtsv:stable
+    docker run --rm -p5000:5000 -it emtsv:stable  # REST API
     cat input.txt | docker run -i emtsv:stable tok,morph,pos > output.txt
+    ```
 
-Or use prebuilt __Docker image__ from [https://hub.docker.com/r/mtaril/emtsv](https://hub.docker.com/r/mtaril/emtsv):
-
+- with prebuilt __Docker image__ from [https://hub.docker.com/r/mtaril/emtsv](https://hub.docker.com/r/mtaril/emtsv):
+    ```bash
     docker pull mtaril/emtsv:latest
-    docker run --rm -p5000:5000 -it mtaril/emtsv
+    docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API
     cat input.txt | docker run -i mtaril/emtsv tok,morph,pos > output.txt
+    ```
 
 ## Usage
 
@@ -139,6 +149,8 @@ python3 ./emtsv.py
 
 When the server outputs a message like `* Running on`
 then it is ready to accept requests.
+<br/>
+(__We do not recommend using this method in production as it is built atop of Flask debug server! Please consider using the Docker image for REST API in production!__)
 
 To use the started server, clients should call it this way from Python:
 
@@ -171,12 +183,12 @@ as the server loads some models then.
 1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
 2. `import emtsv`
 3. Now you have the following API under `emtsv`
-    - `import_pyjnius`: Import the PyJNIus library with setting the approrpiate PATH environment
-    - `tools`: The dictionary of tools where different names are used as keys and classes (to be initialised) are used as values
+    - `import_pyjnius()`: Import the PyJNIus library with setting the approrpiate PATH environment (defined in `config.py`)
+    - `tools`: The dictionary of tools where different names are used as keys and raw classes (to be initialised) are used as values
     - `presets`: The dictionary of shorthands for tasks which are defined as list of tools to be run in a pipeline
-    - `init_everything(available_tools, init_once=True) -> inited_tools`: Init the (subset of) available tools defined config.py and stored in `tools` variable returns the dictionary of inited tools
-    - `build_pipeline(inp_stream, used_tools, available_tools, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream and the list of the elements of the desired pipeline chosen from the available tools returning an output iterator.
-    - `pipeline_rest_api(available_tools, name, conll_comments) -> app`: Creates a Flask application with the REST API on the available tools with the desired name. Run Flask's built-in server with with `app.run()`
+    - `init_everything(available_tools, init_once=True) -> inited_tools`: Init the (arbitrarily chosen subset of) available tools defined `config.py` and stored in `tools` variable returns the dictionary of inited tools
+    - `build_pipeline(inp_stream, used_tools, available_tools, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream and the list of the elements of the desired pipeline chosen from the available initialised tools returning an output iterator.
+    - `pipeline_rest_api(available_tools, name, conll_comments) -> app`: Creates a Flask application with the REST API on the available initialised tools with the desired name. Run Flask's built-in server with with `app.run()` (__It is not recommended for production!__)
     - `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
 
 Example:
@@ -185,7 +197,7 @@ Example:
 import sys
 import jnius_config
 
-from emtsv import init_everything, build_pipeline, import_pyjnius, tools, presets
+from emtsv import init_everything, build_pipeline, import_pyjnius, tools, presets, process, pipeline_rest_api
 
 import_pyjnius()
 jnius_config.classpath_show_warning = False  # To suppress warning
@@ -204,6 +216,13 @@ inited_tools = init_everything({k: v for k, v in tools.items() if k in set(used_
 
 # Run the pipeline on input and write result to the output...
 output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_tools))
+
+# Alternative: Run specific tool for input (still in emtsv format):
+output_iterator.writelines(process(input_iterator, inited_tools['morph']))
+
+# Alternative2: Run REST API debug server
+app = pipeline_rest_api(tools, 'TEST', False)
+app.run()
 ```
 
 ## Toolchain
