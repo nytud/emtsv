@@ -28,3 +28,6 @@
 [submodule "xtsv"]
 	path = xtsv
 	url = https://github.com/dlt-rilmta/xtsv.git
+[submodule "emdummy"]
+	path = emdummy
+	url = https://github.com/dlt-rilmta/emdummy.git

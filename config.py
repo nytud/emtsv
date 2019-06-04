@@ -10,8 +10,8 @@ import jnius_config
 # DummyTagger (EXAMPLE) ################################################################################################
 
 # Import Tagger class, and parameters...
-sys.path.append(os.path.join(os.path.dirname(__file__), 'Dummy'))  # Needed to be able to use git submodule...
-from DummyTagger.dummy import DummyTagger
+sys.path.append(os.path.join(os.path.dirname(__file__), 'emdummy'))  # Needed to be able to use git submodule...
+from emdummy.dummy import DummyTagger
 
 # Setup the triplet: class, args (tuple), kwargs (dict)
 dummy_tagger = (DummyTagger, ('Params', 'goes', 'here'),
