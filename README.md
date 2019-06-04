@@ -462,4 +462,3 @@ Things below may break without further notice!
 for __SOMEDAY__:
 
  - `emCons` (works but rather slow)
- - `--pipe` XOR `--rest`
