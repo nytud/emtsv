@@ -5,9 +5,7 @@ import sys
 from os.path import isfile
 from argparse import ArgumentParser, ArgumentTypeError, REMAINDER
 
-import jnius_config
-
-from __init__ import init_everything, build_pipeline, pipeline_rest_api, import_pyjnius, tools, presets
+from __init__ import init_everything, build_pipeline, pipeline_rest_api, jnius_config, import_pyjnius, tools, presets
 
 
 def valid_file(input_file):

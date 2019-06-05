@@ -5,7 +5,7 @@ import os
 import sys
 from collections import defaultdict
 
-import jnius_config
+from __init__ import jnius_config
 
 # DummyTagger (EXAMPLE) ################################################################################################
 

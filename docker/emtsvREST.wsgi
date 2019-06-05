@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
-import jnius_config
-
-from __init__ import init_everything, pipeline_rest_api, import_pyjnius, tools, presets
-
+from __init__ import init_everything, pipeline_rest_api, jnius_config, import_pyjnius, tools, presets
 
 autoclass = import_pyjnius()
 jnius_config.classpath_show_warning = False  # Suppress warning. # TODO: Add --verbose CLI option for this warning!
