@@ -159,6 +159,10 @@ To use the started server, clients should call it this way from Python:
 >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('test_input/input.test', encoding='UTF-8')})
 >>> print(r.text)
 ...
+>>> # Or with CoNLL style comments enabled:
+>>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('test_input/input.test', encoding='UTF-8')}, data={'conll_comments': True})
+>>> print(r.text)
+...
 ```
 
 The `tok/morph/pos` part of the URL are the modules to run,
