@@ -187,7 +187,7 @@ as the server loads some models then.
 1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
 2. `import emtsv`
 3. Now you have the following API under `emtsv`
-    - `import_pyjnius()`: Import the PyJNIus library with setting the approrpiate PATH environment (defined in `config.py`)
+    - `jnius_config`: Set JAVA VM options and CLASSPATH for the PyJNIus library for the modules (see `config.py` for example usage)
     - `tools`: The dictionary of tools where different names are used as keys and raw classes (to be initialised) are used as values
     - `presets`: The dictionary of shorthands for tasks which are defined as list of tools to be run in a pipeline
     - `init_everything(available_tools, init_singleton=None) -> inited_tools`: Init the (arbitrarily chosen subset of) available tools defined `config.py` and stored in `tools` variable returns the dictionary of inited tools
@@ -199,11 +199,9 @@ Example:
 
 ```Python
 import sys
-import jnius_config
 
-from emtsv import init_everything, build_pipeline, import_pyjnius, tools, presets, process, pipeline_rest_api
+from emtsv import init_everything, build_pipeline, jnius_config, tools, presets, process, pipeline_rest_api
 
-import_pyjnius()
 jnius_config.classpath_show_warning = False  # To suppress warning
 
 # Imports end here. Must do only once per Python session

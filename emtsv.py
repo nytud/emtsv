@@ -5,7 +5,7 @@ import sys
 from os.path import isfile
 from argparse import ArgumentParser, ArgumentTypeError, REMAINDER
 
-from __init__ import init_everything, build_pipeline, pipeline_rest_api, jnius_config, import_pyjnius, tools, presets
+from __init__ import init_everything, build_pipeline, pipeline_rest_api, jnius_config, tools, presets
 
 
 def valid_file(input_file):
@@ -64,7 +64,6 @@ if __name__ == '__main__':
 
     input_iterator = opts.input_stream
     output_iterator = opts.output_stream
-    autoclass = import_pyjnius()
     jnius_config.classpath_show_warning = opts.verbose  # Suppress warning.
     conll_comments = opts.comments
     if len(opts.task) > 0:

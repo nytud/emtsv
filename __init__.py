@@ -6,5 +6,5 @@ import os
 
 sys.path.append(os.path.dirname(__file__))
 
-from xtsv import init_everything, build_pipeline, pipeline_rest_api, process, jnius_config, import_pyjnius
+from xtsv import init_everything, build_pipeline, pipeline_rest_api, process, jnius_config
 from config import tools, presets
