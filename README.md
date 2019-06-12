@@ -194,6 +194,8 @@ as the server loads some models then.
     - `build_pipeline(inp_stream, used_tools, available_tools, presets, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream, the list of the elements of the desired pipeline chosen from the available initialised tools and presets returning an output iterator.
     - `pipeline_rest_api(name, available_tools, presets, conll_comments) -> app`: Creates a Flask application with the REST API on the available initialised tools and presets with the desired name. Run Flask's built-in server with with `app.run()` (__It is not recommended for production!__)
     - `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
+    - `parser_skeleton(...) -> argparse.ArgumentParser(...)`: A CLI argument parser skeleton can be further customized when needed 
+    - `add_bool_arg(parser, name, help_text, default=False)`: A helper function to easily add BOOL arguments to the ArgumentParser class
 
 Example:
 
@@ -209,6 +211,11 @@ jnius_config.classpath_show_warning = False  # To suppress warning
 # Set input and output iterators...
 input_iterator = sys.stdin
 output_iterator = sys.stdout
+
+# Raw, or processed TSV input list and output file...
+# input_iterator = ['Raw text', 'line-by-line']
+# input_iterator = [['form', 'xpostag'], ['Header', 'NNP'], ['then', 'RB'], ['tokens', 'VBZ'], ['line-by-line', 'NN'], '.', '.']]
+# output_iterator = open('output.txt', 'w', encoding='UTF-8')
 
 # Select a task to do or provide your own list of pipeline elements
 used_tools = presets['tok-dep']
