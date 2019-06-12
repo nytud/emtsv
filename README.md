@@ -325,7 +325,7 @@ connected to each other by unix pipes, while
 To test the guesser, type:
 
 ```bash
-make RAWINPUT=test_input/halandzsa.test test-tok-morph-tag > out.halandzsa.tok-morph-tag
+make RAWINPUT=tests/test_input/halandzsa.test test-tok-morph-tag > out.halandzsa.tok-morph-tag
 view out.halandzsa.tok-morph-tag
 ```
 

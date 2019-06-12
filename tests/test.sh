@@ -13,7 +13,8 @@ test_one() {
   M=$5
 
   echo "Testing '$T' on '$I' $M"
-  time make RAWINPUT=$I test-$T > $O
+  mkdir -p `dirname $O`
+  time make -f ../Makefile RAWINPUT=$I test-$T > $O
   if diff $G $O; then
     echo "Test succeeded! :)"
   else
@@ -21,11 +22,13 @@ test_one() {
   fi
 }
 
+TEST_TMP=`mktemp -d test_temp.XXXXX`
+
 echo
 
 test_one tok-morph \
   test_input/input.test \
-  out.input.tok-morph \
+  ${TEST_TMP}/out.input.tok-morph \
   test_output/out.input.tok-morph \
   ""
 
@@ -35,7 +38,7 @@ echo
 
 test_one tok-morph-tag \
   test_input/input.test \
-  out.input.tok-morph-tag \
+  ${TEST_TMP}/out.input.tok-morph-tag \
   test_output/out.input.tok-morph-tag \
   "(~30sec)"
 
@@ -43,7 +46,7 @@ echo
 
 test_one tok-morph-tag-single \
   test_input/input.test \
-  out.input.tok-morph-tag-single \
+  ${TEST_TMP}/out.input.tok-morph-tag-single \
   test_output/out.input.tok-morph-tag-single \
   "(~30sec)"
 
@@ -51,7 +54,7 @@ echo
 
 test_one tok-morph-tag-single \
   test_input/halandzsa.test \
-  out.halandzsa.tok-morph-tag \
+  ${TEST_TMP}/out.halandzsa.tok-morph-tag \
   test_output/out.halandzsa.tok-morph-tag \
   "testing guesser (~30sec)"
 
@@ -61,7 +64,7 @@ echo
 if [ "$HOSTNAME" = juniper ]; then
 test_one tok-morph-tag \
   /store/projects/e-magyar/test_input/hundredthousandwords.txt \
-  out.100.tok-morph-tag \
+  ${TEST_TMP}/out.100.tok-morph-tag \
   /store/projects/e-magyar/test_output/out.100.tok-morph-tag \
   "testing with a 100.000 word file (~3min)"
 fi
@@ -72,7 +75,7 @@ echo
 
 test_one tok-dep-single \
   test_input/input.test \
-  out.input.tok-dep \
+  ${TEST_TMP}/out.input.tok-dep \
   test_output/out.input.tok-dep \
   "(~1min)"
 
@@ -82,7 +85,7 @@ echo
 
 test_one all-single \
   test_input/input.test \
-  out.input.all \
+  ${TEST_TMP}/out.input.all \
   test_output/out.input.all \
   "(~1min)"
 
@@ -92,8 +95,7 @@ echo
 if [ "$HOSTNAME" = juniper ]; then
 test_one all-single \
   /store/projects/e-magyar/test_input/hundredthousandwords.txt \
-  out.100.all \
+  ${TEST_TMP}/out.100.all \
   /store/projects/e-magyar/test_output/out.100.all \
   "testing with a 100.000 word file (~15min)"
 fi
-

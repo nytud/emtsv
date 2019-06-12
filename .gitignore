@@ -118,7 +118,10 @@ venv.bak/
 #err.*
 
 # local input files
-test_input/mnsz2_*
+tests/test_input/mnsz2_*
+
+# Test temp dirs
+tests/test_temp.*
 
 # test
 inputfile

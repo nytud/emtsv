@@ -1,16 +1,18 @@
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+mkfile_dir := $(dir $(mkfile_path))
 
 # raw text input
-RAWINPUT=test_input/input.test
-#RAWINPUT=test_input/puzser.test
+RAWINPUT=tests/test_input/input.test
+#RAWINPUT=tests/test_input/puzser.test
 #
 # some larger raw testfiles available on juniper...
 #RAWINPUT=/store/projects/e-magyar/test_input/hundredthousandwords.txt
 
 # input crafted directly for emTag
-#TAGINPUT=test_input/emTag.test
+#TAGINPUT=tests/test_input/emTag.test
 
 # input crafted directly for emDep
-#DEPINPUT=test_input/emDep.test
+#DEPINPUT=tests/test_input/emDep.test
 
 # ----------
 
@@ -35,38 +37,38 @@ usage:
 # testing emTok + emMorph (separately)
 test-tok-morph:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok \
-     | python3 ./emtsv.py morph
+     | python3 $(mkfile_dir)/emtsv.py tok \
+     | python3 $(mkfile_dir)/emtsv.py morph
 
 # testing emTok + emMorph + emTag (separately)
 test-tok-morph-tag:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok \
-     | python3 ./emtsv.py morph \
-     | python3 ./emtsv.py pos
+     | python3 $(mkfile_dir)/emtsv.py tok \
+     | python3 $(mkfile_dir)/emtsv.py morph \
+     | python3 $(mkfile_dir)/emtsv.py pos
 
 # testing emTok + emMorph + emTag
 test-tok-morph-tag-single:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok,morph,pos
+     | python3 $(mkfile_dir)/emtsv.py tok,morph,pos
 
 # testing emTok + emMorph + emTag + em_morph2UD + emDepUD
 test-tok-dep-single:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep
+     | python3 $(mkfile_dir)/emtsv.py tok,morph,pos,conv-morph,dep
 
 # testing emTok + emMorph + emTag + em_morph2UD + emDepUD + emChunk + emNer
 # XXX currently without emCons
 test-all-single:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,chunk,ner
+     | python3 $(mkfile_dir)/emtsv.py tok,morph,pos,conv-morph,dep,chunk,ner
 
 # ----------
 
 # testing emTok + emMorph + emTag + em_morph2UD + emDepUD + emCons
 test-tok-cons-single:
 	@cat $(RAWINPUT) \
-     | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,cons
+     | python3 $(mkfile_dir)/emtsv.py tok,morph,pos,conv-morph,dep,cons
 
 # ----------
 
@@ -82,12 +84,12 @@ update_repo:
 # testing emTag only -- ezt majd!
 #test-tag:
 #	@cat $(TAGINPUT) \
-#    | python3 ./emtsv.py pos
+#    | python3 $(mkfile_dir)/emtsv.py pos
 
 #	testing emDep only -- ezt majd!
 #test-dep:
 #	@cat $(DEPINPUT) \
-#    | python3 ./emtsv.py dep
+#    | python3 $(mkfile_dir)/emtsv.py dep
 
 
 # ----------------------
