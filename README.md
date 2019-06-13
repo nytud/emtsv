@@ -214,7 +214,7 @@ output_iterator = sys.stdout
 
 # Raw, or processed TSV input list and output file...
 # input_iterator = ['Raw text', 'line-by-line']
-# input_iterator = [['form', 'xpostag'], ['Header', 'NNP'], ['then', 'RB'], ['tokens', 'VBZ'], ['line-by-line', 'NN'], '.', '.']]
+# input_iterator = [['form', 'xpostag'], ['Header', 'NNP'], ['then', 'RB'], ['tokens', 'VBZ'], ['line-by-line', 'NN'], ['.', '.']]
 # output_iterator = open('output.txt', 'w', encoding='UTF-8')
 
 # Select a task to do or provide your own list of pipeline elements
@@ -228,6 +228,11 @@ output_iterator.writelines(build_pipeline(input_iterator, used_tools, inited_too
 
 # Alternative: Run specific tool for input (still in emtsv format):
 output_iterator.writelines(process(input_iterator, inited_tools['morph']))
+
+# Or process individual tokens further... WARNING: The header will be the first item in the iterator!
+# for tok in build_pipeline(input_iterator, used_tools, inited_tools, presets):
+#     if len(tok) > 1:  # Empty line (='\n') means end of sentence
+#         form, xpostag, *rest = tok.strip().split('\t')  # Split to the expected columns
 
 # Alternative2: Run REST API debug server
 app = pipeline_rest_api('TEST', inited_tools, presets,  False)
