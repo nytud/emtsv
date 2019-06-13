@@ -213,8 +213,8 @@ input_iterator = sys.stdin
 output_iterator = sys.stdout
 
 # Raw, or processed TSV input list and output file...
-# input_iterator = ['Raw text', 'line-by-line']
-# input_iterator = [['form', 'xpostag'], ['Header', 'NNP'], ['then', 'RB'], ['tokens', 'VBZ'], ['line-by-line', 'NN'], ['.', '.']]
+# input_iterator = iter(['Raw text', 'line-by-line'])
+# input_iterator = iter([['form', 'xpostag'], ['Header', 'NNP'], ['then', 'RB'], ['tokens', 'VBZ'], ['line-by-line', 'NN'], ['.', '.']])
 # output_iterator = open('output.txt', 'w', encoding='UTF-8')
 
 # Select a task to do or provide your own list of pipeline elements
