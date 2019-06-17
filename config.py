@@ -113,6 +113,7 @@ presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'con
            'tok-pos': ['tok', 'morph', 'pos'],
            'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
            'tok-ner': ['tok', 'morph', 'pos', 'ner'],
+           'tok-udpos': ['tok', 'morph', 'pos', 'conv-morph'],
            'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
            'tok-dep-conll': ['tok', 'morph', 'pos', 'conv-morph', 'dep', 'conll'],
            'tok-cons': ['tok', 'morph', 'pos', 'cons'],

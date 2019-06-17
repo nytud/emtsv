@@ -261,8 +261,9 @@ The following presets are defined as shorthand for the common tasks:
 - `tok-pos`: From tokenisation to POS-tagging, same as `emToken,emMorph,emTag`
 - `tok-chunk`: From tokenisation to maximal NP-chunking, same as `emToken,emMorph,emTag,emChunk`
 - `tok-ner`: From tokenisation to named-entity recognition, same as `emToken,emMorph,emTag,emNER`
-- `tok-dep`: From tokenisation to maximal dependency parsing, same as `emToken,emMorph,emTag,emmorph2ud,emDep-ud`
-- `tok-cons`: From tokenisation to maximal constituent parsing, same as `emToken,emMorph,emTag,emCons`
+- `tok-udpos`: From tokenisation to POS-tagging in UD format, same as `emToken,emMorph,emTag,emmorph2ud`
+- `tok-dep`: From tokenisation to dependency parsing, same as `emToken,emMorph,emTag,emmorph2ud,emDep-ud`
+- `tok-cons`: From tokenisation to constituent parsing, same as `emToken,emMorph,emTag,emCons`
 
 
 See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview.
