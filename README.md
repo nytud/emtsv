@@ -452,7 +452,7 @@ UnicodeDecodeError: 'ascii' codec can't decode byte 0xc5 in position 603: ordina
 ```
 
 - Errors like below is because the classpath in `jnius_config.get_classpath()` is not set properly.
-Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath.
+Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath in config.py.
 
 ```Python
 Traceback (most recent call last):
@@ -466,6 +466,81 @@ Traceback (most recent call last):
     c = find_javaclass(clsname)
   File "jnius/jnius_export_func.pxi", line 26, in jnius.find_javaclass (jnius/jnius.c:17089)
 jnius.JavaException: Class not found b'is2/parser/Parser'
+```
+
+- Errors like below is because the input containts too long sentences which maybe not real sentences but garbage data.
+Please check the input and report any bugs, when it occurs on normal data with good RAM conditions.
+
+```Python
+Traceback (most recent call last):
+  File "/app/emtsv.py", line 21, in <module>
+    sys.stdout.writelines(build_pipeline(sys.stdin, used_tools, inited_tools, conll_comments))
+  File "/app/xtsv/tsvhandler.py", line 37, in process
+    for sen_count, (sen, comment) in enumerate(sentence_iterator(stream, conll_comments)):
+  File "/app/xtsv/tsvhandler.py", line 57, in sentence_iterator
+    for line in input_stream:
+  File "/app/xtsv/tsvhandler.py", line 42, in process
+    yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
+  File "/app/purepospy/purepospy.py", line 230, in process_sentence
+    for tok, (_, lemma, hfstana) in zip(sen, self.tag_sentence(sent)):
+  File "/app/purepospy/purepospy.py", line 210, in tag_sentence
+    ret = self._tagger.tagSentenceEx(new_sent)
+  File "jnius/jnius_export_class.pxi", line 1044, in jnius.JavaMultipleMethod.__call__
+  File "jnius/jnius_export_class.pxi", line 766, in jnius.JavaMethod.__call__
+  File "jnius/jnius_export_class.pxi", line 843, in jnius.JavaMethod.call_method
+  File "jnius/jnius_utils.pxi", line 91, in jnius.check_exception
+jnius.JavaException: JVM exception occurred: GC overhead limit exceeded
+```
+
+or
+
+```Python
+Traceback (most recent call last):
+  File "/home/kagi/worktemp/emtsv/emtsv.py", line 21, in <module>
+    sys.stdout.writelines(build_pipeline(sys.stdin, used_tools, inited_tools, conll_comments))
+  File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 37, in process
+    for sen_count, (sen, comment) in enumerate(sentence_iterator(stream, conll_comments)):
+  File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 57, in sentence_iterator
+    for line in input_stream:
+  File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 42, in process
+    yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
+  File "/home/kagi/worktemp/emtsv/purepospy/purepospy.py", line 230, in process_sentence
+    for tok, (_, lemma, hfstana) in zip(sen, self.tag_sentence(sent)):
+  File "/home/kagi/worktemp/emtsv/purepospy/purepospy.py", line 210, in tag_sentence
+    ret = self._tagger.tagSentenceEx(new_sent)
+  File "jnius/jnius_export_class.pxi", line 1044, in jnius.JavaMultipleMethod.__call__
+  File "jnius/jnius_export_class.pxi", line 766, in jnius.JavaMethod.__call__
+  File "jnius/jnius_export_class.pxi", line 843, in jnius.JavaMethod.call_method
+  File "jnius/jnius_utils.pxi", line 91, in jnius.check_exception
+jnius.JavaException: JVM exception occurred: Java heap space
+```
+
+or
+
+```shell
+quex/quex/code_base/buffer/Buffer.i:1075:	terminate called after throwing an instance of 'std::runtime_error'
+
+  what():  Distance between lexeme start and current pointer exceeds buffer size.
+
+(tried to load buffer forward). Please, compile with option
+
+
+
+    QUEX_OPTION_INFORMATIVE_BUFFER_OVERFLOW_MESSAGE
+
+
+
+in order to get a more informative output. Most likely, one of your patterns
+
+eats more than you intended. Alternatively you might want to set the buffer
+
+size to a greater value or use skippers (<skip: [ \n\t]> for example).
+
+
+
+Aborted (core dumped)
+
+WARNING: No blank line before EOF!
 ```
 
 ## Work in progress
