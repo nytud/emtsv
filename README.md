@@ -156,11 +156,11 @@ To use the started server, clients should call it this way from Python:
 
 ```python
 >>> import requests
->>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('test_input/input.test', encoding='UTF-8')})
+>>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('tests/test_input/input.test', encoding='UTF-8')})
 >>> print(r.text)
 ...
 >>> # Or with CoNLL style comments enabled:
->>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('test_input/input.test', encoding='UTF-8')}, data={'conll_comments': True})
+>>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('tests/test_input/input.test', encoding='UTF-8')}, data={'conll_comments': True})
 >>> print(r.text)
 ...
 ```
@@ -173,7 +173,7 @@ at each point between two modules, and gives an error message
 if there are any problems.
 
 The format of the input file or stream
-(`test_input/input.test` in this case)
+(`tests/test_input/input.test` in this case)
 must comply to the __emtsv__ standards (header, column names, etc.)
 and must contain every necessary data columns for the first module to run,
 as for the CLI version.

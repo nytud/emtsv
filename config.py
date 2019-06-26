@@ -118,7 +118,3 @@ presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'con
            'tok-dep-conll': ['tok', 'morph', 'pos', 'conv-morph', 'dep', 'conll'],
            'tok-cons': ['tok', 'morph', 'pos', 'cons'],
            }
-
-# Store already initialized tools for reuse without reinitialization (singleton store) must explicitly pass it to xtsv
-initialised_tools = {}
-alias_store = defaultdict(list)

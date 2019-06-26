@@ -6,6 +6,6 @@ import os
 
 sys.path.append(os.path.dirname(__file__))
 
-from xtsv import init_everything, build_pipeline, pipeline_rest_api, process, jnius_config, parser_skeleton, \
-    add_bool_arg
+from xtsv import ModuleError, init_everything, build_pipeline, pipeline_rest_api, singleton_store_factory, \
+    HeaderError,process, jnius_config, parser_skeleton, add_bool_arg
 from config import tools, presets
