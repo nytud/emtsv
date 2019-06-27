@@ -28,3 +28,6 @@
 [submodule "emdummy"]
 	path = emdummy
 	url = https://github.com/dlt-rilmta/emdummy.git
+[submodule "hunspellpy"]
+	path = hunspellpy
+	url = https://github.com/dlt-rilmta/hunspellpy.git

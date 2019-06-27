@@ -10,7 +10,7 @@ from __init__ import jnius_config
 # DummyTagger (EXAMPLE) ################################################################################################
 
 # Import Tagger class, and parameters...
-from emdummy.dummytagger.dummytagger import DummyTagger
+from emdummy.dummytagger import DummyTagger
 
 # Setup the triplet: class, args (tuple), kwargs (dict)
 em_dummy = (DummyTagger, ('Params', 'goes', 'here'),
@@ -27,6 +27,12 @@ em_token = (EmTokenPy, (), {'source_fields': set(), 'target_fields': ['form']})
 from emmorphpy.emmorphpy import EmMorphPy
 
 em_morph = (EmMorphPy, (), {'source_fields': {'form'}, 'target_fields': ['anas']})
+
+# Hunspell #############################################################################################################
+
+from hunspellpy.hunspellpy import HunspellPy
+
+hunspellpy = (HunspellPy, (), {'source_fields': {'form'}, 'target_fields': ['spell', 'hunspell_anas']})
 
 # emTag ################################################################################################################
 
@@ -97,6 +103,7 @@ em_conll = (EmCoNLL, (), {'source_fields': {'form'}, 'target_fields': []})
 # Map module personalities to firendly names...
 tools = {'tok': em_token, 'emToken': em_token,
          'morph': em_morph, 'emMorph': em_morph,
+         'spell': hunspellpy, 'hunspell': hunspellpy,
          'pos': em_tag, 'emTag': em_tag,
          'chunk': em_chunk, 'emChunk': em_chunk,
          'ner': em_ner, 'emNER': em_ner,

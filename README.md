@@ -6,6 +6,9 @@ vonatkozó infók közlésénél,
 minden, ami azon túl van, az legyen a
 [Work in progress](#work-in-progress)
 részben (jövőbeli MILESTONE-ok szerint).
+B) Vagy csináljunk egy linket a megfelelő kommitra, ami a MILESTONE#X README.md-t mutatja.
+Ezért hülyeség lenne kétszer dokumentálni a dolgokat.
+C) branch-be fejlesztünk és a MILESTONE-oknál merge-lünk.
 -->
 
 # emtsv
@@ -44,6 +47,7 @@ https://github.com/dlt-rilmta/hunlp-GATE system.
 - GIT LFS
 - Python 3.5 <=
 - HFST 3.13 <=
+- Hunspell (libhunspell-dev, hunspell-hu) 1.6.2 <=
 - OpenJDK 8 JDK (not JRE)
 - An UTF-8 locale must be set.
 
@@ -51,6 +55,8 @@ _Remarks:_
 <br/>
 On Ubuntu 18.04, for installing HFST an `apt-get install hfst` is enough,
 as HFST 3.13 is the default is this version.
+<br/>
+On Ubuntu 18.04, for installing Hunspell an `apt-get install libhunspell-dev hunspell-hu` is enough.
 <br/>
 We encountered problems using OpenJDK 11 (#1),
 so we recommend using OpenJDK 8.
@@ -80,6 +86,8 @@ Then install requirements for submodules:
 
 `pip3 install -r emmorphpy/requirements.txt`
 
+`pip3 install -r hunspellpy/requirements.txt`
+
 `pip3 install -r purepospy/requirements.txt`
 
 `pip3 install -r emdeppy/requirements.txt`
@@ -92,7 +100,7 @@ Then download `emToken` binary:
 
 ## __Docker image__
 
-emtsv can be used with docker through the command-line and REST API interfaces
+emtsv can be used with docker through the command-line (runnable docker) and REST API interfaces
 
 - with the provided `Dockerfile` (see `docker` folder):
     ```bash
@@ -113,15 +121,16 @@ emtsv can be used with docker through the command-line and REST API interfaces
 ### Command-line interface
 
 ```bash
-echo "A kutya elment sétálni." | python3 ./emtsv.py tok,morph,pos,conv-morph,dep,chunk,ner
+echo "A kutya elment sétálni." | python3 ./emtsv.py tok,spell,morph,pos,conv-morph,dep,chunk,ner
 ```
 
 That's it. :)
 
 The above simply calls `emtsv.py` with the parameter
-`tok,morph,pos,conv-morph,dep,chunk,ner`
-and gives the input on stdin.
-Using the `xtsv` tsv-handling framework only this has to be done:
+`tok,spell,morph,pos,conv-morph,dep,chunk,ner`
+takes the input on STDIN and gives out in STDOUT.
+Using the [`xtsv` tsv-handling framework](https://github.com/dlt-rilmta/xtsv)
+only this has to be done:
 call the central controller and give the modules to run as parameters.
 Modules are defined in `config.py`.
 We use here a tokenizer, a morphological analyzer, a POS tagger,
@@ -152,7 +161,7 @@ then it is ready to accept requests.
 <br/>
 (__We do not recommend using this method in production as it is built atop of Flask debug server! Please consider using the Docker image for REST API in production!__)
 
-To use the started server, clients should call it this way from Python:
+To use the server stared previously, clients should call it this way from Python:
 
 ```python
 >>> import requests
@@ -177,7 +186,7 @@ The format of the input file or stream
 must comply to the __emtsv__ standards (header, column names, etc.)
 and must contain every necessary data columns for the first module to run,
 as for the CLI version.
-Please consult the examples in `test_output` directory for guidance.
+Please consult the examples in `tests/test_output` directory for guidance.
 
 Running the first request can take more time (a few minutes)
 as the server loads some models then.
@@ -187,12 +196,15 @@ as the server loads some models then.
 1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
 2. `import emtsv`
 3. Now you have the following API under `emtsv`
+    - `ModuleError`: The exception throwed when something bad happened with the modules (eg. Module could not be found or the ordering of the modules is not feasible because the required and supplied fields)
+    - `HeaderError`: The exception throwed when the input could not satisfy the required fields in its header
     - `jnius_config`: Set JAVA VM options and CLASSPATH for the PyJNIus library for the modules (see `config.py` for example usage)
     - `tools`: The dictionary of tools where different names are used as keys and raw classes (to be initialised) are used as values
     - `presets`: The dictionary of shorthands for tasks which are defined as list of tools to be run in a pipeline
-    - `init_everything(available_tools, init_singleton=None) -> inited_tools`: Init the (arbitrarily chosen subset of) available tools defined `config.py` and stored in `tools` variable returns the dictionary of inited tools
+    - `init_everything(available_tools, singleton_store=None) -> inited_tools`: Init the (arbitrarily chosen subset of) available tools defined `config.py` and stored in `tools` variable returns the dictionary of inited tools
     - `build_pipeline(inp_stream, used_tools, available_tools, presets, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input stream, the list of the elements of the desired pipeline chosen from the available initialised tools and presets returning an output iterator.
-    - `pipeline_rest_api(name, available_tools, presets, conll_comments) -> app`: Creates a Flask application with the REST API on the available initialised tools and presets with the desired name. Run Flask's built-in server with with `app.run()` (__It is not recommended for production!__)
+    - `pipeline_rest_api(name, available_tools, presets, conll_comments, singleton_store=None) -> app`: Creates a Flask application with the REST API on the available initialised tools and presets with the desired name. Run Flask's built-in server with with `app.run()` (__It is not recommended for production!__)
+    - `singleton_store_factory() -> singleton`: Singletons can used for lazy initialisation of modules (eg. when the application is restarted frequently and not all modules are used between restarts)
     - `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
     - `parser_skeleton(...) -> argparse.ArgumentParser(...)`: A CLI argument parser skeleton can be further customized when needed 
     - `add_bool_arg(parser, name, help_text, default=False)`: A helper function to easily add BOOL arguments to the ArgumentParser class
@@ -202,7 +214,7 @@ Example:
 ```Python
 import sys
 
-from emtsv import init_everything, build_pipeline, jnius_config, tools, presets, process, pipeline_rest_api
+from emtsv import init_everything, build_pipeline, jnius_config, tools, presets, process, pipeline_rest_api, singleton_store_factory
 
 jnius_config.classpath_show_warning = False  # To suppress warning
 
@@ -237,6 +249,10 @@ output_iterator.writelines(process(input_iterator, inited_tools['morph']))
 # Alternative2: Run REST API debug server
 app = pipeline_rest_api('TEST', inited_tools, presets,  False)
 app.run()
+
+# Alternative3: Run REST API with lazy init
+app = pipeline_rest_api('TEST', tools, presets,  False, singleton_store=singleton_store_factory())
+app.run()
 ```
 
 ## Toolchain
@@ -245,6 +261,7 @@ The current toolchain is consists of the following modules can be called by thei
 
 - `emToken` (`tok`): Tokenizer
 - `emMorph` (`morph`): Morphological analyser together with emLem lemmatiser
+- `hunspell` (`spell`): Spellchecker, stemmer and morphological analyser
 - `emTag` (`pos`): POS-tagger
 - `emChunk` (`chunk`): Maximal NP-chunker
 - `emNER` (`ner`): Named-entity recogniser
@@ -274,7 +291,7 @@ See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overvi
 The following requirements apply for a new module:
 
 1) It must provide (at least) the mandatory API (see [emDummy](https://github.com/dlt-rilmta/emdummy) for a well-documented example)
-2) It must conform to the field-name conventions of emtsv and the format conventions of xtsv
+2) It must conform to the field-name conventions of emtsv and the format conventions of [xtsv](https://github.com/dlt-rilmta/xtsv)
 3) It must have an LGPL 3.0 compatible lisence
 
 The following steps are needed to insert the new module into the pipeline:
@@ -284,9 +301,11 @@ The following steps are needed to insert the new module into the pipeline:
 
     ```python
     # a) Add to path if needed
+    import sys
+    import os
     sys.path.append(os.path.join(os.path.dirname(__file__), 'emdummy'))
     # b) Import the class
-    from emdummy.dummy import DummyTagger
+    from emdummy.dummytagger import DummyTagger
 
     # c) Setup the triplet: class, args (tuple), kwargs (dict)
     em_dummy = (DummyTagger, ('Params', 'goes', 'here'),
@@ -552,3 +571,4 @@ Things below may break without further notice!
 for __SOMEDAY__:
 
  - `emCons` (works but rather slow)
+ - `CoNLL-U importer`

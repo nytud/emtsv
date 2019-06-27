@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
-from __init__ import init_everything, build_pipeline, pipeline_rest_api, jnius_config, parser_skeleton, add_bool_arg,\
-    tools, presets
+from __init__ import init_everything, build_pipeline, pipeline_rest_api, jnius_config, parser_skeleton, tools, presets
 
 if __name__ == '__main__':
 
