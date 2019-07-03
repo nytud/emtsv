@@ -3,7 +3,7 @@
 
 import os
 import sys
-from collections import defaultdict
+
 
 from __init__ import jnius_config
 
@@ -92,6 +92,48 @@ em_cons = (EmConsPy, (), {'source_fields': {'form', 'lemma', 'xpostag'},
                           'model_file': os.path.join(os.path.dirname(os.path.abspath(
                               sys.modules[EmConsPy.__module__].__file__)), 'szk.const.model')})
 
+# emUDPipe tok-parse ###################################################################################################
+
+from emudpipe.emudpipe import UDPipe
+
+emudpipe_tok_parse = (UDPipe, (), {'task': 'tok-parse', 'source_fields': set(),
+                                   'target_fields': ['form', 'lemma', 'upostag', 'feats', 'head', 'deprel', 'deps']})
+
+# emUDPipe tok-pos #####################################################################################################
+
+from emudpipe.emudpipe import UDPipe
+
+emudpipe_tok_pos = (UDPipe, (), {'task': 'tok-pos', 'source_fields': set(),
+                                 'target_fields': ['form', 'lemma', 'upostag', 'feats']})
+
+# emUDPipe tok #########################################################################################################
+
+from emudpipe.emudpipe import UDPipe
+
+emudpipe_tok = (UDPipe, (), {'task': 'tok', 'source_fields': set(),
+                             'target_fields': ['form']})
+
+# emUDPipe pos-parse ###################################################################################################
+
+from emudpipe.emudpipe import UDPipe
+
+emudpipe_pos_parse = (UDPipe, (), {'task': 'pos-parse', 'source_fields': {'form'},
+                                   'target_fields': ['lemma', 'upostag', 'feats', 'head', 'deprel', 'deps']})
+
+# emUDPipe pos #########################################################################################################
+
+from emudpipe.emudpipe import UDPipe
+
+emudpipe_pos = (UDPipe, (), {'task': 'pos', 'source_fields': {'form'},
+                                     'target_fields': ['lemma', 'upostag', 'feats']})
+
+# emUDPipe parse #######################################################################################################
+
+from emudpipe.emudpipe import UDPipe
+
+emudpipe_parse = (UDPipe, (), {'task': 'parse', 'source_fields': {'form', 'lemma', 'upostag', 'feats'},
+                               'target_fields': ['head', 'deprel', 'deps']})
+
 # emCoNLL ##############################################################################################################
 
 from emconll.converter import EmCoNLL
@@ -112,6 +154,12 @@ tools = {'tok': em_token, 'emToken': em_token,
          'cons': em_cons, 'emCons': em_cons,
          'conll': em_conll, 'emCoNLL': em_conll,
          'dummy-tagger': em_dummy, 'emDummy': em_dummy,
+         'udpipe-tok-parse': emudpipe_tok_parse,
+         'udpipe-tok-pos': emudpipe_tok_pos,
+         'udpipe-tok': emudpipe_tok,
+         'udpipe-pos-parse': emudpipe_pos_parse,
+         'udpipe-pos': emudpipe_pos,
+         'udpipe-parse': emudpipe_parse,
          }
 
 # cat input.txt | ./emtsv.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emtsv.py tok-dep

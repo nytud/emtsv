@@ -94,6 +94,8 @@ Then install requirements for submodules:
 
 `pip3 install -r HunTag3/requirements.txt`
 
+`pip3 install -r emudpipe/requirements.txt`
+
 Then download `emToken` binary:
 
 `make -C emtokenpy/ all`
@@ -270,6 +272,9 @@ The current toolchain is consists of the following modules can be called by thei
 - `emCons` (`cons`): Constituent parser
 - `emCoNLL` (`conll`): Converter from emtsv to CoNLL-U format
 - `emDummy` (`dummy-tagger`): Example module
+- `udpipe-tok`: The UDPipe tokeniser
+- `udpipe-pos`: The UDPipe POS-tagger
+- `udpipe-parse`: The UDPipe depenceny parser
 
 The following presets are defined as shorthand for the common tasks:
 
@@ -281,7 +286,9 @@ The following presets are defined as shorthand for the common tasks:
 - `tok-udpos`: From tokenisation to POS-tagging in UD format, same as `emToken,emMorph,emTag,emmorph2ud`
 - `tok-dep`: From tokenisation to dependency parsing, same as `emToken,emMorph,emTag,emmorph2ud,emDep-ud`
 - `tok-cons`: From tokenisation to constituent parsing, same as `emToken,emMorph,emTag,emCons`
-
+- `udpipe-pos-parse`: From POS-tagging to dependency parsing in 'one step' with UDPipe, roughly (!) same as `udpipe-pos,udpipe-parse`
+- `udpipe-tok-parse`: From tokenisation to dependency parsing in 'one step' with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos,udpipe-parse`
+- `udpipe-tok-pos`: From tokenisation to POS-tagging in 'one step' with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos`
 
 See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview.
 
