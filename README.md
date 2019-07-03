@@ -209,7 +209,7 @@ as the server loads some models then.
     - `singleton_store_factory() -> singleton`: Singletons can used for lazy initialisation of modules (eg. when the application is restarted frequently and not all modules are used between restarts)
     - `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
     - `parser_skeleton(...) -> argparse.ArgumentParser(...)`: A CLI argument parser skeleton can be further customized when needed 
-    - `add_bool_arg(parser, name, help_text, default=False)`: A helper function to easily add BOOL arguments to the ArgumentParser class
+    - `add_bool_arg(parser, name, help_text, default=False, has_negative_variant=True)`: A helper function to easily add BOOL arguments to the ArgumentParser class
 
 Example:
 
