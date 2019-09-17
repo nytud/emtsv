@@ -522,15 +522,15 @@ or
 Traceback (most recent call last):
   File main.py, line 21, in <module>
     sys.stdout.writelines(build_pipeline(sys.stdin, used_tools, inited_tools, conll_comments))
-  File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 37, in process
+  File "/app/xtsv/tsvhandler.py", line 37, in process
     for sen_count, (sen, comment) in enumerate(sentence_iterator(stream, conll_comments)):
-  File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 57, in sentence_iterator
+  File "/app/xtsv/tsvhandler.py", line 57, in sentence_iterator
     for line in input_stream:
-  File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 42, in process
+  File "/app/xtsv/tsvhandler.py", line 42, in process
     yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
-  File "/home/kagi/worktemp/emtsv/purepospy/purepospy.py", line 230, in process_sentence
+  File "/app/purepospy/purepospy.py", line 230, in process_sentence
     for tok, (_, lemma, hfstana) in zip(sen, self.tag_sentence(sent)):
-  File "/home/kagi/worktemp/emtsv/purepospy/purepospy.py", line 210, in tag_sentence
+  File "/app/purepospy/purepospy.py", line 210, in tag_sentence
     ret = self._tagger.tagSentenceEx(new_sent)
   File "jnius/jnius_export_class.pxi", line 1044, in jnius.JavaMultipleMethod.__call__
   File "jnius/jnius_export_class.pxi", line 766, in jnius.JavaMethod.__call__
