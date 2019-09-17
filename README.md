@@ -20,12 +20,10 @@ __e-magyar__ text processing system -- new version
  * convenient REST API
  * implemented in Python
 
- __19 Feb 2019 MILESTONE#3 (production)__ =
-tokenization, morphological analysis, POS tagging,
-dependency parsing, chunking and named entity recognition
-(emToken + emMorph + emLem + emTag + emDep + emChunk + emNer)
-tested and work.
-Also on a 100.000 word chunk of text.
+ __17 Sep 2019 MILESTONE#4 (production)__ =
+xtsv and dummyTagger separated, UDPipe, Hunspell added,
+many API breaks compared to the previous milestone,
+Runnable Docker image, dropped DepToolPy, and many more changes.
 
 If a bug is found please leave feedback with the exact details.
 
