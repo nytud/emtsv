@@ -162,7 +162,7 @@ tools = {'tok': em_token, 'emToken': em_token,
          'udpipe-parse': emudpipe_parse,
          }
 
-# cat input.txt | ./emtsv.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./emtsv.py tok-dep
+# cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep
 presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons'],  # Full pipeline
            'tok-morph': ['tok', 'morph'],
            'tok-pos': ['tok', 'morph', 'pos'],

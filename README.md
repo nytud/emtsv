@@ -121,12 +121,12 @@ emtsv can be used with docker through the command-line (runnable docker) and RES
 ### Command-line interface
 
 ```bash
-echo "A kutya elment sétálni." | python3 ./emtsv.py tok,spell,morph,pos,conv-morph,dep,chunk,ner
+echo "A kutya elment sétálni." | python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner
 ```
 
 That's it. :)
 
-The above simply calls `emtsv.py` with the parameter
+The above simply calls `main.py` with the parameter
 `tok,spell,morph,pos,conv-morph,dep,chunk,ner`
 takes the input on STDIN and gives out in STDOUT.
 Using the [`xtsv` tsv-handling framework](https://github.com/dlt-rilmta/xtsv)
@@ -140,8 +140,8 @@ and a named entity recognizer.
  works with different morphological coding systems.) 
 Modules can be run together or one-by-one,
 so the following two approaches give the same result:
-`python3 emtsv.py tok,morph` and
-`python3 emtsv.py tok | python3 emtsv.py morph`.
+`python3 main.py tok,morph` and
+`python3 main.py tok | python3 main.py morph`.
 This is possible thank to the standardized inter-module communication
 via tsv (with appropriate headers).
 To extend the toolchain is straightforward:
@@ -149,11 +149,11 @@ add new modules to `config.py` and that's all.
 
 ### REST API
 
-To start the server, use `emtsv.py` without any parameters
+To start the server, use `main.py` without any parameters
 (it takes a few minutes):
 
 ```bash
-python3 ./emtsv.py
+python3 ./main.py
 ```
 
 When the server outputs a message like `* Running on`
@@ -480,7 +480,7 @@ Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath in c
 
 ```Python
 Traceback (most recent call last):
-  File "/app/emtsv.py", line 60, in <module>
+  File main.py, line 60, in <module>
     inited_tools = init_everything(tools)
   File "/app/xtsv/pipeline.py", line 32, in init_everything
     current_initialised_tools[prog_name] = prog(*prog_args, **prog_kwargs)  # Inint programs...
@@ -497,7 +497,7 @@ Please check the input and report any bugs, when it occurs on normal data with g
 
 ```Python
 Traceback (most recent call last):
-  File "/app/emtsv.py", line 21, in <module>
+  File main.py, line 21, in <module>
     sys.stdout.writelines(build_pipeline(sys.stdin, used_tools, inited_tools, conll_comments))
   File "/app/xtsv/tsvhandler.py", line 37, in process
     for sen_count, (sen, comment) in enumerate(sentence_iterator(stream, conll_comments)):
@@ -520,7 +520,7 @@ or
 
 ```Python
 Traceback (most recent call last):
-  File "/home/kagi/worktemp/emtsv/emtsv.py", line 21, in <module>
+  File main.py, line 21, in <module>
     sys.stdout.writelines(build_pipeline(sys.stdin, used_tools, inited_tools, conll_comments))
   File "/home/kagi/worktemp/emtsv/xtsv/tsvhandler.py", line 37, in process
     for sen_count, (sen, comment) in enumerate(sentence_iterator(stream, conll_comments)):
