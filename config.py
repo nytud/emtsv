@@ -149,24 +149,25 @@ em_conll = (EmCoNLL, 'CoNLL-U converter', (), {'source_fields': {'form'}, 'targe
 ########################################################################################################################
 
 # Map module personalities to firendly names...
-tools = {'tok': em_token, 'emToken': em_token,
-         'morph': em_morph, 'emMorph': em_morph,
-         'spell': hunspellpy, 'hunspell': hunspellpy,
-         'pos': em_tag, 'emTag': em_tag,
-         'chunk': em_chunk, 'emChunk': em_chunk,
-         'ner': em_ner, 'emNER': em_ner,
-         'conv-morph': em_morph2ud, 'emmorph2ud': em_morph2ud,
-         'dep': em_depud, 'emDep-ud': em_depud,
-         'cons': em_cons, 'emCons': em_cons,
-         'conll': em_conll, 'emCoNLL': em_conll,
-         'dummy-tagger': em_dummy, 'emDummy': em_dummy,
-         'udpipe-tok-parse': emudpipe_tok_parse,
-         'udpipe-tok-pos': emudpipe_tok_pos,
-         'udpipe-tok': emudpipe_tok,
-         'udpipe-pos-parse': emudpipe_pos_parse,
-         'udpipe-pos': emudpipe_pos,
-         'udpipe-parse': emudpipe_parse,
-         }
+# The first name is the default. The order is the display order of the modules
+tools = [(em_token, ('tok', 'emToken')),
+         (em_morph, ('morph', 'emMorph')),
+         (hunspellpy, ('spell', 'hunspell')),
+         (em_tag, ('pos', 'emTag')),
+         (em_chunk, ('chunk', 'emChunk')),
+         (em_ner, ('ner', 'emNER')),
+         (em_morph2ud, ('conv-morph', 'emmorph2ud')),
+         (em_depud, ('dep', 'emDep-ud')),
+         (em_cons, ('cons', 'emCons')),
+         (em_conll, ('conll', 'emCoNLL')),
+         (em_dummy, ('dummy-tagger', 'emDummy')),
+         (emudpipe_tok_parse, ('udpipe-tok-parse',)),
+         (emudpipe_tok_pos, ('udpipe-tok-pos',)),
+         (emudpipe_tok, ('udpipe-tok',)),
+         (emudpipe_pos_parse, ('udpipe-pos-parse',)),
+         (emudpipe_pos, ('udpipe-pos',)),
+         (emudpipe_parse, ('udpipe-parse',)),
+         ]
 
 # cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep
 presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons'],  # Full pipeline
