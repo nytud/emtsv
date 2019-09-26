@@ -170,13 +170,14 @@ tools = [(em_token, ('tok', 'emToken')),
          ]
 
 # cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep
-presets = {'analyze': ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons'],  # Full pipeline
-           'tok-morph': ['tok', 'morph'],
-           'tok-pos': ['tok', 'morph', 'pos'],
-           'tok-chunk': ['tok', 'morph', 'pos', 'chunk'],
-           'tok-ner': ['tok', 'morph', 'pos', 'ner'],
-           'tok-udpos': ['tok', 'morph', 'pos', 'conv-morph'],
-           'tok-dep': ['tok', 'morph', 'pos', 'conv-morph', 'dep'],
-           'tok-dep-conll': ['tok', 'morph', 'pos', 'conv-morph', 'dep', 'conll'],
-           'tok-cons': ['tok', 'morph', 'pos', 'cons'],
+presets = {'analyze': ('Full pipeline', ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons']),
+           'tok-morph': ('Raw text to morphologycal analysis', ['tok', 'morph']),
+           'tok-pos': ('Raw text to maximal NPs chunking', ['tok', 'morph', 'pos']),
+           'tok-chunk': ('Raw text to maximal NPs chunking', ['tok', 'morph', 'pos', 'chunk']),
+           'tok-ner': ('Raw text to named-entity annotation', ['tok', 'morph', 'pos', 'ner']),
+           'tok-udpos': ('Raw text to POS-tagging including UDv1 form', ['tok', 'morph', 'pos', 'conv-morph']),
+           'tok-dep': ('Raw text to dependency parsing', ['tok', 'morph', 'pos', 'conv-morph', 'dep']),
+           'tok-dep-conll': ('Raw text to dependency parsing in CoNLL-U format',
+                             ['tok', 'morph', 'pos', 'conv-morph', 'dep', 'conll']),
+           'tok-cons': ('Raw text to constituent parsing', ['tok', 'morph', 'pos', 'cons']),
            }

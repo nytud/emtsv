@@ -22,7 +22,8 @@ if __name__ == '__main__':
     elif opts.input_stream == sys.stdin or opts.output_stream == sys.stdout:
         singleton_store = singleton_store_factory()
         app = pipeline_rest_api(name='e-magyar-tsv', available_tools=tools, presets=presets,
-                                conll_comments=conll_comments, singleton_store=singleton_store)
+                                conll_comments=conll_comments, singleton_store=singleton_store,
+                                form_title='e-magyar text processing system')
         app.run(debug=True)
     else:
         argparser.error('In REST mode, input and output are supressed, '
