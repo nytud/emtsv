@@ -98,30 +98,29 @@ em_cons = (EmConsPy, 'emCons', (), {'source_fields': {'form', 'lemma', 'xpostag'
 
 from emudpipe.emudpipe import UDPipe
 
-emudpipe_tok_parse = (UDPipe, 'UDPipe tokenizer', (), {'task': 'tok-parse', 'source_fields': set(),
-                                                       'target_fields': ['form', 'lemma', 'upostag',
-                                                                         'feats', 'head', 'deprel', 'deps']})
+emudpipe_tok_parse = (UDPipe, 'UDPipe tokenizer, POS tagger and dependency parser as a whole',
+                      (), {'task': 'tok-parse', 'source_fields': set(), 'target_fields': ['form', 'lemma', 'upostag',
+                           'feats', 'head', 'deprel', 'deps']})
 
 # emUDPipe tok-pos #####################################################################################################
 
 from emudpipe.emudpipe import UDPipe
 
-emudpipe_tok_pos = (UDPipe, 'UDPipe tokenizer & POS tagger', (), {'task': 'tok-pos', 'source_fields': set(),
-                                                                  'target_fields': ['form', 'lemma', 'upostag',
-                                                                                    'feats']})
+emudpipe_tok_pos = (UDPipe, 'UDPipe tokenizer and POS tagger as a whole',
+                    (), {'task': 'tok-pos', 'source_fields': set(),
+                         'target_fields': ['form', 'lemma', 'upostag', 'feats']})
 
 # emUDPipe tok #########################################################################################################
 
 from emudpipe.emudpipe import UDPipe
 
-emudpipe_tok = (UDPipe, 'UDPipe tokenizer', (), {'task': 'tok', 'source_fields': set(),
-                                                 'target_fields': ['form']})
+emudpipe_tok = (UDPipe, 'UDPipe tokenizer', (), {'task': 'tok', 'source_fields': set(), 'target_fields': ['form']})
 
 # emUDPipe pos-parse ###################################################################################################
 
 from emudpipe.emudpipe import UDPipe
 
-emudpipe_pos_parse = (UDPipe, 'UDPipe POS tagger & dependeny parser',
+emudpipe_pos_parse = (UDPipe, 'UDPipe POS tagger and dependency parser as a whole',
                       (), {'task': 'pos-parse', 'source_fields': {'form'},
                            'target_fields': ['lemma', 'upostag', 'feats', 'head', 'deprel', 'deps']})
 
@@ -160,19 +159,19 @@ tools = [(em_token, ('tok', 'emToken')),
          (em_depud, ('dep', 'emDep-ud')),
          (em_cons, ('cons', 'emCons')),
          (em_conll, ('conll', 'emCoNLL')),
-         (em_dummy, ('dummy-tagger', 'emDummy')),
-         (emudpipe_tok_parse, ('udpipe-tok-parse',)),
-         (emudpipe_tok_pos, ('udpipe-tok-pos',)),
          (emudpipe_tok, ('udpipe-tok',)),
-         (emudpipe_pos_parse, ('udpipe-pos-parse',)),
          (emudpipe_pos, ('udpipe-pos',)),
          (emudpipe_parse, ('udpipe-parse',)),
+         (emudpipe_tok_pos, ('udpipe-tok-pos',)),
+         (emudpipe_pos_parse, ('udpipe-pos-parse',)),
+         (emudpipe_tok_parse, ('udpipe-tok-parse',)),
+         (em_dummy, ('dummy-tagger', 'emDummy')),
          ]
 
 # cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep
 presets = {'analyze': ('Full pipeline', ['tok', 'morph', 'pos', 'chunk', 'conv-morph', 'dep', 'cons']),
            'tok-morph': ('Raw text to morphologycal analysis', ['tok', 'morph']),
-           'tok-pos': ('Raw text to maximal NPs chunking', ['tok', 'morph', 'pos']),
+           'tok-pos': ('Raw text to POS-tagging in emMorph formalism', ['tok', 'morph', 'pos']),
            'tok-chunk': ('Raw text to maximal NPs chunking', ['tok', 'morph', 'pos', 'chunk']),
            'tok-ner': ('Raw text to named-entity annotation', ['tok', 'morph', 'pos', 'ner']),
            'tok-udpos': ('Raw text to POS-tagging including UDv1 form', ['tok', 'morph', 'pos', 'conv-morph']),
