@@ -8,4 +8,5 @@ conll_comments = False  # User can enable conll comments for compatibility or di
 singleton_store = singleton_store_factory()
 application = pipeline_rest_api(name='e-magyar-tsv', available_tools=tools, presets=presets,
                                 conll_comments=conll_comments, singleton_store=singleton_store,
-                                form_title='e-magyar text processing system')
+                                form_title='e-magyar text processing system',
+                                doc_link='https://github.com/dlt-rilmta/emtsv')
