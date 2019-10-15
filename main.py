@@ -6,14 +6,6 @@ import sys
 from __init__ import build_pipeline, pipeline_rest_api, jnius_config, parser_skeleton, tools, presets, \
     singleton_store_factory
 
-import npyscreen
-
-
-def download():
-    F = npyscreen.Form(name="Download models",)
-    ms2 = F.add(npyscreen.TitleMultiSelect, max_height=-2, value=[1, ], name="Pick Several",
-                values=["Option1", "Option2", "Option3"], scroll_exit=True)
-
 if __name__ == '__main__':
 
     argparser = parser_skeleton(description='emtsv -- e-magyar language processing system')
@@ -22,12 +14,15 @@ if __name__ == '__main__':
     jnius_config.classpath_show_warning = opts.verbose  # Suppress warning.
     conll_comments = opts.conllu_comments
     if len(opts.task) > 0:
-        input_iterator = opts.input_stream
+        if opts.input_text is not None:
+            input_data = opts.input_text
+        else:
+            input_data = opts.input_stream
         output_iterator = opts.output_stream
 
         used_tools = opts.task[0].split(',')
-        output_iterator.writelines(build_pipeline(input_iterator, used_tools, tools, presets, conll_comments))
-    elif opts.input_stream == sys.stdin or opts.output_stream == sys.stdout:
+        output_iterator.writelines(build_pipeline(input_data, used_tools, tools, presets, conll_comments))
+    elif (opts.input_stream == sys.stdin and opts.input_text is None) and opts.output_stream == sys.stdout:
         singleton_store = singleton_store_factory()
         app = pipeline_rest_api(name='e-magyar-tsv', available_tools=tools, presets=presets,
                                 conll_comments=conll_comments, singleton_store=singleton_store,
