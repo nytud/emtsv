@@ -9,3 +9,4 @@ sys.path.append(os.path.dirname(__file__))
 from xtsv import ModuleError, build_pipeline, pipeline_rest_api, singleton_store_factory, HeaderError, process, \
     jnius_config, parser_skeleton, add_bool_arg
 from config import tools, presets
+from download_models import download

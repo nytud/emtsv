@@ -1,0 +1,5 @@
+%YAML 1.2
+---
+- [emCons, emconspy/szk.const.model, 'https://github.com/dlt-rilmta/emconspy/raw/master/szk.const.model']
+- [emDep, emdeppy/emdeppy/szk.mate.ud.model, 'https://github.com/dlt-rilmta/emdeppy/raw/master/emdeppy/szk.mate.ud.model']
+- [PurePOS, purepospy/purepos/szeged.model, 'https://github.com/ppke-nlpg/purepospy/raw/master/purepos/szeged.model']
