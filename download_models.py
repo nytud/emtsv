@@ -1,9 +1,9 @@
 import os
 from urllib.request import urlretrieve
 
-import npyscreen  # npyscreen.disableColor()  # npyscreen
-from progressbar import ProgressBar  # progressbar2
-from yaml import load as yaml_load  # yaml
+import npyscreen  # npyscreen.disableColor()
+from progressbar import ProgressBar
+from yaml import load as yaml_load
 
 
 def _download_selected(elems):

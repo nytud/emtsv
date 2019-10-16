@@ -1,0 +1,3 @@
+npyscreen
+progressbar2
+pyyaml
