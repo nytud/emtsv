@@ -20,7 +20,7 @@ if __name__ == '__main__':
             input_data = opts.input_stream
         output_iterator = opts.output_stream
 
-        used_tools = opts.task[0].split(',')
+        used_tools = opts.task.split(',')
         output_iterator.writelines(build_pipeline(input_data, used_tools, tools, presets, conll_comments))
     elif (opts.input_stream == sys.stdin and opts.input_text is None) and opts.output_stream == sys.stdout:
         singleton_store = singleton_store_factory()

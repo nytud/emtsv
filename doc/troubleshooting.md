@@ -79,7 +79,7 @@ UnicodeDecodeError: 'ascii' codec can't decode byte 0xc5 in position 603: ordina
 ```
 
 - Errors like below is because the classpath in `jnius_config.get_classpath()` is not set properly.
-Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath in config.py.
+Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath in the main python file of the individual modules.
 
 ```Python
 Traceback (most recent call last):

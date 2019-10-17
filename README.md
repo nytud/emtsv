@@ -17,11 +17,11 @@ C) branch-be fejlesztünk és a MILESTONE-oknál merge-lünk.
     - processing can be started or stopped at any module
     - module dependency checks before processing
     - easy to add new modules
-    - multiple alternative modules for some task
+    - multiple alternative modules for some tasks
 - easy to use command-line interface
 - convenient REST API with simple web frontend
 - Python library API
-- Docker image, and runnable Docker form
+- Docker image, and runnable docker form
 
  __17 Sep 2019 MILESTONE#4 (production)__ =
 xtsv and dummyTagger separated, UDPipe, Hunspell added,
@@ -46,7 +46,7 @@ This system is a replacement for the original https://github.com/dlt-rilmta/hunl
 
 ## Requirements
 
-- GIT LFS (See notes)
+- GIT LFS (see notes)
 - Python 3.5 <=
 - HFST 3.13 <=
 - Hunspell (libhunspell-dev, hunspell-hu) 1.6.2 <=
@@ -56,24 +56,25 @@ This system is a replacement for the original https://github.com/dlt-rilmta/hunl
 ## Installation
 
 - From the git repository: see [detailed instructions](doc/installation.md) in the documentation
-- From __prebuilt Docker image__ ([https://hub.docker.com/r/mtaril/emtsv](https://hub.docker.com/r/mtaril/emtsv)):
+- From __prebuilt docker image__ ([https://hub.docker.com/r/mtaril/emtsv](https://hub.docker.com/r/mtaril/emtsv)):
     ```bash
     docker pull mtaril/emtsv:latest
     ```
-    - See [detailed instructions](doc/installation.md) for building the _Docker image_
+    - See [detailed instructions](doc/installation.md) for building the _docker image_
 
 ## Usage
 
-Here we present the usage scenarios. The individual modules are documented in details below. 
-To extend the toolchain with new modules just add new modules to `config.py`.
+Here we present the usage scenarios. [The individual modules are documented in details below.](#modules)
+<br/>
+To extend the toolchain with new modules [just add new modules to `config.py`](#creating-a-module).
 
 ### Command-line interface
 
-- Multiple modules at once:
+- Multiple modules at once (not necessarily starting with raw text):
     ```bash
     echo "A kutya elment sétálni." | python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner
     ```
-- Each modules _glued together_ with the standard *nix pipelines where user can interact with the data between the modules:
+- Each modules _glued together_ with the _standard *nix pipelines_ __where user can interact with the data__ between the modules:
      ```bash
      echo "A kutya elment sétálni." | \
         python3 main.py tok | \
@@ -85,13 +86,13 @@ To extend the toolchain with new modules just add new modules to `config.py`.
         python3 main.py chunk | \
         python3 main.py ner
      ```
-- `emtsv` can also used with inputs and outputs redirected or with string input (also applies to runnabble docker form):
+- Independently from the other options `emtsv` can also used with input or output streams redirected or with string input (also applies to the runnabble docker form):
     ```bash
     python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner -i input.txt -o output.txt
     python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner --text "A kutya elment sétálni."
     ```
 
-### __Docker image__
+### Docker image
 
 - Runnable docker form (CLI usage of docker image):
     ```bash
@@ -99,12 +100,14 @@ To extend the toolchain with new modules just add new modules to `config.py`.
     ```
 - As service through Rest API (docker container)
     ```bash
-    docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API
+    docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API listening on http://0.0.0.0:5000
     ```
 
 ### REST API
 
 Server:
+- Docker image ([see above](#docker-image))
+- Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
 - Debug server (Flask) __only for development (single threaded, one request a time)__:
     ```bash
     # Without parameters!
@@ -112,15 +115,16 @@ Server:
     ```
     When the server outputs a message like `* Running on` then it is ready to accept requests on http://127.0.0.1:5000 .
     (__We do not recommend using this method in production as it is built atop of Flask debug server! Please consider using the Docker image for REST API in production!__)
-- Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
-- Docker image (see above)
+
+
 
 Client:
-- Web fronted provided by `xtsv`
-- From Python (the URL contains the tools to be run separated by `/`):
+- Web fronted provided by `xtsv` (without any URL parameters)
+- From __any programing language (examples provided in Python) or tool(`curl`, `wget`, etc.)__:
     ```python
     >>> import requests
     >>> # With input file
+    >>> # The URL contains the tools to be run separated by `/` instead of ',' used in the CLI
     >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file': open('tests/test_input/input.test', encoding='UTF-8')})
     >>> print(r.text)
     ...
@@ -133,48 +137,48 @@ Client:
     >>> print(r.text)
     ...
     ```
-    The server checks whether the module order is feasible, and gives an error message if there are any problems.
+    The server checks whether the module order with the provided input data is feasible, and gives an error message if there are any problems.
 
 ### As Python Library
 
 1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
 2. `import emtsv`
-3. Example:
-    ```Python
+3. Now the full API is accessible (see the example above):
+    ```python
     import sys
     from emtsv import build_pipeline, jnius_config, tools, presets, process, pipeline_rest_api, singleton_store_factory
-    
+
     jnius_config.classpath_show_warning = False  # To suppress warning
-    
+
     # Imports end here. Must do only once per Python session
-    
+
     # Set input from any stream or iterable and output stream...
     input_data = sys.stdin
     output_iterator = sys.stdout
     # Raw, or processed TSV input list and output file...
-    # input_data = iter(['Raw text', 'line-by-line'])
-    # input_data = iter([['form', 'xpostag'], ['Header', 'NNP'], ['then', 'RB'], ['tokens', 'VBZ'], ['line-by-line', 'NN'], ['.', '.']])
-    # output_iterator = open('output.txt', 'w', encoding='UTF-8')
-    # Or use string
-    # input_data = 'Raw text as string.'
-    
+    # input_data = iter(['A kutya', 'elment sétálni.'])  # Raw text line by line
+    # Processed data: header and the token POS-tag pairs line by line
+    # input_data = iter([['form', 'xpostag'], ['A', '[/Det|Art.Def]'], ['kutya', '[/N][Nom]'], ['elment', '[/V][Pst.NDef.3Sg]'], ['sétálni', '[/V][Inf]'], ['.', '.']])
+    # output_iterator = open('output.txt', 'w', encoding='UTF-8')  # File
+    # input_data = 'A kutya elment sétálni.'  # Or raw string in any acceptable format.
+
     # Select a predefined task to do or provide your own list of pipeline elements
     used_tools = ['tok', 'morph', 'pos']
-   
+
     conll_comments = True  # Enable the usage of CoNLL comments
-   
+
     # Run the pipeline on input and write result to the output...
     output_iterator.writelines(build_pipeline(input_data, used_tools, tools, presets, conll_comments))
-    
+
     # Alternative: Run specific tool for input streams (still in emtsv format).
     # Useful for training a module (see Huntag3 for details):
-    # output_iterator.writelines(process(input_data, inited_tool))
-    
+    output_iterator.writelines(process(sys.stdin, an_inited_tool))
+
     # Or process individual tokens further... WARNING: The header will be the first item in the iterator!
-    # for tok in build_pipeline(input_data, used_tools, tools, presets, conll_comments):
-    #     if len(tok) > 1:  # Empty line (='\n') means end of sentence
-    #         form, xpostag, *rest = tok.strip().split('\t')  # Split to the expected columns
-    
+    for tok in build_pipeline(input_data, used_tools, tools, presets, conll_comments):
+        if len(tok) > 1:  # Empty line (='\n') means end of sentence
+            form, xpostag, *rest = tok.strip().split('\t')  # Split to the expected columns
+
     # Alternative2: Flask application (REST API)
     singleton_store = singleton_store_factory()
     app = application = pipeline_rest_api(name='e-magyar-tsv', available_tools=tools, presets=presets,
@@ -185,53 +189,17 @@ Client:
     app.run()
     ```
 
-__API documentation for `emtsv`__:
-- `ModuleError`: The exception throwed when something bad happened with the modules (eg. Module could not be found or the ordering of the modules is not feasible because the required and supplied fields)
-- `HeaderError`: The exception throwed when the input could not satisfy the required fields in its header
-- `jnius_config`: Set JAVA VM options and CLASSPATH for the PyJNIus library
-- `tools`: The dictionary of tools (see [configuration](#configuration) for details)
-- `presets`: The dictionary of shorthands for tasks which are defined as list of tools to be run in a pipeline (see [configuration](#configuration) for details)
-- `build_pipeline(inp_data, used_tools, available_tools, presets, conll_comments=False) -> iterator_on_output_lines`: Build the current pipeline from the input data (stream, iterable or string), the list of the elements of the desired pipeline chosen from the available tools and presets returning an output iterator.
-- `pipeline_rest_api(name, available_tools, presets, conll_comments, singleton_store=None, form_title, doc_link) -> app`: Creates a Flask application with the REST API and web frontend on the available initialised tools and presets with the desired name. Run with a wsgi server or Flask's built-in server with with `app.run()` (see [REST API section](#REST API))
-- `singleton_store_factory() -> singleton`: Singletons can used for initialisation of modules (eg. when the application is restarted frequently and not all modules are used between restarts)
-- `process(stream, internal_app, conll_comments=False) -> iterator_on_output_lines`: A low-level API to run a specific member of the pipeline on a specific input, returning an output iterator
-- `parser_skeleton(...) -> argparse.ArgumentParser(...)`: A CLI argument parser skeleton can be further customized when needed 
-- `add_bool_arg(parser, name, help_text, default=False, has_negative_variant=True)`: A helper function to easily add BOOL arguments to the ArgumentParser class
-- `download(available_models=None, required_models=None)`: Download (a subset of) all large model files specified in models.yaml (filename can be changed in the first parameter)
+The public API is equivalent with the [`xtsv` API](https://github.com/dlt-rilmta/xtsv#api-documentation)
 
 ## Data format
 
-The input and output can be one of the following:
-- Free form text file
-- TSV file with fixed column order and without header (like CoNLL-U)
-- TSV file with arbitrary column order where the columns are identified by the TSV header (main format of `xtsv`)
+Please see the specification in details in the [`xtsv` documentation](https://github.com/dlt-rilmta/xtsv#data-format)
 
-The TSV files are formated as follows (closely resembling the CoNLL-U, vertical format):
-- The first line is the header (when the column order is not fixed and known by the next module)
-- Sentences are separated by emtpy lines
-- If allowed by configuration, zero or more comment lines (eg. lines starts with hashtag and space) immediately preceedes sentences
-- One token per line (one column), the other columns contain the information on that individual token
-- Columns are separated by TAB characters
-
-The fields are identified by the header in the first line of the input. Each module can (but not necessarily) define:
-- A set of source fields which is required to present in the input
-- A list of target fields which are to be generated to the output in order
-
-Newly generated fields are started from the right of the rightmost column, the existing columns should not be modified.
-
-The following types of modules can be defined by their input and output format requirements:
-    
-- __Tokeniser__: No source fields, no header, has target fields, free-format text as input, TSV+header output
-- __Internal module__: Has source fields, has header, has target fields, TSV+header input, TSV+header output
-- __Finalizer__: Has source fields, no header, no target fields, TSV+header input, free-format text as output
-- __Fixed-order TSV importer__: No source fields, no header, has target fields, Fixed-order TSV w/o header as input, TSV+header output
-- __Fixed-order TSV processor__: No source fields, no header, no target fields, Fixed-order TSV w/o header as input, Fixed-order TSV w/o header as output
-
-Please consult the examples in `tests/test_input` and `tests/test_output` directory for further guidance.
+For examples see files in `tests/test_input` and `tests/test_output` directory.
 
 ## Modules
 
-Modules are defined in `config.py`. The current toolchain is consists of the following modules (See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview) can be called by their name (or using their shorthand names in brackets):
+Modules are defined in `config.py`. The current toolchain consists of the following modules (See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview) which can be called by their name (or using their shorthand names in brackets):
 
 - `emToken` (`tok`): Tokenizer
 - `emMorph` (`morph`): Morphological analyser together with emLem lemmatiser
@@ -239,7 +207,7 @@ Modules are defined in `config.py`. The current toolchain is consists of the fol
 - `emTag` (`pos`): POS-tagger
 - `emChunk` (`chunk`): Maximal NP-chunker
 - `emNER` (`ner`): Named-entity recogniser
-- `emmorph2ud` (`conv-morph`): Converter from emMorph code to UD upos and feats format
+- `emmorph2ud` (`conv-morph`): Converter from emMorph code to UD _upos_ and _feats_ format
 - `emDep` (`dep`): Dependency parser
 - `emCons` (`cons`): Constituent parser
 - `emCoNLL` (`conll`): Converter from emtsv to CoNLL-U format
@@ -247,9 +215,9 @@ Modules are defined in `config.py`. The current toolchain is consists of the fol
 - `udpipe-tok`: The UDPipe tokeniser
 - `udpipe-pos`: The UDPipe POS-tagger
 - `udpipe-parse`: The UDPipe depenceny parser
-- `udpipe-pos-parse`: From POS-tagging to dependency parsing in 'one step' with UDPipe, roughly (!) same as `udpipe-pos,udpipe-parse`
-- `udpipe-tok-parse`: From tokenisation to dependency parsing in 'one step' with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos,udpipe-parse`
-- `udpipe-tok-pos`: From tokenisation to POS-tagging in 'one step' with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos`
+- `udpipe-pos-parse`: From POS-tagging to dependency parsing in __'one step'__ with UDPipe, roughly (!) same as `udpipe-pos,udpipe-parse`
+- `udpipe-tok-parse`: From tokenisation to dependency parsing in __'one step'__ with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos,udpipe-parse`
+- `udpipe-tok-pos`: From tokenisation to POS-tagging in __'one step'__ with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos`
 
 The following presets are defined as shorthand for the common tasks:
 
@@ -263,38 +231,15 @@ The following presets are defined as shorthand for the common tasks:
 - `tok-cons`: From tokenisation to constituent parsing, same as `emToken,emMorph,emTag,emCons`
 
 ### Example
-The examples presented above simply call `main.py` with the parameter `tok,spell,morph,pos,conv-morph,dep,chunk,ner` takes the input on STDIN and gives out in STDOUT.
+
+[The examples presented above](#command-line-interface) simply call `main.py` with the parameter `tok,spell,morph,pos,conv-morph,dep,chunk,ner` takes the input on STDIN and gives out in STDOUT.
 We use here a tokenizer, a morphological analyzer, a POS tagger, a morphology converter, a dependency parser, a chunker and a named entity recognizer.
 (The converter is needed as the POS tagger and the dependency parser works with different morphological coding systems.)
 
 ### Creating a module
 
-The following requirements apply for a new module:
-
-1) It must provide (at least) the mandatory API (see [emDummy](https://github.com/dlt-rilmta/emdummy) for a well-documented example)
-2) It must conform to the field-name conventions of emtsv and the format conventions of [xtsv](https://github.com/dlt-rilmta/xtsv)
-3) It must have an LGPL 3.0 compatible lisence
-
-The following steps are needed to insert the new module into the pipeline:
-
-1) Add the new module as submodule to the repository
-2) Insert the configuration in `config.py`:
-
-    ```python
-    # c) # Setup the tuple: module name (ending with the filename the class defined in),
-    #       class, friendly name, args (tuple), kwargs (dict)
-    em_dummy = ('emdummy.dummytagger', 'DummyTagger', 'EXAMPLE (The friendly name of DummyTagger used in REST API form)',
-            ('Params', 'goes', 'here'),
-            {'source_fields': {'Source field names'}, 'target_fields': ['Target field names']})
-    ```
-
-3) Add the new module to `tools` list in `config.py`, optionally also to `presets` dictionary
-    ```python
-       tools = [...,
-                (em_dummy, ('dummy-tagger', 'emDummy')),
-                ]
-    ```
-4) Test, commit and push
+- The same method applies as for [creating a modules in `xtsv`](https://github.com/dlt-rilmta/xtsv#creating-a-module-that-can-be-used-with-xtsv)
+- But all new modules must also respect [the field-name conventions of `emtsv`](doc/emtsv_modules.pdf)
 
 <!--
 ## Work in progress
