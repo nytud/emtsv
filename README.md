@@ -21,7 +21,7 @@ C) branch-be fejlesztünk és a MILESTONE-oknál merge-lünk.
 - easy to use command-line interface
 - convenient REST API with simple web frontend
 - Python library API
-- Docker image, and runnable docker form
+- Docker image and runnable docker form
 
  __17 Sep 2019 MILESTONE#4 (production)__ =
 xtsv and dummyTagger separated, UDPipe, Hunspell added,
@@ -64,7 +64,7 @@ This system is a replacement for the original https://github.com/dlt-rilmta/hunl
 
 ## Usage
 
-Here we present the usage scenarios. [The individual modules are documented in details below.](#modules)
+Here we present the usage scenarios. [The individual modules are documented in detail below.](#modules)
 <br/>
 To extend the toolchain with new modules [just add new modules to `config.py`](#creating-a-module).
 
@@ -74,7 +74,7 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
     ```bash
     echo "A kutya elment sétálni." | python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner
     ```
-- Each modules _glued together_ with the _standard *nix pipelines_ __where user can interact with the data__ between the modules:
+- Modules _glued together_ one by one with the _standard *nix pipelines_ __where users can interact with the data__ between the modules:
      ```bash
      echo "A kutya elment sétálni." | \
         python3 main.py tok | \
@@ -86,7 +86,7 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
         python3 main.py chunk | \
         python3 main.py ner
      ```
-- Independently from the other options `emtsv` can also used with input or output streams redirected or with string input (also applies to the runnabble docker form):
+- Independently from the other options, `emtsv` can also be used with input or output streams redirected or with string input (this applies to the runnable docker form as well):
     ```bash
     python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner -i input.txt -o output.txt
     python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner --text "A kutya elment sétálni."
@@ -108,7 +108,7 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
 Server:
 - Docker image ([see above](#docker-image))
 - Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
-- Debug server (Flask) __only for development (single threaded, one request a time)__:
+- Debug server (Flask) __only for development (single threaded, one request at a time)__:
     ```bash
     # Without parameters!
     python3 ./main.py
@@ -119,8 +119,8 @@ Server:
 
 
 Client:
-- Web fronted provided by `xtsv` (without any URL parameters)
-- From __any programing language (examples provided in Python) or tool(`curl`, `wget`, etc.)__:
+- Web frontend provided by `xtsv` (without any URL parameters)
+- From __any programming language (examples provided in Python) or tool (`curl`, `wget`, etc.)__:
     ```python
     >>> import requests
     >>> # With input file
@@ -137,7 +137,7 @@ Client:
     >>> print(r.text)
     ...
     ```
-    The server checks whether the module order with the provided input data is feasible, and gives an error message if there are any problems.
+    The server checks whether the module order with the provided input data is feasible, and returns an error message if there are any problems.
 
 ### As Python Library
 
@@ -189,17 +189,17 @@ Client:
     app.run()
     ```
 
-The public API is equivalent with the [`xtsv` API](https://github.com/dlt-rilmta/xtsv#api-documentation)
+The public API is equivalent to the [`xtsv` API](https://github.com/dlt-rilmta/xtsv#api-documentation)
 
 ## Data format
 
-Please see the specification in details in the [`xtsv` documentation](https://github.com/dlt-rilmta/xtsv#data-format)
+Please see the specification  in detail in the [`xtsv` documentation](https://github.com/dlt-rilmta/xtsv#data-format).
 
-For examples see files in `tests/test_input` and `tests/test_output` directory.
+For examples see files in `tests/test_input` and `tests/test_output` directories.
 
 ## Modules
 
-Modules are defined in `config.py`. The current toolchain consists of the following modules (See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview) which can be called by their name (or using their shorthand names in brackets):
+Modules are defined in `config.py`. The current toolchain consists of the following modules (See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview) which can be called by their names (or using their shorthand names in brackets):
 
 - `emToken` (`tok`): Tokenizer
 - `emMorph` (`morph`): Morphological analyser together with emLem lemmatiser
@@ -215,11 +215,11 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `udpipe-tok`: The UDPipe tokeniser
 - `udpipe-pos`: The UDPipe POS-tagger
 - `udpipe-parse`: The UDPipe depenceny parser
-- `udpipe-pos-parse`: From POS-tagging to dependency parsing in __'one step'__ with UDPipe, roughly (!) same as `udpipe-pos,udpipe-parse`
-- `udpipe-tok-parse`: From tokenisation to dependency parsing in __'one step'__ with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos,udpipe-parse`
-- `udpipe-tok-pos`: From tokenisation to POS-tagging in __'one step'__ with UDPipe, roughly (!) same as `udpipe-tok,udpipe-pos`
+- `udpipe-pos-parse`: From POS-tagging to dependency parsing in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-pos,udpipe-parse`
+- `udpipe-tok-parse`: From tokenisation to dependency parsing in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos,udpipe-parse`
+- `udpipe-tok-pos`: From tokenisation to POS-tagging in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos`
 
-The following presets are defined as shorthand for the common tasks:
+The following presets are defined as shorthands for the common tasks:
 
 - `analyze`: Run the full pipeline, same as: `emToken,emMorph,emTag,emChunk,emNER,emmorph2ud,emDep-ud,emCons`
 - `tok-morph`: From tokenisation to morphological analysis, same as `emToken,emMorph`
@@ -232,14 +232,14 @@ The following presets are defined as shorthand for the common tasks:
 
 ### Example
 
-[The examples presented above](#command-line-interface) simply call `main.py` with the parameter `tok,spell,morph,pos,conv-morph,dep,chunk,ner` takes the input on STDIN and gives out in STDOUT.
+[The examples presented above](#command-line-interface) simply call `main.py` with the parameters `tok,spell,morph,pos,conv-morph,dep,chunk,ner` take the input on STDIN and return the output on STDOUT.
 We use here a tokenizer, a morphological analyzer, a POS tagger, a morphology converter, a dependency parser, a chunker and a named entity recognizer.
-(The converter is needed as the POS tagger and the dependency parser works with different morphological coding systems.)
+(The converter is needed as the POS tagger and the dependency parser work with different morphological coding systems.)
 
 ### Creating a module
 
-- The same method applies as for [creating a modules in `xtsv`](https://github.com/dlt-rilmta/xtsv#creating-a-module-that-can-be-used-with-xtsv)
-- But all new modules must also respect [the field-name conventions of `emtsv`](doc/emtsv_modules.pdf)
+- The method is the same as in the case of [creating modules in `xtsv`](https://github.com/dlt-rilmta/xtsv#creating-a-module-that-can-be-used-with-xtsv)
+- However, all new modules must follow [the field-name conventions of `emtsv`](doc/emtsv_modules.pdf)
 
 <!--
 ## Work in progress

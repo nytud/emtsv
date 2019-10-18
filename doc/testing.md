@@ -2,7 +2,7 @@
 
 ## Command-line interface
 
-To automatically check that everything is ok with the command-line interface simply run:
+To automatically check that everything is ok with the command-line interface, simply run:
 
 ```bash
 ./tests/test.sh
@@ -21,7 +21,7 @@ diff out.input.tok-morph-tag out.input.tok-morph-tag-single
 The first diff shows the result of POS tagging.
 <br/>
 The second diff outputs nothing = the two files are the same:
-`make test-tok-morph-tag` runs the modules separately
+`make test-tok-morph-tag` runs the modules separately,
 connected to each other by unix pipes, while 
 `make test-tok-morph-tag-single` runs the same modules in one step.
 

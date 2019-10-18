@@ -23,6 +23,8 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64
 
 WORKDIR /app
 
+COPY requirements.txt /app/
+COPY xtsv/requirements.txt /app/xtsv/
 COPY emmorphpy/requirements.txt /app/emmorphpy/
 COPY hunspellpy/requirements.txt /app/hunspellpy/
 COPY purepospy/requirements.txt /app/purepospy/
@@ -31,6 +33,8 @@ COPY HunTag3/requirements.txt /app/HunTag3/
 COPY emudpipe/requirements.txt /app/emudpipe/
 
 RUN pip3 install --no-cache-dir uwsgi Cython && pip3 install --no-cache-dir \
+    -r requirements.txt \
+    -r xtsv/requirements.txt \
     -r HunTag3/requirements.txt \
     -r emmorphpy/requirements.txt \
     -r hunspellpy/requirements.txt \

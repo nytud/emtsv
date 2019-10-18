@@ -1,8 +1,8 @@
 # Troubleshooting
 
-Below are some common error messages and for what reasons they usually appear.
+Below are some common error messages and the reasons why these appear.
 
-- Errors like below is because `JAVA_HOME` environment variable is not set properly.
+- Errors like the one below appear if `JAVA_HOME` environment variable is not set properly.
 
 ```Python
 Traceback (most recent call last):
@@ -23,7 +23,7 @@ Traceback (most recent call last):
 KeyError: 'JAVA_HOME'
 ```
 
-- Errors like below is because the JRE version is not compatible.
+- Errors like the one below appear if the JRE version is not compatible.
 
 ```Python
 Traceback (most recent call last):
@@ -49,7 +49,7 @@ Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-
 BrokenPipeError: [Errno 32] Broken pipe
 ```
 
-- Errors like below is due to missing modelfile because `git lfs` is not installed before clone.
+- Errors like the one below are due to missing modelfile because `git lfs` is not installed before clone.
 
 ```Python
   File "/app/purepospy/purepospy.py", line 168, in tag_sentence
@@ -60,7 +60,7 @@ BrokenPipeError: [Errno 32] Broken pipe
 jnius.JavaException: JVM exception occurred: invalid stream header: 76657273
 ```
 
-- Errors like below is because no __Unicode-aware locale__ (eg. hu_HU.UTF-8) is set.
+- Errors like the one below appear if no __Unicode-aware locale__ (eg. hu_HU.UTF-8) is set.
 
 ```Python
 File "/app/emmorphpy/emmorphpy/emmorphpy.py", line 76, in _load_config
@@ -78,7 +78,7 @@ return codecs.ascii_decode(input, self.errors)[0]
 UnicodeDecodeError: 'ascii' codec can't decode byte 0xc5 in position 603: ordinal not in range(128)
 ```
 
-- Errors like below is because the classpath in `jnius_config.get_classpath()` is not set properly.
+- Errors like the one below appear if the classpath in `jnius_config.get_classpath()` is not set properly.
 Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath in the main python file of the individual modules.
 
 ```Python
@@ -95,8 +95,8 @@ Traceback (most recent call last):
 jnius.JavaException: Class not found b'is2/parser/Parser'
 ```
 
-- Errors like below is because the input containts too long sentences which maybe not real sentences but garbage data.
-Please check the input and report any bugs, when it occurs on normal data with good RAM conditions.
+- Errors like the one below appear if the input contains too long sentences which mostly are not real sentences but garbage data.
+Please check the input and report any bugs in case the problem occurs on normal data with good RAM conditions.
 
 ```Python
 Traceback (most recent call last):
