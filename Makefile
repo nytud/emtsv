@@ -92,6 +92,19 @@ update_repo:
 #    | python3 $(mkfile_dir)/main.py dep
 
 
+pip:
+	pip install Cython
+	pip install -r requirements.txt
+	pip install -r xtsv/requirements.txt
+	pip install -r emmorphpy/requirements.txt
+	pip install -r hunspellpy/requirements.txt
+	pip install -r purepospy/requirements.txt
+	pip install -r emdeppy/requirements.txt
+	pip install -r HunTag3/requirements.txt
+	pip install -r emudpipe/requirements.txt
+	make -C emtokenpy/ all
+.PHONY: pip
+
 # ----------------------
 # Docker related targets
 # ----------------------
@@ -100,6 +113,12 @@ update_repo:
 dbuild:
 	docker build -t mtaril/emtsv:latest .
 .PHONY: dbuild
+
+
+## build docker test image
+dbuildtest:
+	docker build -t mtaril/emtsv:test .
+.PHONY: dbuildtest
 
 
 ## run docker container in background, without volume mapping
