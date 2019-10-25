@@ -40,6 +40,6 @@ __Note__: You don't have to install all modules, only the ones you intend to use
 
 With the provided `Dockerfile` (see `docker` folder for other files used in the docker image):
 
-    ```bash
-    docker build -t emtsv:stable .
-    ```
+```bash
+docker build -t emtsv:stable .
+```
