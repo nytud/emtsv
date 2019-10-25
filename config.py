@@ -13,7 +13,7 @@ em_dummy = ('emdummy.dummytagger', 'DummyTagger', 'EXAMPLE (The friendly name of
 
 # emToken ##############################################################################################################
 
-em_token = ('emtokenpy.emtokenpy', 'EmTokenPy', 'emToken', (), {'source_fields': set(), 'target_fields': ['form']})
+em_token = ('emtokenpy.emtokenpy', 'EmTokenPy', 'emToken', (), {'source_fields': set(), 'target_fields': ['form', 'wsafter']})
 
 # emMorph ##############################################################################################################
 
