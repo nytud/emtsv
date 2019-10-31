@@ -111,13 +111,13 @@ pip:
 
 ## build docker image
 dbuild:
-	docker build -t mtaril/emtsv:latest .
+	docker build -t mtaril/emtsv:latest -t mtaril/emtsv:$$(git log -1 --pretty=format:%h) .
 .PHONY: dbuild
 
 
 ## build docker test image
 dbuildtest:
-	docker build -t mtaril/emtsv:test .
+	docker build -t mtaril/emtsv:test -t mtaril/emtsv:$$(git log -1 --pretty=format:%h) .
 .PHONY: dbuildtest
 
 
