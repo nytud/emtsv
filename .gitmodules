@@ -1,12 +1,12 @@
 [submodule "purepospy"]
 	path = purepospy
-	url = https://github.com/ppke-nlpg/purepospy.git
+	url = https://github.com/dlt-rilmta/purepospy.git
 [submodule "HunTag3"]
 	path = HunTag3
-	url = https://github.com/ppke-nlpg/HunTag3.git
+	url = https://github.com/dlt-rilmta/HunTag3.git
 [submodule "emmorphpy"]
 	path = emmorphpy
-	url = https://github.com/ppke-nlpg/emmorphpy.git
+	url = https://github.com/dlt-rilmta/emmorphpy.git
 [submodule "emdeppy"]
 	path = emdeppy
 	url = https://github.com/dlt-rilmta/emdeppy.git
