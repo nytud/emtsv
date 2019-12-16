@@ -77,7 +77,7 @@ update_repo:
 		echo 'Working dir is dirty!' ; \
 		exit 1 ; \
 		fi
-	@git submodule foreach git pull origin master && git pull
+	@git pull && git submodule foreach git pull origin master
 .PHONY: update_repo
 
 
