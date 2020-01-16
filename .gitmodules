@@ -31,3 +31,6 @@
 [submodule "emudpipe"]
 	path = emudpipe
 	url = https://github.com/dlt-rilmta/emudpipe.git
+[submodule "emterm"]
+	path = emterm
+	url = https://github.com/dlt-rilmta/emterm.git

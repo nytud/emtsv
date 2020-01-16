@@ -13,7 +13,8 @@ em_dummy = ('emdummy.dummytagger', 'DummyTagger', 'EXAMPLE (The friendly name of
 
 # emToken ##############################################################################################################
 
-em_token = ('emtokenpy.emtokenpy', 'EmTokenPy', 'emToken', (), {'source_fields': set(), 'target_fields': ['form', 'wsafter']})
+em_token = ('emtokenpy.emtokenpy', 'EmTokenPy', 'emToken', (), {'source_fields': set(),
+                                                                'target_fields': ['form', 'wsafter']})
 
 # emMorph ##############################################################################################################
 
@@ -100,6 +101,12 @@ emudpipe_parse = ('emudpipe.emudpipe', 'UDPipe', 'UDPipe dependency parser',
 
 em_conll = ('emconll.converter', 'EmCoNLL', 'CoNLL-U converter', (), {'source_fields': {'form'}, 'target_fields': []})
 
+# emTerm ##############################################################################################################
+
+term_list = os.path.join(os.path.dirname(__file__), 'emterm', 'test_termlist.tsv')
+em_term = ('emterm.emterm', 'EmTerm', 'Mark multiword terminology expressions from fixed list',
+           (term_list,), {'source_fields': {'form', 'lemma'}, 'target_fields': ['term']})
+
 ########################################################################################################################
 
 # Map module personalities to firendly names...
@@ -120,6 +127,7 @@ tools = [(em_token, ('tok', 'emToken')),
          (emudpipe_tok_pos, ('udpipe-tok-pos',)),
          (emudpipe_pos_parse, ('udpipe-pos-parse',)),
          (emudpipe_tok_parse, ('udpipe-tok-parse',)),
+         (em_term, ('term', 'emTerm',)),
          (em_dummy, ('dummy-tagger', 'emDummy')),
          ]
 
