@@ -219,6 +219,7 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `udpipe-tok-parse`: From tokenisation to dependency parsing in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos,udpipe-parse`
 - `udpipe-tok-pos`: From tokenisation to POS-tagging in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos`
 - `emTerm`: a module for marking single word and multi-word units in POS-tagged text
+- `emZero`: a module for inserting zero pronouns (subjects, objects and possessors) into dependency parsed sentences
 
 The following presets are defined as shorthands for the common tasks:
 

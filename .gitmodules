@@ -34,3 +34,6 @@
 [submodule "emterm"]
 	path = emterm
 	url = https://github.com/dlt-rilmta/emterm.git
+[submodule "emzero"]
+	path = emzero
+	url = https://github.com/vadno/emzero.git

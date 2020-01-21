@@ -107,6 +107,12 @@ term_list = os.path.join(os.path.dirname(__file__), 'emterm', 'test_termlist.tsv
 em_term = ('emterm.emterm', 'EmTerm', 'Mark multiword terminology expressions from fixed list',
            (term_list,), {'source_fields': {'form', 'lemma'}, 'target_fields': ['term']})
 
+# emTerm ##############################################################################################################
+
+em_zero = ('emzero', 'EmZero', 'Inserts zero pronouns (subjects, objects and possessors) into dependency parsed texts',
+           (), {'source_fields': {'form', 'lemma', 'xpostag', 'upostag', 'feats', 'id', 'head', 'deprel'},
+                'target_fields': []})
+
 ########################################################################################################################
 
 # Map module personalities to firendly names...
@@ -128,6 +134,7 @@ tools = [(em_token, ('tok', 'emToken')),
          (emudpipe_pos_parse, ('udpipe-pos-parse',)),
          (emudpipe_tok_parse, ('udpipe-tok-parse',)),
          (em_term, ('term', 'emTerm',)),
+         (em_zero, ('zero', 'emZero')),
          (em_dummy, ('dummy-tagger', 'emDummy')),
          ]
 
