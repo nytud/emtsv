@@ -40,6 +40,10 @@ If you use __emtsv__, please cite the following articles:
 
     Váradi Tamás, Simon Eszter, Sass Bálint, Gerőcs Mátyás, Mittelholcz Iván, Novák Attila, Indig Balázs, Prószéky Gábor, Farkas Richárd, Vincze Veronika: Az e-magyar digitális nyelvfeldolgozó rendszer. In: MSZNY 2017, XIII. Magyar Számítógépes Nyelvészeti Konferencia, Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 49-60.
 
+If you use __emBERT__, please cite the following paper:
+
+    Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2019, XV. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
+
 This system is a replacement for the original https://github.com/dlt-rilmta/hunlp-GATE system.
 
 ``emtsv`` is licensed under the LGPL 3.0 license. The submodules have their own license.
@@ -220,6 +224,7 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `udpipe-tok-pos`: From tokenisation to POS-tagging in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos`
 - `emTerm`: a module for marking single word and multi-word units in POS-tagged text
 - `emZero`: a module for inserting zero pronouns (subjects, objects and possessors) into dependency parsed sentences
+- `emBERT` (`bert-ner`, `bert-basenp`, `bert-np`): module that wraps NER and NP chunker models based on BERT and other pre-trained models
 
 The following presets are defined as shorthands for the common tasks:
 
