@@ -1,4 +1,5 @@
 xtsv
 npyscreen
 progressbar2
+pygithub
 pyyaml

@@ -1,5 +1,19 @@
 %YAML 1.2
 ---
-- [emCons, emconspy/szk.const.model, 'https://github.com/dlt-rilmta/emconspy/raw/master/szk.const.model']
-- [emDep, emdeppy/emdeppy/szk.mate.ud.model, 'https://github.com/dlt-rilmta/emdeppy/raw/master/emdeppy/szk.mate.ud.model']
-- [PurePOS, purepospy/purepos/szeged.model, 'https://github.com/dlt-rilmta/purepospy/raw/master/purepos/szeged.model']
+main:
+  - [emCons, emconspy/szk.const.model,
+     {'url': 'https://github.com/dlt-rilmta/emconspy/raw/master/szk.const.model'}]
+  - [emDep, emdeppy/emdeppy/szk.mate.ud.model,
+     {'url': 'https://github.com/dlt-rilmta/emdeppy/raw/master/emdeppy/szk.mate.ud.model'}]
+  - [PurePOS, purepospy/purepos/szeged.model,
+     {'url': 'https://github.com/dlt-rilmta/purepospy/raw/master/purepos/szeged.model'}]
+optional:
+  - [emBERT-NER, embert/models/szeged_ner_bioes/,
+     {'repository': 'dlt-rilmta/emBERT-models',
+      'git_directory': 'szeged_ner_bioes'}]
+  - [emBERT-NP, embert/models/szeged_maxnp_bioes/, 
+     {'repository': 'dlt-rilmta/emBERT-models',
+      'git_directory': 'szeged_maxnp_bioes'}]
+  - [emBERT-baseNP, embert/models/szeged_basenp_bioes/,
+     {'repository': 'dlt-rilmta/emBERT-models',
+      'git_directory': 'szeged_basenp_bioes'}]
