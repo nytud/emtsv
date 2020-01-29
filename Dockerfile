@@ -30,6 +30,7 @@ COPY purepospy/requirements.txt /app/purepospy/
 COPY emdeppy/requirements.txt /app/emdeppy/
 COPY HunTag3/requirements.txt /app/HunTag3/
 COPY emudpipe/requirements.txt /app/emudpipe/
+COPY embert/requirements.txt /app/embert/
 
 RUN pip3 install --no-cache-dir uwsgi Cython && pip3 install --no-cache-dir \
     -r requirements.txt \
@@ -39,6 +40,7 @@ RUN pip3 install --no-cache-dir uwsgi Cython && pip3 install --no-cache-dir \
     -r purepospy/requirements.txt \
     -r emdeppy/requirements.txt \
     -r emudpipe/requirements.txt \
+    -r embert/requirements.txt \
     ;
 
 COPY . /app

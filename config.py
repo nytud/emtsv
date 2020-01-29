@@ -107,11 +107,22 @@ term_list = os.path.join(os.path.dirname(__file__), 'emterm', 'test_termlist.tsv
 em_term = ('emterm.emterm', 'EmTerm', 'Mark multiword terminology expressions from fixed list',
            (term_list,), {'source_fields': {'form', 'lemma'}, 'target_fields': ['term']})
 
-# emTerm ##############################################################################################################
+# emZero ##############################################################################################################
 
 em_zero = ('emzero', 'EmZero', 'Inserts zero pronouns (subjects, objects and possessors) into dependency parsed texts',
            (), {'source_fields': {'form', 'lemma', 'xpostag', 'upostag', 'feats', 'id', 'head', 'deprel'},
                 'target_fields': []})
+
+# emBERT ###############################################################################################################
+
+embert_ner = ('embert.embert', 'EmBERT', 'emBERT', (),
+              {'task': 'ner', 'source_fields': {'form'}, 'target_fields': ['NER-BIO']})
+
+embert_basenp = ('embert.embert', 'EmBERT', 'emBERT', (),
+                 {'task': 'basenp', 'source_fields': {'form'}, 'target_fields': ['BASE-NP-BIO']})
+
+embert_maxnp = ('embert.embert', 'EmBERT', 'emBERT', (),
+                {'task': 'maxnp', 'source_fields': {'form'}, 'target_fields': ['NP-BIO']})
 
 ########################################################################################################################
 
@@ -135,6 +146,9 @@ tools = [(em_token, ('tok', 'emToken')),
          (emudpipe_tok_parse, ('udpipe-tok-parse',)),
          (em_term, ('term', 'emTerm',)),
          (em_zero, ('zero', 'emZero')),
+         (embert_ner, ('bert-ner', 'emBERT-NER')),
+         (embert_basenp, ('bert-basenp', 'emBERT-baseNP')),
+         (embert_maxnp, ('bert-np', 'bert-chunk', 'emBERT-NP')),
          (em_dummy, ('dummy-tagger', 'emDummy')),
          ]
 
@@ -149,4 +163,6 @@ presets = {'analyze': ('Full pipeline', ['tok', 'morph', 'pos', 'chunk', 'conv-m
            'tok-dep-conll': ('Raw text to dependency parsing in CoNLL-U format',
                              ['tok', 'morph', 'pos', 'conv-morph', 'dep', 'conll']),
            'tok-cons': ('Raw text to constituent parsing', ['tok', 'morph', 'pos', 'cons']),
+           'tok-bert-ner': ('Raw text to emBERT named-entity annotation', ['tok', 'bert-ner']),
+           'tok-bert-chunk': ('Raw text to emBERT maximal NP chunking', ['tok', 'bert-np']),
            }

@@ -37,3 +37,6 @@
 [submodule "emzero"]
 	path = emzero
 	url = https://github.com/vadno/emzero.git
+[submodule "embert"]
+	path = embert
+	url = https://github.com/DavidNemeskey/emBERT.git

@@ -34,6 +34,7 @@ __Note__: You don't have to install all modules, only the ones you intend to use
 - `pip3 install -r emdeppy/requirements.txt`
 - `pip3 install -r HunTag3/requirements.txt`
 - `pip3 install -r emudpipe/requirements.txt`
+- `pip3 install -r embert/requirements.txt`
 - Download `emToken` binary: `make -C emtokenpy/ all`
 
 ## Building Docker image
