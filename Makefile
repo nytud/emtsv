@@ -141,6 +141,13 @@ dconnect:
 .PHONY: dconnect
 
 
+# test the test image
+dtest: # dbuildtest
+	@cd tests/ && ./dtest.sh
+.PHONY: dtest
+
+
+
 ## stop running emtsv container
 dstop:
 	@if [ "$$(docker container ls -f name=emtsv -q)" ] ; then \
