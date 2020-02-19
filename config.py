@@ -58,6 +58,12 @@ em_ner = ('HunTag3.huntag.tagger', 'Tagger', 'emNER', ({'cfg_file': cfg_file, 'm
 em_depud = ('emdeppy.emdeppy', 'EmDepPy', 'emDep', (),
             {'source_fields': {'form', 'lemma', 'upostag', 'feats'}, 'target_fields': ['id', 'deprel', 'head']})
 
+# emDep 50 #############################################################################################################
+
+em_depud_50 = ('emdeppy.emdeppy', 'EmDepPy50', 'emDep (limited to 50 token)', (),
+               {'maxlen': 50,
+                'source_fields': {'form', 'lemma', 'upostag', 'feats'}, 'target_fields': ['id', 'deprel', 'head']})
+
 # emCons ###############################################################################################################
 
 em_cons = ('emconspy.emconspy', 'EmConsPy', 'emCons', (),
@@ -136,6 +142,7 @@ tools = [(em_token, ('tok', 'emToken')),
          (em_ner, ('ner', 'emNER')),
          (em_morph2ud, ('conv-morph', 'emmorph2ud')),
          (em_depud, ('dep', 'emDep-ud')),
+         (em_depud_50, ('dep50', 'emDep-ud50')),
          (em_cons, ('cons', 'emCons')),
          (em_conll, ('conll', 'emCoNLL')),
          (emudpipe_tok, ('udpipe-tok',)),
