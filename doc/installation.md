@@ -27,7 +27,6 @@ __Note__: You don't have to install all modules, only the ones you intend to use
 - `pip3 install Cython`
     - Required for `PyJNIus` (`PurePOS`, `emDep`, `emCons`) and it must be installed in a separate step
 - `pip3 install -r requirements.txt`  # Only for using the model downloader!
-- `pip3 install -r xtsv/requirements.txt`
 - `pip3 install -r emmorphpy/requirements.txt`
 - `pip3 install -r hunspellpy/requirements.txt`
 - `pip3 install -r purepospy/requirements.txt`
