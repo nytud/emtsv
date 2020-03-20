@@ -4,11 +4,12 @@
 import sys
 
 from __init__ import build_pipeline, pipeline_rest_api, jnius_config, parser_skeleton, tools, presets, \
-    singleton_store_factory
+    singleton_store_factory, __version__
 
 if __name__ == '__main__':
 
     argparser = parser_skeleton(description='emtsv -- e-magyar language processing system')
+    argparser.add_argument('-v', '--version', action='version', version=__version__)
     opts = argparser.parse_args()
 
     jnius_config.classpath_show_warning = opts.verbose  # Suppress warning.
