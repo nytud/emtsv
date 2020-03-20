@@ -109,15 +109,17 @@ pip:
 # Docker related targets
 # ----------------------
 
+VERSION = $$(grep -E "__version__\s*=\s*'[^']+'" __init__.py | sed  -r "s/__version__ = '([^']+)'/\1/")
+
 ## build docker image
 dbuild:
-	docker build -t mtaril/emtsv:latest -t mtaril/emtsv:$$(git log -1 --pretty=format:%h) .
+	docker build -t mtaril/emtsv:latest -t mtaril/emtsv:$(VERSION) .
 .PHONY: dbuild
 
 
 ## build docker test image
 dbuildtest:
-	docker build -t mtaril/emtsv:test -t mtaril/emtsv:$$(git log -1 --pretty=format:%h) .
+	docker build -t mtaril/emtsv:test-$(VERSION) .
 .PHONY: dbuildtest
 
 
