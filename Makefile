@@ -119,7 +119,7 @@ dbuild:
 
 ## build docker test image
 dbuildtest:
-	docker build -t mtaril/emtsv:test-$(VERSION) .
+	docker build -t mtaril/emtsv:test .
 .PHONY: dbuildtest
 
 
