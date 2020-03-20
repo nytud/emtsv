@@ -95,13 +95,13 @@ update_repo:
 pip:
 	pip install Cython
 	pip install -r requirements.txt
-	pip install -r xtsv/requirements.txt
+	pip install -r embert/requirements.txt
+	pip install -r emdeppy/requirements.txt
 	pip install -r emmorphpy/requirements.txt
+	pip install -r emudpipe/requirements.txt
 	pip install -r hunspellpy/requirements.txt
 	pip install -r purepospy/requirements.txt
-	pip install -r emdeppy/requirements.txt
 	pip install -r HunTag3/requirements.txt
-	pip install -r emudpipe/requirements.txt
 	make -C emtokenpy/ all
 .PHONY: pip
 
