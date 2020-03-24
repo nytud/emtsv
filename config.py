@@ -60,7 +60,7 @@ em_depud = ('emdeppy.emdeppy', 'EmDepPy', 'emDep', (),
 
 # emDep 50 #############################################################################################################
 
-em_depud_50 = ('emdeppy.emdeppy', 'EmDepPy50', 'emDep (limited to 50 token)', (),
+em_depud_50 = ('emdeppy.emdeppy', 'EmDepPy', 'emDep (limited to 50 token)', (),
                {'maxlen': 50,
                 'source_fields': {'form', 'lemma', 'upostag', 'feats'}, 'target_fields': ['id', 'deprel', 'head']})
 
