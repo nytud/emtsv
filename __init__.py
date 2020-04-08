@@ -11,4 +11,4 @@ from xtsv import ModuleError, build_pipeline, pipeline_rest_api, singleton_store
 from config import tools, presets
 from download_models import download
 
-__version__ = '4.0.1'
+__version__ = '4.0.2'
