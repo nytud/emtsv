@@ -1,4 +1,4 @@
-xtsv<1.0
+xtsv>=1.0,<2.0
 npyscreen
 progressbar2
 pygithub

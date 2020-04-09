@@ -4,7 +4,7 @@
 
 - HFST: `apt-get install hfst`
 - Hunspell: `apt-get install libhunspell-dev hunspell-hu`
-- OpenJDK 8 JDK (we are transitioning to OpenJDK 11): `apt-get install openjdk-8-jdk`
+- OpenJDK 11 JDK: `apt-get install openjdk-11-jdk`
 - `git-lfs`: __[Requires root]__ Can be installed by running the [installation script](https://packagecloud.io/github/git-lfs/install)
     - __[Without root]__ If you download the [`git-lfs` binary](https://github.com/git-lfs/git-lfs/releases) for your operating system and put it in the `PATH` (eg. in `~/bin` and add `PATH="$HOME/bin:$PATH"` into `.bashrc`)
     - __[Without `git-lfs`]__ You can choose to omit installing `git-lfs` if you use `emtsv.download()` or `download_models.py` to download large files directly

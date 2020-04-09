@@ -54,7 +54,7 @@ This system is a replacement for the original https://github.com/dlt-rilmta/hunl
 - Python 3.5 <=
 - HFST 3.13 <=
 - Hunspell (libhunspell-dev, hunspell-hu) 1.6.2 <=
-- OpenJDK 8 JDK (not JRE)
+- OpenJDK 11 JDK (not JRE)
 - An UTF-8 locale must be set.
 
 ## Installation
