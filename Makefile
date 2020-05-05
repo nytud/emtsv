@@ -92,18 +92,13 @@ update_repo:
 #    | python3 $(mkfile_dir)/main.py dep
 
 
-pip:
-	pip install Cython
-	pip install -r requirements.txt
-	pip install -r embert/requirements.txt
-	pip install -r emdeppy/requirements.txt
-	pip install -r emmorphpy/requirements.txt
-	pip install -r emudpipe/requirements.txt
-	pip install -r hunspellpy/requirements.txt
-	pip install -r purepospy/requirements.txt
-	pip install -r HunTag3/requirements.txt
-	make -C emtokenpy/ all
-.PHONY: pip
+venv:
+	# rm -rf venv
+	# python3 -m venv venv
+	venv/bin/pip install Cython
+	venv/bin/pip install -r requirements.txt
+	for req in */requirements.txt ; do venv/bin/pip install -r $${req} ; done
+.PHONY: venv
 
 # ----------------------
 # Docker related targets

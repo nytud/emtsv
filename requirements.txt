@@ -3,3 +3,4 @@ npyscreen
 progressbar2
 pygithub
 pyyaml
+quntoken
