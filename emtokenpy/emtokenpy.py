@@ -24,8 +24,7 @@ class EmTokenPy:
 
     @staticmethod
     def process_sentence(sen, _=None):
-        cmd = ['preproc', 'snt', 'sntcorr', 'sntcorr', 'token', 'convtsv']
-        res = tokenize(cmd, sen)
+        res = tokenize(sen)
         return res
 
     @staticmethod
