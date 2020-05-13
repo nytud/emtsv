@@ -32,17 +32,21 @@ If a bug is found please leave feedback with the exact details.
 
 ## Citing and License
 
-If you use __emtsv__, please cite the following articles:
+If you use __emtsv__, please cite the following articles (see cite.bib for [BibTeX entries](doc/cite.bib)):
+
+    Simon Eszter, Indig Balázs, Kalivoda Ágnes, Mittelholcz Iván, Sass Bálint, Vadász Noémi. Újabb fejlemények az e-magyar háza táján. In: Berend Gábor, Gosztolya Gábor, Vincze Veronika (szerk.): MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2020). Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 29-42.
+
+    Balázs Indig, Bálint Sass, Eszter Simon, Iván Mittelholcz, Noémi Vadász, and Márton Makrai: One format to rule them all – The emtsv pipeline for Hungarian. In: Proceedings of the 13th Linguistic Annotation Workshop. Association for Computational Linguistics, 2019, 155-165.
 
     Indig Balázs, Sass Bálint, Simon Eszter, Mittelholcz Iván, Kundráth Péter, Vadász Noémi. emtsv – Egy formátum mind felett. In: Berend Gábor, Gosztolya Gábor, Vincze Veronika (szerk.): MSZNY 2019, XV. Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2019). Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 235-247.
 
-    Váradi Tamás, Simon Eszter, Sass Bálint, Mittelholcz Iván, Novák Attila, Indig Balázs: E-magyar – A Digital Language Processing System. In: Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018), 1307-1312.
+    Váradi Tamás, Simon Eszter, Sass Bálint, Mittelholcz Iván, Novák Attila, Indig Balázs: e-magyar – A Digital Language Processing System. In: Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018), 1307-1312.
 
     Váradi Tamás, Simon Eszter, Sass Bálint, Gerőcs Mátyás, Mittelholcz Iván, Novák Attila, Indig Balázs, Prószéky Gábor, Farkas Richárd, Vincze Veronika: Az e-magyar digitális nyelvfeldolgozó rendszer. In: MSZNY 2017, XIII. Magyar Számítógépes Nyelvészeti Konferencia, Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 49-60.
 
 If you use __emBERT__, please cite the following paper:
 
-    Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2019, XV. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
+    Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
 
 This system is a replacement for the original https://github.com/dlt-rilmta/hunlp-GATE system.
 
