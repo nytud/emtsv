@@ -1,39 +1,3 @@
-[submodule "purepospy"]
-	path = purepospy
-	url = https://github.com/dlt-rilmta/purepospy.git
-[submodule "HunTag3"]
-	path = HunTag3
-	url = https://github.com/dlt-rilmta/HunTag3.git
-[submodule "emmorphpy"]
-	path = emmorphpy
-	url = https://github.com/dlt-rilmta/emmorphpy.git
-[submodule "emdeppy"]
-	path = emdeppy
-	url = https://github.com/dlt-rilmta/emdeppy.git
-[submodule "emmorph2ud"]
-	path = emmorph2ud
-	url = https://github.com/vadno/emmorph2ud.git
-[submodule "emconspy"]
-	path = emconspy
-	url = https://github.com/dlt-rilmta/emconspy.git
-[submodule "emconll"]
-	path = emconll
-	url = https://github.com/vadno/emconll.git
-[submodule "emdummy"]
-	path = emdummy
-	url = https://github.com/dlt-rilmta/emdummy.git
-[submodule "hunspellpy"]
-	path = hunspellpy
-	url = https://github.com/dlt-rilmta/hunspellpy.git
-[submodule "emudpipe"]
-	path = emudpipe
-	url = https://github.com/dlt-rilmta/emudpipe.git
-[submodule "emterm"]
-	path = emterm
-	url = https://github.com/dlt-rilmta/emterm.git
-[submodule "emzero"]
-	path = emzero
-	url = https://github.com/vadno/emzero.git
 [submodule "embert"]
 	path = embert
 	url = https://github.com/DavidNemeskey/emBERT.git
