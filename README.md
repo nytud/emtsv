@@ -229,6 +229,7 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `emTerm`: a module for marking single word and multi-word units in POS-tagged text
 - `emZero`: a module for inserting zero pronouns (subjects, objects and possessors) into dependency parsed sentences
 - `emBERT` (`bert-ner`, `bert-basenp`, `bert-np`): module that wraps NER and NP chunker models based on BERT and other pre-trained models
+- `emIOBUtils`: a module for converting among IOB representations and fixing invalid label sequences the present one
 
 The following presets are defined as shorthands for the common tasks:
 

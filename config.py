@@ -130,6 +130,14 @@ embert_basenp = ('embert.embert', 'EmBERT', 'emBERT', (),
 embert_maxnp = ('embert.embert', 'EmBERT', 'emBERT', (),
                 {'task': 'maxnp', 'source_fields': {'form'}, 'target_fields': ['NP-BIO']})
 
+# emIOBUtils ###########################################################################################################
+
+emiobutils_maxnp = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer for maxNP', (),
+                    {'out_style': 'IOBES', 'source_fields': {'NP-BIO'}, 'target_fields': ['NP-BIO-FIXED']})
+
+emiobutils_ner = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer for NER', (),
+                  {'out_style': 'IOBES', 'source_fields': {'NER-BIO'}, 'target_fields': ['NER-BIO-FIXED']})
+
 ########################################################################################################################
 
 # Map module personalities to firendly names...
@@ -156,6 +164,8 @@ tools = [(em_token, ('tok', 'emToken')),
          (embert_ner, ('bert-ner', 'emBERT-NER')),
          (embert_basenp, ('bert-basenp', 'emBERT-baseNP')),
          (embert_maxnp, ('bert-np', 'bert-chunk', 'emBERT-NP')),
+         (emiobutils_maxnp, ('fix-np', 'fix-chunk', 'emIOBUtils-NP')),
+         (emiobutils_ner, ('fix-ner', 'fix-ner', 'emIOBUtils-NER')),
          (em_dummy, ('dummy-tagger', 'emDummy')),
          ]
 

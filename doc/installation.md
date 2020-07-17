@@ -3,7 +3,7 @@
 ## Remarks on installing external packages on Ubuntu 18.04
 
 - HFST: `apt-get install hfst`
-- Hunspell: `apt-get install libhunspell-dev hunspell-hu`
+- Hunspell: `apt-get install libhunspell-dev`
 - OpenJDK 11 JDK: `apt-get install openjdk-11-jdk`
 - `git-lfs`: __[Requires root]__ Can be installed by running the [installation script](https://packagecloud.io/github/git-lfs/install)
     - __[Without root]__ If you download the [`git-lfs` binary](https://github.com/git-lfs/git-lfs/releases) for your operating system and put it in the `PATH` (eg. in `~/bin` and add `PATH="$HOME/bin:$PATH"` into `.bashrc`)
@@ -14,27 +14,21 @@
 
 Clone together with submodules (it takes about 3 minutes):
 
-`git lfs clone --recurse-submodules https://github.com/dlt-rilmta/emtsv`
+`git lfs clone --depth=1 --recurse-submodules https://github.com/dlt-rilmta/emtsv`
 
 - _Note:_ please ignore the deprecation warning. (This command checks and ensures that `git-lfs` is installed and working.)
 - _Note2:_ If you are sure that `git-lfs` is installed, you can use `git clone` to avoid the warning. (This command also works without `git-lfs` installed, but `emtsv` might not work as the model files will not be downloaded. See [Troubleshooting](troubleshooting.md) section for details.)
 - _Note3:_ Just use `git clone` if you intend to install large files with `emtsv.download()` or `download_models.py` to download large files directly
+- _Note4:_ Do not clone all history if it is not needed, as you may run into errors e.g. `This repository is over its data quota.` because old LFS entries referring to ppke-nlpg repositories
 
 ## Install Python dependencies
 
 __Note__: You don't have to install all modules, only the ones you intend to use in `emtsv`
 
-- `pip3 install Cython`
+- `pip3 install cython`
     - Required for `PyJNIus` (`PurePOS`, `emDep`, `emCons`) and it must be installed in a separate step
-- `pip3 install -r requirements.txt`  # Only for using the model downloader!
-- `pip3 install -r emmorphpy/requirements.txt`
-- `pip3 install -r hunspellpy/requirements.txt`
-- `pip3 install -r purepospy/requirements.txt`
-- `pip3 install -r emdeppy/requirements.txt`
-- `pip3 install -r HunTag3/requirements.txt`
-- `pip3 install -r emudpipe/requirements.txt`
+- `pip3 install -r requirements.txt`
 - `pip3 install -r embert/requirements.txt`
-- Download `emToken` binary: `make -C emtokenpy/ all`
 
 ## Building Docker image
 
