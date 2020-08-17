@@ -37,8 +37,8 @@ em_morph2ud = ('emmorph2ud', 'EmMorph2UD', 'emmorph2ud', (),
 
 # emChunk ##############################################################################################################
 
-model_name = os.path.join(os.path.dirname(__file__), 'HunTag3', 'models', 'maxnp.szeged.emmorph')
-cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'maxnp.szeged.emmorph.yaml')
+model_name = os.path.join('models', 'maxnp.szeged.emmorph')
+cfg_file = os.path.join('configs', 'maxnp.szeged.emmorph.yaml')
 target_field = 'NP-BIO'
 
 em_chunk = ('huntag', 'Tagger', 'emChunk', ({'cfg_file': cfg_file, 'model_name': model_name},),
@@ -46,8 +46,8 @@ em_chunk = ('huntag', 'Tagger', 'emChunk', ({'cfg_file': cfg_file, 'model_name':
 
 # emNER ################################################################################################################
 
-model_name = os.path.join(os.path.dirname(__file__), 'HunTag3', 'models', 'ner.szeged.emmorph')
-cfg_file = os.path.join(os.path.dirname(__file__), 'HunTag3', 'configs', 'ner.szeged.emmorph.yaml')
+model_name = os.path.join('models', 'ner.szeged.emmorph')
+cfg_file = os.path.join('configs', 'ner.szeged.emmorph.yaml')
 target_field = 'NER-BIO'
 
 em_ner = ('huntag', 'Tagger', 'emNER', ({'cfg_file': cfg_file, 'model_name': model_name},),
