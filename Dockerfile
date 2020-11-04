@@ -33,8 +33,9 @@ COPY embert/requirements.txt /app/embert/
 
 RUN pip3 install --no-cache-dir uwsgi cython numpy && pip3 install --no-cache-dir \
     -r requirements.txt \
-    -r embert/requirements.txt \
     ;
+# Workaround for embert requirements.txt
+#     -r embert/requirements.txt \
 
 COPY . /app
 
