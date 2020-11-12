@@ -140,6 +140,11 @@ emiobutils_ner = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer fo
 
 ########################################################################################################################
 
+em_gateconv = ('emgateconv', 'EmGATEConv', 'A good-enough converter to GATE format for e-magyar.hu', (),
+              {'source_fields': {'form'}})
+
+########################################################################################################################
+
 # Map module personalities to firendly names...
 # The first name is the default. The order is the display order of the modules
 tools = [(em_token, ('tok', 'emToken')),
@@ -167,6 +172,7 @@ tools = [(em_token, ('tok', 'emToken')),
          (emiobutils_maxnp, ('fix-np', 'fix-chunk', 'emIOBUtils-NP')),
          (emiobutils_ner, ('fix-ner', 'fix-ner', 'emIOBUtils-NER')),
          (em_dummy, ('dummy-tagger', 'emDummy')),
+         (em_gateconv, ('gate-conv', 'emGATEConv'))
          ]
 
 # cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep
