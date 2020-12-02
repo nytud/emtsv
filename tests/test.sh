@@ -1,35 +1,38 @@
 #!/bin/bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 test_one() {
   # make target for testing (test-...)
-  T=$1
+  TARGET=$1
   # input file for testing
-  I=$2
+  INPUT=$2
   # output file during testing
-  O=$3
+  OUTPUT=$3
   # gold output for diff
-  G=$4
+  GOLD=$4
   # message
-  M=$5
+  MESSAGE=$5
 
-  echo "Testing '$T' on '$I' $M"
-  mkdir -p `dirname $O`
-  time make -f ../Makefile RAWINPUT=$I test-$T > $O
-  if diff $G $O; then
+  echo "Testing '${TARGET}' on '${INPUT} should yield ${OUTPUT}' ${MESSAGE}"
+  mkdir -p `dirname ${OUTPUT}`
+  time make -f ${SCRIPT_DIR}/../Makefile RAWINPUT=${INPUT} test-${TARGET} > ${OUTPUT}
+  if diff ${GOLD} ${OUTPUT}; then
     echo "Test succeeded! :)"
   else
     echo ">>> Test failed! :( <<<"
+    exit 1
   fi
 }
 
-TEST_TMP=`mktemp -d test_temp.XXXXX`
+TEST_TMP=`mktemp -d /tmp/test_temp.XXXXX`
 
 echo
 
 test_one tok-morph \
-  test_input/input.test \
+  ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.tok-morph \
-  test_output/out.input.tok-morph \
+  ${SCRIPT_DIR}/test_output/out.input.tok-morph \
   ""
 
 # ----- tok-morph-tag
@@ -37,25 +40,25 @@ test_one tok-morph \
 echo
 
 test_one tok-morph-tag \
-  test_input/input.test \
+  ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.tok-morph-tag \
-  test_output/out.input.tok-morph-tag \
+  ${SCRIPT_DIR}/test_output/out.input.tok-morph-tag \
   "(~30sec)"
 
 echo
 
 test_one tok-morph-tag-single \
-  test_input/input.test \
+  ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.tok-morph-tag-single \
-  test_output/out.input.tok-morph-tag-single \
+  ${SCRIPT_DIR}/test_output/out.input.tok-morph-tag-single \
   "(~30sec)"
 
 echo
 
 test_one tok-morph-tag-single \
-  test_input/halandzsa.test \
+  ${SCRIPT_DIR}/test_input/halandzsa.test \
   ${TEST_TMP}/out.halandzsa.tok-morph-tag \
-  test_output/out.halandzsa.tok-morph-tag \
+  ${SCRIPT_DIR}/test_output/out.halandzsa.tok-morph-tag \
   "testing guesser (~30sec)"
 
 echo
@@ -74,9 +77,9 @@ fi
 echo
 
 test_one tok-dep-single \
-  test_input/input.test \
+  ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.tok-dep \
-  test_output/out.input.tok-dep \
+  ${SCRIPT_DIR}/test_output/out.input.tok-dep \
   "(~1min)"
 
 # ----- all (without cons)
@@ -84,9 +87,9 @@ test_one tok-dep-single \
 echo
 
 test_one all-single \
-  test_input/input.test \
+  ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.all \
-  test_output/out.input.all \
+  ${SCRIPT_DIR}/test_output/out.input.all \
   "(~1min)"
 
 echo

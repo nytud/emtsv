@@ -95,7 +95,7 @@ update_repo:
 venv:
 	# rm -rf venv
 	# python3 -m venv venv
-	venv/bin/pip install Cython
+	venv/bin/pip install cython
 	venv/bin/pip install -r requirements.txt
 	for req in */requirements.txt ; do venv/bin/pip install -r $${req} ; done
 .PHONY: venv
@@ -140,7 +140,7 @@ dconnect:
 
 # test the test image
 dtest: # dbuildtest
-	@cd tests/ && ./dtest.sh
+	@./tests/dtest.sh
 .PHONY: dtest
 
 
