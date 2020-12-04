@@ -2,6 +2,7 @@
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
 import os
+import sys
 
 # DummyTagger (EXAMPLE) ################################################################################################
 
@@ -13,8 +14,7 @@ em_dummy = ('emdummy', 'EmDummy', 'EXAMPLE (The friendly name of DummyTagger use
 
 # emToken ##############################################################################################################
 
-em_token = ('quntoken', 'EmTokenPy', 'emToken', (), {'source_fields': set(),
-                                                                'target_fields': ['form', 'wsafter']})
+em_token = ('quntoken', 'EmTokenPy', 'emToken', (), {'source_fields': set(), 'target_fields': ['form', 'wsafter']})
 
 # emMorph ##############################################################################################################
 
@@ -121,6 +121,8 @@ em_zero = ('emzero', 'EmZero', 'Inserts zero pronouns (subjects, objects and pos
 
 # emBERT ###############################################################################################################
 
+# Workaround for emBERT
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'embert'))
 embert_ner = ('embert.embert', 'EmBERT', 'emBERT', (),
               {'task': 'ner', 'source_fields': {'form'}, 'target_fields': ['NER-BIO']})
 
@@ -141,7 +143,7 @@ emiobutils_ner = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer fo
 ########################################################################################################################
 
 em_gateconv = ('emgateconv', 'EmGATEConv', 'A good-enough converter to GATE format for e-magyar.hu', (),
-              {'source_fields': {'form'}})
+               {'source_fields': {'form'}})
 
 ########################################################################################################################
 
