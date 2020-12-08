@@ -2,103 +2,99 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-test_one() {
-  # make target for testing (test-...)
-  TARGET=$1
-  # input file for testing
-  INPUT=$2
-  # output file during testing
-  OUTPUT=$3
-  # gold output for diff
-  GOLD=$4
-  # message
-  MESSAGE=$5
-
-  echo "Testing '${TARGET}' on '${INPUT} should yield ${OUTPUT}' ${MESSAGE}"
-  mkdir -p `dirname ${OUTPUT}`
-  time make -f ${SCRIPT_DIR}/../Makefile RAWINPUT=${INPUT} test-${TARGET} > ${OUTPUT}
-  if diff ${GOLD} ${OUTPUT}; then
-    echo "Test succeeded! :)"
-  else
-    echo ">>> Test failed! :( <<<"
+if [[ "$1" == "test-modules" || "$1" == "test-rest-modules" || "$1" == "test-runnable-docker-modules" ]]; then
+    TEST_TYPE=$1
+else
+    echo "ERROR: Must supply at least one of the following:" >&2
+    echo "'test-modules', 'test-rest-modules', 'test-runnable-docker-modules'" >&2
+    echo "Be sure that the server has been started (http://127.0.0.1:5000)!" >&2
     exit 1
-  fi
+fi
+
+function run_test() {
+    # test-modules or test-rest-modules
+    TEST_TARGET=$1
+    # modules for testing
+    MODULES=$2
+    # input file for testing
+    INPUT=$3
+    # output file during testing
+    OUTPUT=$4
+    # gold output for diff
+    GOLD=$5
+    # Log
+    LOG=$6
+    # message
+    MESSAGE=$7
+
+    MAKEFILE="${SCRIPT_DIR}/../Makefile"
+    echo "Testing make -f ${MAKEFILE} ${TEST_TARGET} RAWINPUT=${INPUT} MODULES=${MODULES} > ${OUTPUT} 2> ${LOG}"
+    echo "${MESSAGE}"
+
+    mkdir -p `dirname ${OUTPUT}`
+    time make -f ${MAKEFILE} ${TEST_TARGET} RAWINPUT=${INPUT} MODULES=${MODULES} > ${OUTPUT} 2> ${LOG}
+    DIFF=$(diff ${GOLD} ${OUTPUT})
+    if [ -z "$DIFF" ] ; then
+        echo "Test succeeded! :)"
+    else
+        echo ">>> Test failed! :( <<<"
+        exit 1
+    fi
 }
 
 TEST_TMP=`mktemp -d /tmp/test_temp.XXXXX`
 
 echo
 
-test_one tok-morph \
+run_test $TEST_TYPE tok,morph \
   ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.tok-morph \
   ${SCRIPT_DIR}/test_output/out.input.tok-morph \
-  ""
+  ${TEST_TMP}/log.input.tok-morph \
+  ''
 
-# ----- tok-morph-tag
+# ----- tok-morph-log
 
 echo
 
-test_one tok-morph-tag \
+run_test $TEST_TYPE tok,morph,pos \
   ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.input.tok-morph-tag \
-  ${SCRIPT_DIR}/test_output/out.input.tok-morph-tag \
-  "(~30sec)"
+  ${TEST_TMP}/out.input.tok-morph-pos \
+  ${SCRIPT_DIR}/test_output/out.input.tok-morph-pos \
+  ${TEST_TMP}/log.input.tok-morph-pos \
+  '(~30sec)'
 
 echo
 
-test_one tok-morph-tag-single \
-  ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.input.tok-morph-tag-single \
-  ${SCRIPT_DIR}/test_output/out.input.tok-morph-tag-single \
-  "(~30sec)"
-
-echo
-
-test_one tok-morph-tag-single \
+run_test $TEST_TYPE tok,morph,pos \
   ${SCRIPT_DIR}/test_input/halandzsa.test \
-  ${TEST_TMP}/out.halandzsa.tok-morph-tag \
-  ${SCRIPT_DIR}/test_output/out.halandzsa.tok-morph-tag \
-  "testing guesser (~30sec)"
+  ${TEST_TMP}/out.halandzsa.tok-morph-pos \
+  ${SCRIPT_DIR}/test_output/out.halandzsa.tok-morph-pos \
+  ${TEST_TMP}/log.halandzsa.tok-morph-pos \
+  'testing guesser (~30sec)'
 
 echo
-
-# testing on a large file
-if [ "$HOSTNAME" = juniper ]; then
-test_one tok-morph-tag \
-  /store/projects/e-magyar/test_input/hundredthousandwords.txt \
-  ${TEST_TMP}/out.100.tok-morph-tag \
-  /store/projects/e-magyar/test_output/out.100.tok-morph-tag \
-  "testing with a 100.000 word file (~3min)"
-fi
 
 # ----- tok-dep
 
 echo
 
-test_one tok-dep-single \
+run_test $TEST_TYPE tok,morph,pos,conv-morph,dep \
   ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.tok-dep \
   ${SCRIPT_DIR}/test_output/out.input.tok-dep \
-  "(~1min)"
+  ${TEST_TMP}/log.input.tok-dep \
+  '(~1min)'
 
 # ----- all (without cons)
 
 echo
 
-test_one all-single \
+run_test $TEST_TYPE tok,morph,pos,conv-morph,dep,chunk,ner \
   ${SCRIPT_DIR}/test_input/input.test \
   ${TEST_TMP}/out.input.all \
   ${SCRIPT_DIR}/test_output/out.input.all \
-  "(~1min)"
+  ${TEST_TMP}/log.input.all \
+  '(~1min)'
 
 echo
-
-# testing on a large file
-if [ "$HOSTNAME" = juniper ]; then
-test_one all-single \
-  /store/projects/e-magyar/test_input/hundredthousandwords.txt \
-  ${TEST_TMP}/out.100.all \
-  /store/projects/e-magyar/test_output/out.100.all \
-  "testing with a 100.000 word file (~15min)"
-fi

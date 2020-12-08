@@ -1,18 +1,12 @@
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir := $(dir $(mkfile_path))
 
-# raw text input
-RAWINPUT=tests/test_input/input.test
-#RAWINPUT=tests/test_input/puzser.test
-#
-# some larger raw testfiles available on juniper...
-#RAWINPUT=/store/projects/e-magyar/test_input/hundredthousandwords.txt
-
-# input crafted directly for emTag
-#TAGINPUT=tests/test_input/emTag.test
-
-# input crafted directly for emDep
-#DEPINPUT=tests/test_input/emDep.test
+# For REST API modules should be separated by '/'. For simplicity they are replaced in the following script
+PYTHON_REST_QUERY := "import sys; \
+import requests; \
+modules = sys.argv[1].replace(',', '/'); \
+r = requests.post(f'http://127.0.0.1:5000/{modules}', files={'file': open(sys.argv[2], encoding='UTF-8')}); \
+print(r.text, end='')"
 
 # ----------
 
@@ -22,53 +16,27 @@ all: usage
 usage:
 	@echo
 	@echo "You can..."
-	@echo " make test-tok-morph"
-	@echo " make test-tok-morph-tag"
-	@echo " make test-tok-morph-tag-single"
-	@echo " make test-tok-dep-single"
-	@echo " make test-tok-chunk-ner-single"
-	@echo " make test-tok-cons-single"
-#	@echo " make test-tag"
-#	@echo " make test-dep"
+	@echo " make test-modules RAWINPUT='file.txt' MODULES='tok,morph,etc.'"
+	@echo " make test-rest-modules RAWINPUT='file.txt' MODULES='tok,morph,etc.'"
 	@echo
+.PHONY: usage
 
 # ----------
 
-# testing emTok + emMorph (separately)
-test-tok-morph:
+test-modules:
 	@cat $(RAWINPUT) \
-     | python3 $(mkfile_dir)/main.py tok \
-     | python3 $(mkfile_dir)/main.py morph
+     | python3 $(mkfile_dir)/main.py $(MODULES)
+.PHONY: test-modules
 
-# testing emTok + emMorph + emTag (separately)
-test-tok-morph-tag:
+
+test-rest-modules:
+	@python3 -c ${PYTHON_REST_QUERY} $(MODULES) $(RAWINPUT)
+.PHONY: test-rest-modules
+
+
+test-runnable-docker-modules:
 	@cat $(RAWINPUT) \
-     | python3 $(mkfile_dir)/main.py tok \
-     | python3 $(mkfile_dir)/main.py morph \
-     | python3 $(mkfile_dir)/main.py pos
-
-# testing emTok + emMorph + emTag
-test-tok-morph-tag-single:
-	@cat $(RAWINPUT) \
-     | python3 $(mkfile_dir)/main.py tok,morph,pos
-
-# testing emTok + emMorph + emTag + em_morph2UD + emDepUD
-test-tok-dep-single:
-	@cat $(RAWINPUT) \
-     | python3 $(mkfile_dir)/main.py tok,morph,pos,conv-morph,dep
-
-# testing emTok + emMorph + emTag + em_morph2UD + emDepUD + emChunk + emNer
-# XXX currently without emCons
-test-all-single:
-	@cat $(RAWINPUT) \
-     | python3 $(mkfile_dir)/main.py tok,morph,pos,conv-morph,dep,chunk,ner
-
-# ----------
-
-# testing emTok + emMorph + emTag + em_morph2UD + emDepUD + emCons
-test-tok-cons-single:
-	@cat $(RAWINPUT) \
-     | python3 $(mkfile_dir)/main.py tok,morph,pos,conv-morph,dep,cons
+	 | docker run -i --rm mtaril/emtsv:test $(MODULES)
 
 # ----------
 
@@ -79,17 +47,6 @@ update_repo:
 		fi
 	@git pull && git submodule foreach git pull origin master
 .PHONY: update_repo
-
-
-# testing emTag only -- ezt majd!
-#test-tag:
-#	@cat $(TAGINPUT) \
-#    | python3 $(mkfile_dir)/main.py pos
-
-#	testing emDep only -- ezt majd!
-#test-dep:
-#	@cat $(DEPINPUT) \
-#    | python3 $(mkfile_dir)/main.py dep
 
 
 venv:
@@ -140,7 +97,7 @@ dconnect:
 
 # test the test image
 dtest: # dbuildtest
-	@./tests/dtest.sh
+	@$(mkfile_dir)/tests/test.sh test-runnable-docker-modules
 .PHONY: dtest
 
 
