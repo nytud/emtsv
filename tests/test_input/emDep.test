@@ -1,4 +1,4 @@
-string	lemma	pos	feature
+form	lemma	upostag	feats
 A	a	Det	SubPOS=f
 kutya	kutya	N	SubPOS=c|Num=s|Cas=n|NumP=none|PerP=none|NumPd=none
 elment	elmegy	V	SubPOS=m|Mood=i|Tense=s|Per=3|Num=s|Def=n

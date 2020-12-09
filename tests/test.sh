@@ -34,7 +34,7 @@ function run_test() {
     mkdir -p `dirname ${OUTPUT}`
     time make -f ${MAKEFILE} ${TEST_TARGET} RAWINPUT=${INPUT} MODULES=${MODULES} > ${OUTPUT} 2> ${LOG}
     DIFF=$(diff ${GOLD} ${OUTPUT})
-    if [ -z "$DIFF" ] ; then
+    if [[ "$?" == "0" && -z "$DIFF" ]]; then
         echo "Test succeeded! :)"
     else
         echo ">>> Test failed! :( <<<"
@@ -44,67 +44,29 @@ function run_test() {
 
 TEST_TMP=`mktemp -d /tmp/test_temp.XXXXX`
 
-echo
+declare -A TEST_CONF
+TEST_CONF['input.test.tok-morph']=''
+TEST_CONF['input.test.tok-morph-pos']='(~30sec)'
+TEST_CONF['halandzsa.test.tok-morph-pos']='testing guesser (~30sec)'
+TEST_CONF['input.test.tok-morph-pos-conv_morph-dep']='(~1min)'
+TEST_CONF['input.test.tok-morph-pos-conv_morph-dep-chunk-ner']='(~1min)'
+TEST_CONF['input.test.tok-spell-morph-pos-conv_morph-dep-chunk-ner-cons-bert_ner-bert_basenp-bert_np']='(~1min)'
+TEST_CONF['emDep.test.dep']='(~1min)'
+TEST_CONF['emTag.test.pos']='(~1min)'
+TEST_CONF['kutya.test.tok-morph-pos-conv_morph-dep']='(~1min)'
+TEST_CONF['puzser.test.tok-morph-pos-conv_morph-dep']='(~1min)'
+TEST_CONF['alaptorveny_full.txt.tok-morph-pos-conv_morph-dep']='(~1min)'
 
-run_test $TEST_TYPE tok,morph \
-  ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.input.tok-morph \
-  ${SCRIPT_DIR}/test_output/out.input.tok-morph \
-  ${TEST_TMP}/log.input.tok-morph \
-  ''
-
-# ----- tok-morph-log
-
-echo
-
-run_test $TEST_TYPE tok,morph,pos \
-  ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.input.tok-morph-pos \
-  ${SCRIPT_DIR}/test_output/out.input.tok-morph-pos \
-  ${TEST_TMP}/log.input.tok-morph-pos \
-  '(~30sec)'
-
-echo
-
-run_test $TEST_TYPE tok,morph,pos \
-  ${SCRIPT_DIR}/test_input/halandzsa.test \
-  ${TEST_TMP}/out.halandzsa.tok-morph-pos \
-  ${SCRIPT_DIR}/test_output/out.halandzsa.tok-morph-pos \
-  ${TEST_TMP}/log.halandzsa.tok-morph-pos \
-  'testing guesser (~30sec)'
-
-echo
-
-# ----- tok-dep
-
-echo
-
-run_test $TEST_TYPE tok,morph,pos,conv-morph,dep \
-  ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.input.tok-dep \
-  ${SCRIPT_DIR}/test_output/out.input.tok-dep \
-  ${TEST_TMP}/log.input.tok-dep \
-  '(~1min)'
-
-# ----- all (without cons)
-
-echo
-
-run_test $TEST_TYPE tok,morph,pos,conv-morph,dep,chunk,ner \
-  ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.input.all \
-  ${SCRIPT_DIR}/test_output/out.input.all \
-  ${TEST_TMP}/log.input.all \
-  '(~1min)'
-
-echo
-
-# Mod full tok,spell,morph,pos,conv-morph,dep,chunk,ner,cons,bert-ner,bert-basenp,bert-np
-run_test $TEST_TYPE tok,morph,pos,conv-morph,dep,chunk,ner \
-  ${SCRIPT_DIR}/test_input/input.test \
-  ${TEST_TMP}/out.all.tsv \
-  ${SCRIPT_DIR}/test_output/all.tsv \
-  ${TEST_TMP}/log.all.tsv \
-  '(~1min)'
-
-echo
+for output_file in "${!TEST_CONF[@]}"; do
+    echo
+    act_modules1=${output_file##*.}
+    act_modules2=${act_modules1//-/,}
+    act_modules3=${act_modules2//_/-}
+    input_file=${output_file/.$act_modules1/}
+    run_test $TEST_TYPE $act_modules3 \
+      ${SCRIPT_DIR}/test_input/$input_file \
+      ${TEST_TMP}/$output_file \
+      ${SCRIPT_DIR}/test_output/$output_file \
+      ${TEST_TMP}/log.$TEST_TYPE.$output_file \
+      ${TEST_CONF[$output_file]}
+done

@@ -1,0 +1,7 @@
+form	lemma	upostag	feats	id	deprel	head
+A	a	Det	SubPOS=f	1	ATT	3
+kutya	kutya	N	SubPOS=c|Num=s|Cas=n|NumP=none|PerP=none|NumPd=none	2	ATT	3
+elment	elmegy	V	SubPOS=m|Mood=i|Tense=s|Per=3|Num=s|Def=n	3	ATT	0
+sétálni	sétál	V	SubPOS=m|Mood=i|Tense=s|Per=none|Num=p|Def=n	4	ATT	3
+.	.	.	_	5	ATT	3
+
