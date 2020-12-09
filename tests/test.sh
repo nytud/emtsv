@@ -98,3 +98,13 @@ run_test $TEST_TYPE tok,morph,pos,conv-morph,dep,chunk,ner \
   '(~1min)'
 
 echo
+
+# Mod full tok,spell,morph,pos,conv-morph,dep,chunk,ner,cons,bert-ner,bert-basenp,bert-np
+run_test $TEST_TYPE tok,morph,pos,conv-morph,dep,chunk,ner \
+  ${SCRIPT_DIR}/test_input/input.test \
+  ${TEST_TMP}/out.all.tsv \
+  ${SCRIPT_DIR}/test_output/all.tsv \
+  ${TEST_TMP}/log.all.tsv \
+  '(~1min)'
+
+echo

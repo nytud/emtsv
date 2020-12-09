@@ -32,7 +32,7 @@ If a bug is found please leave feedback with the exact details.
 
 ## Citing and License
 
-If you use __emtsv__, please cite the following articles (see cite.bib for [BibTeX entries](doc/cite.bib)):
+If you use __emtsv__, please cite the following articles (see cite.bib for [BibTeX entries](docs/cite.bib)):
 
     Simon Eszter, Indig Balázs, Kalivoda Ágnes, Mittelholcz Iván, Sass Bálint, Vadász Noémi. Újabb fejlemények az e-magyar háza táján. In: Berend Gábor, Gosztolya Gábor, Vincze Veronika (szerk.): MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2020). Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 29-42.
 
@@ -63,12 +63,12 @@ This system is a replacement for the original https://github.com/dlt-rilmta/hunl
 
 ## Installation
 
-- From the git repository: see [detailed instructions](doc/installation.md) in the documentation
+- From the git repository: see [detailed instructions](docs/installation.md) in the documentation
 - From __prebuilt docker image__ ([https://hub.docker.com/r/mtaril/emtsv](https://hub.docker.com/r/mtaril/emtsv)):
     ```bash
     docker pull mtaril/emtsv:latest
     ```
-    - See [detailed instructions](doc/installation.md) for building the _docker image_
+    - See [detailed instructions](docs/installation.md) for building the _docker image_
 
 ## Usage
 
@@ -207,7 +207,7 @@ For examples see files in `tests/test_input` and `tests/test_output` directories
 
 ## Modules
 
-Modules are defined in `config.py`. The current toolchain consists of the following modules (See [the topology of the current toolchain](doc/emtsv_modules.pdf) for an overview) which can be called by their names (or using their shorthand names in brackets):
+Modules are defined in `config.py`. The current toolchain consists of the following modules (See [the topology of the current toolchain](docs/emtsv_modules.pdf) for an overview) which can be called by their names (or using their shorthand names in brackets):
 
 - `emToken` (`tok`): Tokenizer
 - `emMorph` (`morph`): Morphological analyser together with emLem lemmatiser
@@ -252,7 +252,7 @@ We use here a tokenizer, a morphological analyzer, a POS tagger, a morphology co
 ### Creating a module
 
 - The method is the same as in the case of [creating modules in `xtsv`](https://github.com/dlt-rilmta/xtsv#creating-a-module-that-can-be-used-with-xtsv)
-- However, all new modules must follow [the field-name conventions of `emtsv`](doc/emtsv_modules.pdf)
+- However, all new modules must follow [the field-name conventions of `emtsv`](docs/emtsv_modules.pdf)
 
 <!--
 ## Work in progress
@@ -269,6 +269,6 @@ for __SOMEDAY__:
 
 ## Further documentation
 
-- [installation](doc/installation.md)
-- [testing](doc/testing.md)
-- [troubleshooting](doc/troubleshooting.md)
+- [installation](docs/installation.md)
+- [testing](docs/testing.md)
+- [troubleshooting](docs/troubleshooting.md)
