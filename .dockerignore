@@ -1,5 +1,8 @@
-nohup.out
-Dockerfile
-__pycache__/
-.git/
-.git*
+# Ignore everything
+**
+# Allow files and directories
+!/*.py
+!/requirements.txt
+!/docker/
+!/embert/
+**/.git

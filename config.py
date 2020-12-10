@@ -2,7 +2,6 @@
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
 import os
-import sys
 
 # DummyTagger (EXAMPLE) ################################################################################################
 
@@ -107,13 +106,13 @@ emudpipe_parse = ('emudpipe', 'UDPipe', 'UDPipe dependency parser',
 
 em_conll = ('emconll', 'EmCoNLL', 'CoNLL-U converter', (), {'source_fields': {'form'}, 'target_fields': []})
 
-# emTerm ##############################################################################################################
+# emTerm ###############################################################################################################
 
-term_list = os.path.join(os.path.dirname(__file__), 'emterm', 'test_termlist.tsv')
+term_list = os.path.join('emterm', 'test_termlist.tsv')
 em_term = ('emterm', 'EmTerm', 'Mark multiword terminology expressions from fixed list',
            (term_list,), {'source_fields': {'form', 'lemma'}, 'target_fields': ['term']})
 
-# emZero ##############################################################################################################
+# emZero ###############################################################################################################
 
 em_zero = ('emzero', 'EmZero', 'Inserts zero pronouns (subjects, objects and possessors) into dependency parsed texts',
            (), {'source_fields': {'form', 'lemma', 'xpostag', 'upostag', 'feats', 'id', 'head', 'deprel'},
@@ -121,8 +120,6 @@ em_zero = ('emzero', 'EmZero', 'Inserts zero pronouns (subjects, objects and pos
 
 # emBERT ###############################################################################################################
 
-# Workaround for emBERT
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'embert'))
 embert_ner = ('embert.embert', 'EmBERT', 'emBERT', (),
               {'task': 'ner', 'source_fields': {'form'}, 'target_fields': ['NER-BIO']})
 

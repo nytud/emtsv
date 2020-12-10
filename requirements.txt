@@ -5,7 +5,7 @@ pygithub
 pyyaml
 requests
 seqeval<=0.0.5
-torch==1.7  # >1.4 or it crashes
+torch==1.6  # >1.4 or it crashes, >=1.7 gives CUDA warning if GPU not present
 tqdm
 transformers==2.10.0  # <2.11.0 or it crashes
 # dataclasses==0.7; python_version < '3.7'
