@@ -29,10 +29,15 @@ hunspellpy = ('hunspellpy', 'HunspellPy', 'HunspellPy', (),
 em_tag = ('purepospy', 'PurePOS', 'emTag (PurePOS)', (),
           {'source_fields': {'form', 'anas'}, 'target_fields': ['lemma', 'xpostag']})
 
-# emMorph2Dep ##########################################################################################################
+# emMorph2UD1 ##########################################################################################################
 
 em_morph2ud = ('emmorph2ud', 'EmMorph2UD', 'emmorph2ud', (),
                {'source_fields': {'form', 'lemma', 'xpostag'}, 'target_fields': ['upostag', 'feats']})
+
+# emMorph2UD2 ##########################################################################################################
+
+em_morph2ud2 = ('emmorph2ud2', 'EmMorph2UD2', 'emmorph2ud2', (),
+                {'source_fields': {'form', 'lemma', 'xpostag'}, 'target_fields': ['upostag', 'feats']})
 
 # emChunk ##############################################################################################################
 
@@ -153,6 +158,7 @@ tools = [(em_token, ('tok', 'emToken')),
          (em_chunk, ('chunk', 'emChunk')),
          (em_ner, ('ner', 'emNER')),
          (em_morph2ud, ('conv-morph', 'emmorph2ud')),
+         (em_morph2ud2, ('conv-morph2', 'emmorph2ud2')),
          (em_depud, ('dep', 'emDep-ud')),
          (em_depud_50, ('dep50', 'emDep-ud50')),
          (em_cons, ('cons', 'emCons')),
