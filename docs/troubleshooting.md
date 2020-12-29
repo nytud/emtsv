@@ -2,7 +2,7 @@
 
 Below are some common error messages and the reasons why these appear.
 
-- Errors like the one below appear if `JAVA_HOME` environment variable is not set properly.
+## Errors like the one below appear if `JAVA_HOME` environment variable is not set properly.
 
 ```Python
 Traceback (most recent call last):
@@ -23,7 +23,7 @@ Traceback (most recent call last):
 KeyError: 'JAVA_HOME'
 ```
 
-- Errors like the one below appear if the JRE version is not compatible.
+## Errors like the one below appear if the JRE version is not compatible.
 
 ```Python
 Traceback (most recent call last):
@@ -49,7 +49,7 @@ Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-
 BrokenPipeError: [Errno 32] Broken pipe
 ```
 
-- Errors like the one below are due to missing modelfile because `git lfs` is not installed before clone.
+## Errors like the one below are due to missing modelfile because `git lfs` is not installed before clone.
 
 ```Python
   File "/app/purepospy/purepospy.py", line 168, in tag_sentence
@@ -60,7 +60,7 @@ BrokenPipeError: [Errno 32] Broken pipe
 jnius.JavaException: JVM exception occurred: invalid stream header: 76657273
 ```
 
-- Errors like the one below appear if no __Unicode-aware locale__ (eg. hu_HU.UTF-8) is set.
+## Errors like the one below appear if no __Unicode-aware locale__ (eg. hu_HU.UTF-8) is set.
 
 ```Python
 File "/app/emmorphpy/emmorphpy/emmorphpy.py", line 76, in _load_config
@@ -78,7 +78,8 @@ return codecs.ascii_decode(input, self.errors)[0]
 UnicodeDecodeError: 'ascii' codec can't decode byte 0xc5 in position 603: ordinal not in range(128)
 ```
 
-- Errors like the one below appear if the classpath in `jnius_config.get_classpath()` is not set properly.
+## Errors like the one below appear if the classpath in `jnius_config.get_classpath()` is not set properly.
+
 Use `jnius_config.add_classpath(PATH)` to add the missing path to classpath in the main python file of the individual modules.
 
 ```Python
@@ -95,7 +96,8 @@ Traceback (most recent call last):
 jnius.JavaException: Class not found b'is2/parser/Parser'
 ```
 
-- Errors like the one below appear if the input contains too long sentences which mostly are not real sentences but garbage data.
+## Errors like the one below appear if the input contains too long sentences which mostly are not real sentences but garbage data.
+
 Please check the input and report any bugs in case the problem occurs on normal data with good RAM conditions.
 
 ```Python
@@ -169,3 +171,19 @@ Aborted (core dumped)
 
 WARNING: No blank line before EOF!
 ```
+
+## Errors like the one below appear if quntoken version is <3.1.7 and emtsv version is <4.0.6
+
+- The processing hang because Quntoken hangs on some input due to a deadlock found and fixed in later versions.
+- The following exception is thrown when using PurePOS:
+
+```
+Traceback (most recent call last):
+File "/usr/local/lib/python3.8/site-packages/xtsv/tsvhandler.py", line 67, in process
+yield from ('{0}\n'.format('\t'.join(tok)) for tok in internal_app.process_sentence(sen, field_values))
+File "/app/purepospy/purepospy/purepospy.py", line 183, in process_sentence
+m[pos] = [(ana['lemma'], ana['tag']) for ana in json_loads(tok[field_indices[1]])] # lemma, tag
+IndexError: list index out of range
+```
+
+The latter can be worked around by adding a newline to the end of the input. Updating quntoken and/or emtsv fixes both errors.
