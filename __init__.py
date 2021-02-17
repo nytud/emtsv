@@ -10,4 +10,4 @@ from xtsv import ModuleError, build_pipeline, pipeline_rest_api, singleton_store
     jnius_config, parser_skeleton, add_bool_arg
 from config import tools, presets
 
-__version__ = '4.0.5'
+__version__ = '4.0.6'
