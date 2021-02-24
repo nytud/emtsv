@@ -1,6 +1,0 @@
-form	wsafter	anas
-Az	" "	[{"lemma": "az", "tag": "[/Det|Art.Def]", "morphana": "az[/Det|Art.Def]=az", "readable": "az[/Det|Art.Def]", "twolevel": "a:a z:z :[/Det|Art.Def]"}, {"lemma": "az", "tag": "[/Det|Pro][Nom]", "morphana": "az[/Det|Pro]=az+[Nom]=", "readable": "az[/Det|Pro] + [Nom]", "twolevel": "a:a z:z :[/Det|Pro] :[Nom]"}, {"lemma": "az", "tag": "[/N|Pro][Nom]", "morphana": "az[/N|Pro]=az+[Nom]=", "readable": "az[/N|Pro] + [Nom]", "twolevel": "a:a z:z :[/N|Pro] :[Nom]"}]
-alma	" "	[{"lemma": "alom", "tag": "[/N][Poss.3Sg][Nom]", "morphana": "alom[/N]=alm+a[Poss.3Sg]=a+[Nom]=", "readable": "alom[/N]=alm + a[Poss.3Sg] + [Nom]", "twolevel": "a:a l:l :o m:m :[/N] a:a :[Poss.3Sg] :[Nom]"}, {"lemma": "alma", "tag": "[/N][Nom]", "morphana": "alma[/N]=alma+[Nom]=", "readable": "alma[/N] + [Nom]", "twolevel": "a:a l:l m:m a:a :[/N] :[Nom]"}]
-szép	""	[{"lemma": "szép", "tag": "[/Adj][Nom]", "morphana": "szép[/Adj]=szép+[Nom]=", "readable": "szép[/Adj] + [Nom]", "twolevel": "s:s z:z é:é p:p :[/Adj] :[Nom]"}, {"lemma": "szép", "tag": "[/Adv|AdjMod]", "morphana": "szép[/Adv|AdjMod]=szép", "readable": "szép[/Adv|AdjMod]", "twolevel": "s:s z:z é:é p:p :[/Adv|AdjMod]"}]
-.	"\n"	[{"lemma": ".", "tag": "[Punct]", "morphana": "", "readable": "", "twolevel": ""}]
-
