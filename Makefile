@@ -97,7 +97,7 @@ dconnect:
 
 # test the test image
 dtest: # dbuildtest
-	@$(mkfile_dir)/tests/test.sh test-runnable-docker-modules
+	@./test/dtest.sh
 .PHONY: dtest
 
 
