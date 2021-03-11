@@ -26,15 +26,16 @@ function find_free_port {
 
 
 function spin {
-  local i=0
-  local sp='/-\|'
-  local n=${#sp}
-  printf ' '
-  sleep 0.1
-  while true; do
-    >&2 printf '\b%s' "${sp:i++%n:1}"
-    sleep 0.5
-  done
+    # source: https://mywiki.wooledge.org/BashFAQ/034
+    local i=0
+    local sp='/-\|'
+    local n=${#sp}
+    printf ' '
+    sleep 0.1
+    while true; do
+        >&2 printf '\b%s' "${sp:i++%n:1}"
+        sleep 0.5
+    done
 }
 
 
