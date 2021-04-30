@@ -26,6 +26,7 @@ function find_free_port {
 
 
 function spin {
+    # spinner (aka. lightweight progressbar)
     # source: https://mywiki.wooledge.org/BashFAQ/034
     local i=0
     local sp='/-\|'
@@ -48,10 +49,10 @@ function run_docker {
     #    - overwrite OUTPUT global variable
     #    - call spinner as backgroung process
     # return: none
-    >&2 echo -n "- $1: "
-    spin & spinpid=$!
+    >&2 echo -n "- $1: " # log to stderr
+    spin & spinpid=$! # start spinner
     disown $spinpid # https://stackoverflow.com/questions/8074904/how-to-shield-the-kill-output
-    OUTPUT="${TESTDIR}/${1,,}_${BASENAME%.*}.tsv"
+    OUTPUT="${TESTDIR}/${1,,}_${BASENAME%.*}.tsv" # generate output filename
     if [ "$1" = "CLI" ] ; then
         date >$TESTDIR/log
         cat $INPUT | \
@@ -64,7 +65,7 @@ function run_docker {
     else
         return 1
     fi
-    kill "$spinpid" #2>/dev/null
+    kill "$spinpid" # stop spinner
 }
 
 
