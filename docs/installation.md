@@ -14,7 +14,7 @@
 
 Clone together with submodules (it takes about 3 minutes):
 
-`git lfs clone --depth=1 --recurse-submodules https://github.com/dlt-rilmta/emtsv`
+`git lfs clone --depth=1 --recurse-submodules https://github.com/nytud/emtsv`
 
 - _Note:_ please ignore the deprecation warning. (This command checks and ensures that `git-lfs` is installed and working.)
 - _Note2:_ If you are sure that `git-lfs` is installed, you can use `git clone` to avoid the warning. (This command also works without `git-lfs` installed, but `emtsv` might not work as the model files will not be downloaded. See [Troubleshooting](troubleshooting.md) section for details.)
