@@ -28,7 +28,7 @@ if __name__ == '__main__':
         app = pipeline_rest_api(name='e-magyar-tsv', available_tools=tools, presets=presets,
                                 conll_comments=conll_comments, singleton_store=singleton_store,
                                 form_title='e-magyar text processing system',
-                                doc_link='https://github.com/dlt-rilmta/emtsv')
+                                doc_link='https://github.com/nytud/emtsv')
         app.run(debug=True)
     else:
         argparser.error('In REST mode, input and output are supressed, '

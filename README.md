@@ -13,7 +13,7 @@ C) branch-be fejlesztünk és a MILESTONE-oknál merge-lünk.
 
 # __e-magyar__ text processing system (emtsv)
 
-- inter-module communication via the [`xtsv` framework](https://github.com/dlt-rilmta/xtsv)
+- inter-module communication via the [`xtsv` framework](https://github.com/nytud/xtsv)
     - processing can be started or stopped at any module
     - module dependency checks before processing
     - easy to add new modules
@@ -48,7 +48,7 @@ If you use __emBERT__, please cite the following paper:
 
     Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
 
-This system is a replacement for the original https://github.com/dlt-rilmta/hunlp-GATE system.
+This system is a replacement for the original https://github.com/nytud/hunlp-GATE system.
 
 ``emtsv`` is licensed under the LGPL 3.0 license. The submodules have their own license.
 
@@ -192,16 +192,16 @@ Client:
     app = application = pipeline_rest_api(name='e-magyar-tsv', available_tools=tools, presets=presets,
                                 conll_comments=conll_comments, singleton_store=singleton_store,
                                 form_title='e-magyar text processing system',
-                                doc_link='https://github.com/dlt-rilmta/emtsv')
+                                doc_link='https://github.com/nytud/emtsv')
     # And run the Flask debug server separately
     app.run()
     ```
 
-The public API is equivalent to the [`xtsv` API](https://github.com/dlt-rilmta/xtsv#api-documentation)
+The public API is equivalent to the [`xtsv` API](https://github.com/nytud/xtsv#api-documentation)
 
 ## Data format
 
-Please see the specification  in detail in the [`xtsv` documentation](https://github.com/dlt-rilmta/xtsv#data-format).
+Please see the specification  in detail in the [`xtsv` documentation](https://github.com/nytud/xtsv#data-format).
 
 For examples see files in `tests/test_input` and `tests/test_output` directories.
 
@@ -251,7 +251,7 @@ We use here a tokenizer, a morphological analyzer, a POS tagger, a morphology co
 
 ### Creating a module
 
-- The method is the same as in the case of [creating modules in `xtsv`](https://github.com/dlt-rilmta/xtsv#creating-a-module-that-can-be-used-with-xtsv)
+- The method is the same as in the case of [creating modules in `xtsv`](https://github.com/nytud/xtsv#creating-a-module-that-can-be-used-with-xtsv)
 - However, all new modules must follow [the field-name conventions of `emtsv`](docs/emtsv_modules.pdf)
 
 <!--
