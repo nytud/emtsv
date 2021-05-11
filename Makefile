@@ -50,9 +50,13 @@ update_repo:
 
 
 venv:
-	# rm -rf venv
-	# python3 -m venv venv
-	venv/bin/pip install cython
+	@if [ -d venv/ ] ; then \
+		echo 'Upgrade requirements.' ;\
+	else \
+		echo 'Create venv/, install requirements.' ;\
+		python3 -m venv venv ;\
+	fi
+	venv/bin/pip install --upgrade cython
 	venv/bin/pip install -r requirements.txt
 	for req in */requirements.txt ; do venv/bin/pip install -r $${req} ; done
 .PHONY: venv
