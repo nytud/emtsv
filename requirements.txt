@@ -12,17 +12,17 @@ transformers==2.10.0  # <2.11.0 or it crashes
 # Modules with versions pinned
 quntoken==3.1.7
 # Some of them will be on pypi latter...
-https://github.com/dlt-rilmta/emmorphpy/releases/download/v1.1.0/emmorphpy-1.1.0-py3-none-any.whl
-https://github.com/dlt-rilmta/hunspellpy/releases/download/v1.0.0/hunspellpy-1.0.0-py3-none-any.whl
-https://github.com/dlt-rilmta/purepospy/releases/download/v1.0.1/purepospy-1.0.1-py3-none-any.whl
-https://github.com/dlt-rilmta/HunTag3/releases/download/v3.0.2/huntag-3.0.2-py3-none-any.whl
-https://github.com/dlt-rilmta/emIOBUtils/releases/download/v1.0.0/emiobutils-1.0.0-py3-none-any.whl
-https://github.com/dlt-rilmta/emdeppy/releases/download/v1.0.1/emdeppy-1.0.1-py3-none-any.whl
-https://github.com/dlt-rilmta/emconspy/releases/download/v1.0.1/emconspy-1.0.1-py3-none-any.whl
-https://github.com/dlt-rilmta/emterm/releases/download/v1.0.1/emterm-1.0.1-py3-none-any.whl
-https://github.com/dlt-rilmta/emudpipe/releases/download/v1.0.0/emudpipe-1.0.0-py3-none-any.whl
-https://github.com/dlt-rilmta/emdummy/releases/download/v1.0.1/emdummy-1.0.1-py3-none-any.whl
-https://github.com/dlt-rilmta/emgateconv/releases/download/v1.0.3/emgateconv-1.0.3-py3-none-any.whl
+https://github.com/nytud/emmorphpy/releases/download/v1.1.0/emmorphpy-1.1.0-py3-none-any.whl
+https://github.com/nytud/hunspellpy/releases/download/v1.0.0/hunspellpy-1.0.0-py3-none-any.whl
+https://github.com/nytud/purepospy/releases/download/v1.0.1/purepospy-1.0.1-py3-none-any.whl
+https://github.com/nytud/HunTag3/releases/download/v3.0.2/huntag-3.0.2-py3-none-any.whl
+https://github.com/nytud/emIOBUtils/releases/download/v1.0.0/emiobutils-1.0.0-py3-none-any.whl
+https://github.com/nytud/emdeppy/releases/download/v1.0.1/emdeppy-1.0.1-py3-none-any.whl
+https://github.com/nytud/emconspy/releases/download/v1.0.1/emconspy-1.0.1-py3-none-any.whl
+https://github.com/nytud/emterm/releases/download/v1.0.1/emterm-1.0.1-py3-none-any.whl
+https://github.com/nytud/emudpipe/releases/download/v1.0.0/emudpipe-1.0.0-py3-none-any.whl
+https://github.com/nytud/emdummy/releases/download/v1.0.1/emdummy-1.0.1-py3-none-any.whl
+https://github.com/nytud/emgateconv/releases/download/v1.0.3/emgateconv-1.0.3-py3-none-any.whl
 https://github.com/vadno/emmorph2ud2/releases/download/v1.0.1/emmorph2ud2-1.0.1-py3-none-any.whl
 https://github.com/vadno/emmorph2ud/releases/download/v1.0.0/emmorph2ud-1.0.0-py3-none-any.whl
 https://github.com/vadno/emconll/releases/download/v1.0.0/emconll-1.0.0-py3-none-any.whl
