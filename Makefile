@@ -99,6 +99,14 @@ dconnect:
 .PHONY: dconnect
 
 
+# test LIB, CLI, RestAPI
+test:
+	@./venv/bin/pytest --verbose --disable-warnings tests/test.py::test_lib
+	# @./venv/bin/pytest --verbose --disable-warnings tests/test.py::test_cli
+	# @./venv/bin/pytest --verbose --disable-warnings tests/test.py::test_api
+.PHONY: test
+
+
 # test the test image
 dtest: # dbuildtest
 	@./test/dtest.sh

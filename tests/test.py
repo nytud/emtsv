@@ -7,27 +7,13 @@
 - docker REST API
 """
 # import pytest
-# import sys
-# from tempfile import mkdtemp
-# from shutil import rmtree
+from tempfile import mkdtemp
 from pathlib import Path
+from collections import namedtuple
 
 
-class Case:
-    def __init__(self, input_path, gold_path) -> None:
-        self.input_path = input_path
-        self.gold_path = gold_path
-        self.outout_path = self.get_output_path()
-        self.modules = self.get_modules()
-    
-    def __str__(self) -> str:
-        return f'inp: {self.input_path}\ngold: {self.gold_path}\n'
-
-    def get_output_path(self) -> str:
-        return '/output/valami.tsv'
-
-    def get_modules(self) -> list:
-        return ['tok', 'morph', 'pos']
+Case = namedtuple('Case', 'input_path, gold_path, modules, output_path')
+OUTDIR = mkdtemp()
 
 
 def get_modules(input_path: str, gold_path: str) -> list:
@@ -38,42 +24,65 @@ def get_modules(input_path: str, gold_path: str) -> list:
     modules = []
     input_parts = Path(input_path).name.split('.')
     gold_parts = Path(gold_path).name.split('.')
-    print(input_parts)
-    print(gold_parts)
-    print()
+    # sanity check
+    input_length = len(input_parts)
+    gold_length = len(gold_parts)
+    assert (input_length == 2 and input_parts[-1] == 'txt') or \
+        (input_length == 3 and input_parts[-1] == 'tsv'), \
+        f'wrong input file name ({Path(input_path)})'
+    assert gold_length == 3 and gold_parts[-1] == 'tsv', \
+        f'wrong gold file name ({Path(gold_path)})'
+    # parse parts of paths; calculate modules
+    g_stem, g_mods, _ = gold_parts
+    if input_length == 2:
+        i_stem, _ = input_parts
+        if i_stem == g_stem:
+            for m in g_mods.split('_'):
+                modules.append(m)
+    if input_length == 3:
+        i_stem, i_mods, _ = input_parts
+        if i_stem == g_stem and len(g_mods) > len(i_mods) and g_mods.startswith(i_mods):
+            for m in g_mods[len(i_mods)+1:].split('_'):
+                modules.append(m)
     return modules
 
 
-def generate_cases():
+def generate_cases(mode: str) -> list:
     """Return list of (input, output, gold) filename triplets.
     """
-    # outdir = mkdtemp()
-    # rmtree(outdir)
     tests_dir = Path('./tests')
     inp_files = list(tests_dir.glob('input/*'))
     gold_files = list(tests_dir.glob('gold/*'))
     cases = []
     for i in inp_files:
         for g in gold_files:
-            if get_modules(i, g):
-                cases.append(Case(i, g))
-    for c in cases:
-        pass
-        # print(c)
-    # print(inp_files)
-    # print(gold_files)
+            modules = get_modules(i, g)
+            if modules:
+                cases.append(Case(i, g, modules, Path(OUTDIR, f'{mode}_{g.name}')))
+    return cases
 
-def test_lib():
-    # from ..main import build_pipeline, jnius_config, tools, presets, pipeline_rest_api, singleton_store_factory
-    # with open('tests/input/alaptorveny.txt') as inp:
-    #     input_data = iter(inp.readlines())
-    # output_iterator = sys.stdout
-    # used_tools = ['tok', 'morph', 'pos']
-    # # used_tools = ['tok']
-    # conll_comments = True
-    # output_iterator.writelines(build_pipeline(input_data, used_tools, tools, presets, conll_comments))
-    print(generate_cases())
-    assert False
+
+def test_lib() -> None:
+    from ..main import build_pipeline, jnius_config, tools, presets
+    cases = generate_cases('lib')
+    for case in cases:
+        used_tools = case.modules
+        with open(case.input_path) as inp, open(case.output_path, 'w') as out:
+            input_data = iter(inp.readlines())
+            out.writelines(build_pipeline(input_data, used_tools, tools, presets, conll_comments=True))
+        with open(case.gold_path) as gold, open(case.output_path) as out:
+            gold_text = gold.read()
+            out_text = out.read()
+            assert gold_text == out_text, f'{case.output_path} is not equal {case.gold_path}'
+
+
+# def test_cli():
+#     assert True
+#     pass
+
 
 if __name__ == '__main__':
-    generate_cases()
+    test_lib()
+
+# print(OUTDIR)
+# rmtree(OUTDIR)
