@@ -27,3 +27,5 @@ https://github.com/vadno/emmorph2ud2/releases/download/v1.0.1/emmorph2ud2-1.0.1-
 https://github.com/vadno/emmorph2ud/releases/download/v1.0.0/emmorph2ud-1.0.0-py3-none-any.whl
 https://github.com/vadno/emconll/releases/download/v1.0.0/emconll-1.0.0-py3-none-any.whl
 https://github.com/vadno/emzero/releases/download/v1.0.0/emzero-1.0.0-py3-none-any.whl
+https://github.com/ELTE-DH/emstanza/releases/download/v1.0.2/emstanza-1.0.2-py3-none-any.whl
+emphon>=1.3.1,<2.0.0

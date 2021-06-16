@@ -75,37 +75,37 @@ em_cons = ('emconspy', 'EmConsPy', 'emCons', (),
 
 # emUDPipe tok-parse ###################################################################################################
 
-emudpipe_tok_parse = ('emudpipe', 'UDPipe', 'UDPipe tokenizer, POS tagger and dependency parser as a whole',
-                      (), {'task': 'tok-parse', 'source_fields': set(), 'target_fields': ['form', 'lemma', 'upostag',
-                           'feats', 'head', 'deprel', 'deps']})
+em_udpipe_tok_parse = ('emudpipe', 'UDPipe', 'UDPipe tokenizer, POS tagger and dependency parser as a whole',
+                       (), {'task': 'tok-parse', 'source_fields': set(), 'target_fields': ['form', 'lemma', 'upostag',
+                            'feats', 'head', 'deprel', 'deps']})
 
 # emUDPipe tok-pos #####################################################################################################
 
-emudpipe_tok_pos = ('emudpipe', 'UDPipe', 'UDPipe tokenizer and POS tagger as a whole',
-                    (), {'task': 'tok-pos', 'source_fields': set(),
-                         'target_fields': ['form', 'lemma', 'upostag', 'feats']})
+em_udpipe_tok_pos = ('emudpipe', 'UDPipe', 'UDPipe tokenizer and POS tagger as a whole',
+                     (), {'task': 'tok-pos', 'source_fields': set(),
+                          'target_fields': ['form', 'lemma', 'upostag', 'feats']})
 
 # emUDPipe tok #########################################################################################################
 
-emudpipe_tok = ('emudpipe', 'UDPipe', 'UDPipe tokenizer', (),
-                {'task': 'tok', 'source_fields': set(), 'target_fields': ['form']})
+em_udpipe_tok = ('emudpipe', 'UDPipe', 'UDPipe tokenizer', (),
+                 {'task': 'tok', 'source_fields': set(), 'target_fields': ['form']})
 
 # emUDPipe pos-parse ###################################################################################################
 
-emudpipe_pos_parse = ('emudpipe', 'UDPipe', 'UDPipe POS tagger and dependency parser as a whole',
-                      (), {'task': 'pos-parse', 'source_fields': {'form'},
-                           'target_fields': ['lemma', 'upostag', 'feats', 'head', 'deprel', 'deps']})
+em_udpipe_pos_parse = ('emudpipe', 'UDPipe', 'UDPipe POS tagger and dependency parser as a whole',
+                       (), {'task': 'pos-parse', 'source_fields': {'form'},
+                            'target_fields': ['lemma', 'upostag', 'feats', 'head', 'deprel', 'deps']})
 
 # emUDPipe pos #########################################################################################################
 
-emudpipe_pos = ('emudpipe', 'UDPipe', 'UDPipe POS tagger', (),
-                {'task': 'pos', 'source_fields': {'form'}, 'target_fields': ['lemma', 'upostag', 'feats']})
+em_udpipe_pos = ('emudpipe', 'UDPipe', 'UDPipe POS tagger', (),
+                 {'task': 'pos', 'source_fields': {'form'}, 'target_fields': ['lemma', 'upostag', 'feats']})
 
 # emUDPipe parse #######################################################################################################
 
-emudpipe_parse = ('emudpipe', 'UDPipe', 'UDPipe dependency parser',
-                  (), {'task': 'parse', 'source_fields': {'form', 'lemma', 'upostag', 'feats'},
-                       'target_fields': ['head', 'deprel', 'deps']})
+em_udpipe_parse = ('emudpipe', 'UDPipe', 'UDPipe dependency parser',
+                   (), {'task': 'parse', 'source_fields': {'form', 'lemma', 'upostag', 'feats'},
+                        'target_fields': ['head', 'deprel', 'deps']})
 
 # emCoNLL ##############################################################################################################
 
@@ -125,27 +125,70 @@ em_zero = ('emzero', 'EmZero', 'Inserts zero pronouns (subjects, objects and pos
 
 # emBERT ###############################################################################################################
 
-embert_ner = ('embert.embert', 'EmBERT', 'emBERT', (),
+embert_ner = ('embert.embert', 'EmBERT', 'emBERT (NER)', (),
               {'task': 'ner', 'source_fields': {'form'}, 'target_fields': ['NER-BIO']})
 
-embert_basenp = ('embert.embert', 'EmBERT', 'emBERT', (),
+embert_basenp = ('embert.embert', 'EmBERT', 'emBERT (baseNP)', (),
                  {'task': 'basenp', 'source_fields': {'form'}, 'target_fields': ['BASE-NP-BIO']})
 
-embert_maxnp = ('embert.embert', 'EmBERT', 'emBERT', (),
+embert_maxnp = ('embert.embert', 'EmBERT', 'emBERT (maxNP)', (),
                 {'task': 'maxnp', 'source_fields': {'form'}, 'target_fields': ['NP-BIO']})
 
 # emIOBUtils ###########################################################################################################
 
-emiobutils_maxnp = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer for maxNP', (),
-                    {'out_style': 'IOBES', 'source_fields': {'NP-BIO'}, 'target_fields': ['NP-BIO-FIXED']})
+em_iobutils_maxnp = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer for maxNP', (),
+                     {'out_style': 'IOBES', 'source_fields': {'NP-BIO'}, 'target_fields': ['NP-BIO-FIXED']})
 
-emiobutils_ner = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer for NER', (),
-                  {'out_style': 'IOBES', 'source_fields': {'NER-BIO'}, 'target_fields': ['NER-BIO-FIXED']})
+em_iobutils_ner = ('emiobutils', 'EmIOBUtils', 'IOB format converter and fixer for NER', (),
+                   {'out_style': 'IOBES', 'source_fields': {'NER-BIO'}, 'target_fields': ['NER-BIO-FIXED']})
 
 ########################################################################################################################
 
 em_gateconv = ('emgateconv', 'EmGATEConv', 'A good-enough converter to GATE format for e-magyar.hu', (),
                {'source_fields': {'form'}})
+
+# emStanza #############################################################################################################
+
+em_stanza_tok = ('emstanza', 'EmStanza', 'Tokenize with Stanza', (),
+                 {'task': 'tok', 'source_fields': set(), 'target_fields': ['form', 'wsafter']})
+
+em_stanza_tok_lem = ('emstanza', 'EmStanza', 'Tokenize, POS tag and lemmatize with Stanza as a whole', (),
+                     {'task': 'tok-lem', 'source_fields': set(),
+                      'target_fields': ['form', 'wsafter', 'feats', 'upostag', 'xpostag', 'lemma']})
+
+em_stanza_tok_parse = ('emstanza', 'EmStanza', 'Tokenize, POS tag, lemmatize and dep parse with Stanza as a whole', (),
+                       {'task': 'tok-parse', 'source_fields': set(),
+                        'target_fields': ['form', 'wsafter', 'feats', 'upostag', 'xpostag', 'lemma', 'id', 'deprel',
+                                          'head']})
+
+em_stanza_parse = ('emstanza', 'EmStanza', 'Dep parse with Stanza', (),
+                   {'task': 'parse', 'source_fields': {'form', 'lemma', 'upostag', 'feats'},
+                    'target_fields': ['id', 'deprel', 'head']})
+
+em_stanza_pos = ('emstanza', 'EmStanza', 'POS tag with Stanza (without lemmatisation)', (),
+                 {'task': 'pos', 'source_fields': {'form'}, 'target_fields': ['upostag', 'xpostag', 'feats']})
+
+em_stanza_lem = ('emstanza', 'EmStanza', 'POS tag and lemmatize with Stanza', (),
+                 {'task': 'pos,lem', 'source_fields': {'form'},
+                  'target_fields': ['upostag', 'xpostag', 'feats', 'lemma']})
+
+# emPhon ###############################################################################################################
+
+emphon_ipa_comments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber with IPAization and with comment lines', (),
+                       {'source_fields': {'form', 'anas'}, 'target_fields': ['phon'], 'include_sentence': True,
+                        'transcriber_opts': {'ipaize': True, 'optional_palatal_assimilation': False}})
+
+emphon_noipa_comments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber without IPAization but with comment lines',
+                         (), {'source_fields': {'form', 'anas'}, 'target_fields': ['phon'], 'include_sentence': True,
+                              'transcriber_opts': {'ipaize': False, 'optional_palatal_assimilation': False}})
+
+emphon_ipa_nocomments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber with IPAization but without comment lines',
+                         (), {'source_fields': {'form', 'anas'}, 'target_fields': ['phon'], 'include_sentence': False,
+                              'transcriber_opts': {'ipaize': True, 'optional_palatal_assimilation': False}})
+
+emphon_noipa_nocomments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber without IPAization and comment lines', (),
+                           {'source_fields': {'form', 'anas'}, 'target_fields': ['phon'], 'include_sentence': False,
+                            'transcriber_opts': {'ipaize': False, 'optional_palatal_assimilation': False}})
 
 ########################################################################################################################
 
@@ -163,21 +206,31 @@ tools = [(em_token, ('tok', 'emToken')),
          (em_depud_50, ('dep50', 'emDep-ud50')),
          (em_cons, ('cons', 'emCons')),
          (em_conll, ('conll', 'emCoNLL')),
-         (emudpipe_tok, ('udpipe-tok',)),
-         (emudpipe_pos, ('udpipe-pos',)),
-         (emudpipe_parse, ('udpipe-parse',)),
-         (emudpipe_tok_pos, ('udpipe-tok-pos',)),
-         (emudpipe_pos_parse, ('udpipe-pos-parse',)),
-         (emudpipe_tok_parse, ('udpipe-tok-parse',)),
+         (em_udpipe_tok, ('udpipe-tok',)),
+         (em_udpipe_pos, ('udpipe-pos',)),
+         (em_udpipe_parse, ('udpipe-parse',)),
+         (em_udpipe_tok_pos, ('udpipe-tok-pos',)),
+         (em_udpipe_pos_parse, ('udpipe-pos-parse',)),
+         (em_udpipe_tok_parse, ('udpipe-tok-parse',)),
          (em_term, ('term', 'emTerm',)),
          (em_zero, ('zero', 'emZero')),
          (embert_ner, ('bert-ner', 'emBERT-NER')),
          (embert_basenp, ('bert-basenp', 'emBERT-baseNP')),
          (embert_maxnp, ('bert-np', 'bert-chunk', 'emBERT-NP')),
-         (emiobutils_maxnp, ('fix-np', 'fix-chunk', 'emIOBUtils-NP')),
-         (emiobutils_ner, ('fix-ner', 'fix-ner', 'emIOBUtils-NER')),
+         (em_iobutils_maxnp, ('fix-np', 'fix-chunk', 'emIOBUtils-NP')),
+         (em_iobutils_ner, ('fix-ner', 'fix-ner', 'emIOBUtils-NER')),
          (em_dummy, ('dummy-tagger', 'emDummy')),
-         (em_gateconv, ('gate-conv', 'emGATEConv'))
+         (em_gateconv, ('gate-conv', 'emGATEConv')),
+         (em_stanza_tok, ('emstanza-tok', 'stanza-tok')),
+         (em_stanza_tok_lem, ('emstanza-tok-lem', 'stanza-tok-lem')),
+         (em_stanza_tok_parse, ('emstanza-tok-parse', 'stanza-tok-parse', 'emstanza-tok-dep', 'stanza-tok-dep')),
+         (em_stanza_parse, ('emstanza-parse', 'stanza-parse', 'emstanza-dep', 'stanza-dep')),
+         (em_stanza_pos, ('emstanza-pos', 'stanza-pos')),
+         (em_stanza_lem, ('emstanza-lem', 'stanza-lem')),
+         (emphon_ipa_comments, ('emphon-ipa-comments', 'emPhon-ipa-comments', 'emPhon-IPA-comments')),
+         (emphon_ipa_nocomments, ('emphon-ipa-nocomments', 'emPhon-ipa-nocomments', 'emPhon-IPA-nocomments')),
+         (emphon_noipa_comments, ('emphon-noipa-comments', 'emPhon-noipa-comments', 'emPhon-noIPA-comments')),
+         (emphon_noipa_nocomments, ('emphon-noipa-nocomments', 'emPhon-noipa-nocomments', 'emPhon-noIPA-nocomments'))
          ]
 
 # cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep
