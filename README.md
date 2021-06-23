@@ -114,7 +114,7 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
 ### REST API
 
 #### Server:
-- __RECOMMENDED WAY__: Docker image ([see above](#docker-image))
+- __RECOMMENDED WAY__: Docker image ([see above](#as-service-through-rest-api-docker-container))
 - Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
 - Debug server (Flask) __only for development (single threaded, one request at a time)__:
     ```bash
