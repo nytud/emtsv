@@ -102,19 +102,19 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
 
 ### Docker image
 
-- Runnable docker form (CLI usage of docker image):
+#### Runnable docker form (CLI usage of docker image):
     ```bash
     cat input.txt | docker run -i mtaril/emtsv tok,morph,pos > output.txt
     ```
-- As service through Rest API (docker container)
+#### As service through Rest API (docker container)
     ```bash
     docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API listening on http://0.0.0.0:5000
     ```
 
 ### REST API
 
-Server:
-- Docker image ([see above](#docker-image))
+#### Server:
+- __RECOMMENDED WAY__: Docker image ([see above](#docker-image))
 - Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
 - Debug server (Flask) __only for development (single threaded, one request at a time)__:
     ```bash
@@ -126,7 +126,7 @@ Server:
 
 
 
-Client:
+#### Client:
 - Web frontend provided by `xtsv` (without any URL parameters)
 - From __any programming language (examples provided in Python) or tool (`curl`, `wget`, etc.)__:
     ```python
