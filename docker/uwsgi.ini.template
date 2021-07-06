@@ -13,7 +13,7 @@ manage-script-name = true
 
 # %k is detected cpu cores
 # processes = %(%k * 2 + 1)
-processes = 2
+processes = EMTSV_NUM_PROCESSES
 harakiri = 120
 cpu-affinity = 1
 vacuum = 1
