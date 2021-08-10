@@ -15,7 +15,7 @@ quntoken==3.1.7
 https://github.com/nytud/emmorphpy/releases/download/v1.1.0/emmorphpy-1.1.0-py3-none-any.whl
 https://github.com/nytud/hunspellpy/releases/download/v1.0.0/hunspellpy-1.0.0-py3-none-any.whl
 https://github.com/nytud/purepospy/releases/download/v1.0.1/purepospy-1.0.1-py3-none-any.whl
-https://github.com/nytud/HunTag3/releases/download/v3.0.2/huntag-3.0.2-py3-none-any.whl
+https://github.com/nytud/HunTag3/releases/download/v3.0.3/huntag-3.0.3-py3-none-any.whl
 https://github.com/nytud/emIOBUtils/releases/download/v1.0.0/emiobutils-1.0.0-py3-none-any.whl
 https://github.com/nytud/emdeppy/releases/download/v1.0.1/emdeppy-1.0.1-py3-none-any.whl
 https://github.com/nytud/emconspy/releases/download/v1.0.1/emconspy-1.0.1-py3-none-any.whl
