@@ -107,16 +107,16 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
     cat input.txt | docker run -i mtaril/emtsv tok,morph,pos > output.txt
     ```
 #### As service through Rest API (docker container)
-    ```bash
-    docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API listening on http://0.0.0.0:5000
-    ```
-    The container starts two emtsv processes by default. Should the throughput
-    be insufficient (or conversely, the memory requirements too great even
-    with two processes), this number can be configured via the
-    `EMTSV_NUM_PROCESSES` variable:
-    ```
-    docker run --rm -p5000:5000 -it -e "EMTSV_NUM_PROCESSES=4" mtaril/emtsv
-    ```
+```bash
+docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API listening on http://0.0.0.0:5000
+```
+The container starts two emtsv processes by default. Should the throughput
+be insufficient (or conversely, the memory requirements too great even
+with two processes), this number can be configured via the
+`EMTSV_NUM_PROCESSES` variable:
+```bash
+docker run --rm -p5000:5000 -it -e "EMTSV_NUM_PROCESSES=4" mtaril/emtsv
+```
 
 ### REST API
 
