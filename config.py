@@ -192,8 +192,8 @@ emphon_noipa_nocomments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber with
 
 ########################################################################################################################
 
-# Map module personalities to firendly names...
-# The first name is the default. The order is the display order of the modules
+# Map module personalities to aliases...
+# The first alias is the default. The order is the display order of the modules
 tools = [(em_token, ('tok', 'emToken')),
          (em_morph, ('morph', 'emMorph')),
          (hunspellpy, ('spell', 'hunspell')),
