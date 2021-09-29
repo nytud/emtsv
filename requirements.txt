@@ -10,7 +10,7 @@ tqdm
 transformers==2.10.0  # <2.11.0 or it crashes
 # dataclasses==0.7; python_version < '3.7'
 # Modules with versions pinned
-quntoken==3.1.7
+quntoken==3.1.8
 # Some of them will be on pypi latter...
 https://github.com/nytud/emmorphpy/releases/download/v1.1.0/emmorphpy-1.1.0-py3-none-any.whl
 https://github.com/nytud/hunspellpy/releases/download/v1.0.0/hunspellpy-1.0.0-py3-none-any.whl
