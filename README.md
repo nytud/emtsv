@@ -238,11 +238,11 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `emBERT` (`bert-ner`, `bert-basenp`, `bert-np`): module that wraps NER and NP chunker models based on BERT and other pre-trained models
 - `emIOBUtils`: a module for converting among IOB representations and fixing invalid label sequences the present one
 - `emGATEConv`: a module for converting the output TSV format to GATE XML. The purpose of the module is to help the transition of http://e-magyar.hu form GATE to emtsv, therefore only the minimal required featureset is implemented
-- `emStanza-tok`: The Stanza tokeniser
-- `emStanza-pos`: The Stanza POS tagger (no lemmatisation)
-- `emStanza-lem`: The Stanza lemmatiser (comes after the POS-taging step)
-- `emStanza-tok-lem`: The Stanza tokeniser, POS tagger and lemmatiser as a whole
-- `emStanza-tok-parse`: The Stanza tokenizer, POS tagger, lemmatiser and dependency parser as a whole
+- `emstanza-tok`: The Stanza tokeniser
+- `emstanza-pos`: The Stanza POS tagger (no lemmatisation)
+- `emstanza-lem`: The Stanza lemmatiser (comes after the POS-taging step)
+- `emstanza-tok-lem`: The Stanza tokeniser, POS tagger and lemmatiser as a whole
+- `emstanza-tok-parse`: The Stanza tokenizer, POS tagger, lemmatiser and dependency parser as a whole
 - `emPhon-IPA-comments`: The emPhon phonetic transcriber with IPAization and with comment lines
 - `emPhon-IPA-nocomments`: The emPhon phonetic transcriber with IPAization but without comment lines
 - `emPhon-noIPA-comments`: The emPhon phonetic transcriber without IPAization but with comment lines
