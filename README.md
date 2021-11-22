@@ -240,7 +240,7 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `emGATEConv`: a module for converting the output TSV format to GATE XML. The purpose of the module is to help the transition of http://e-magyar.hu form GATE to emtsv, therefore only the minimal required featureset is implemented
 - `emstanza-tok`: The Stanza tokeniser
 - `emstanza-pos`: The Stanza POS tagger (no lemmatisation)
-- `emstanza-lem`: The Stanza lemmatiser (comes after the POS-taging step)
+- `emstanza-lem`: The Stanza POS tagger including lemmatisation
 - `emstanza-tok-lem`: The Stanza tokeniser, POS tagger and lemmatiser as a whole
 - `emstanza-tok-parse`: The Stanza tokenizer, POS tagger, lemmatiser and dependency parser as a whole
 - `emPhon-IPA-comments`: The emPhon phonetic transcriber with IPAization and with comment lines
