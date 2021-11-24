@@ -222,8 +222,10 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `emTag` (`pos`): POS-tagger
 - `emChunk` (`chunk`): Maximal NP-chunker
 - `emNER` (`ner`): Named-entity recogniser
-- `emmorph2ud` (`conv-morph`): Converter from emMorph code to UD _upos_ and _feats_ format
-- `emDep` (`dep`): Dependency parser
+- `emmorph2ud` (`conv-morph`): Converter from emMorph code to UDv1 _upos_ and _feats_ format
+- `emmorph2ud2` (`conv-morph2`): Converter from emMorph code to UDv2 _upos_ and _feats_ format
+- `emDep-ud` (`dep`): Dependency parser
+- `emDep-ud50` (`dep50`): Dependency parser
 - `emCons` (`cons`): Constituent parser
 - `emCoNLL` (`conll`): Converter from emtsv to CoNLL-U format
 - `emDummy` (`dummy-tagger`): Example module
@@ -233,20 +235,24 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `udpipe-pos-parse`: From POS-tagging to dependency parsing in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-pos,udpipe-parse`
 - `udpipe-tok-parse`: From tokenisation to dependency parsing in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos,udpipe-parse`
 - `udpipe-tok-pos`: From tokenisation to POS-tagging in __'one step'__ with UDPipe, roughly (!) the same as `udpipe-tok,udpipe-pos`
-- `emTerm`: a module for marking single word and multi-word units in POS-tagged text
-- `emZero`: a module for inserting zero pronouns (subjects, objects and possessors) into dependency parsed sentences
-- `emBERT` (`bert-ner`, `bert-basenp`, `bert-np`): module that wraps NER and NP chunker models based on BERT and other pre-trained models
-- `emIOBUtils`: a module for converting among IOB representations and fixing invalid label sequences the present one
-- `emGATEConv`: a module for converting the output TSV format to GATE XML. The purpose of the module is to help the transition of http://e-magyar.hu form GATE to emtsv, therefore only the minimal required featureset is implemented
-- `emstanza-tok`: The Stanza tokeniser
-- `emstanza-pos`: The Stanza POS tagger (no lemmatisation)
-- `emstanza-lem`: The Stanza POS tagger including lemmatisation
-- `emstanza-tok-lem`: The Stanza tokeniser, POS tagger and lemmatiser as a whole
-- `emstanza-tok-parse`: The Stanza tokenizer, POS tagger, lemmatiser and dependency parser as a whole
-- `emPhon-IPA-comments`: The emPhon phonetic transcriber with IPAization and with comment lines
-- `emPhon-IPA-nocomments`: The emPhon phonetic transcriber with IPAization but without comment lines
-- `emPhon-noIPA-comments`: The emPhon phonetic transcriber without IPAization but with comment lines
-- `emPhon-noIPA-nocomments`: The emPhon phonetic transcriber without IPAization and comment lines
+- `emTerm` (`term`): a module for marking single word and multi-word units in POS-tagged text
+- `emZero` (`zero`): a module for inserting zero pronouns (subjects, objects and possessors) into dependency parsed sentences
+- `emBERT-NER` (`bert-ner`): module that wraps NER model based on huBERT
+- `emBERT-baseNP` (`bert-basenp`): module that wraps base NP chunker based on huBERT 
+- `emBERT-NP` (`bert-np`, `bert-chunk`): module that wraps maximal NP chunker based on huBERT 
+- `emIOBUtils-NP` (`fix-np`, `fix-chunk`): a module for converting among IOB representations and fixing invalid label sequences the present one
+- `emIOBUtils-NER` (`fix-ner`, `fix-ner`): a module for converting among IOB representations and fixing invalid label sequences the present one
+- `emGATEConv` (`gate-conv`): a module for converting the output TSV format to GATE XML. The purpose of the module is to help the transition of http://e-magyar.hu form GATE to emtsv, therefore only the minimal required featureset is implemented
+- `emStanza-tok` (`emstanza-tok`, `stanza-tok`): The Stanza tokeniser
+- `emStanza-pos` (`emstanza-pos`, `stanza-pos`): The Stanza POS tagger (no lemmatisation)
+- `emStanza-lem` (`emstanza-lem`, `stanza-lem`): The Stanza POS tagger including lemmatisation
+- `emStanza-parse` (`emstanza-parse`, `stanza-parse`, `emStanza-dep`, `emstanza-dep`, `stanza-dep`): The Stanza dependency parser
+- `emStanza-tok-lem` (`emstanza-tok-lem`, `stanza-tok-lem`): The Stanza tokeniser, POS tagger and lemmatiser as a whole
+- `emStanza-tok-parse` (`emstanza-tok-parse`, `stanza-tok-parse`, `emStanza-tok-dep`, `emstanza-tok-dep`, `stanza-tok-dep`): The Stanza tokenizer, POS tagger, lemmatiser and dependency parser as a whole
+- `emPhon-IPA-comments` (`emphon-ipa-comments`, `emPhon-ipa-comments`): The emPhon phonetic transcriber with IPAization and with comment lines
+- `emPhon-IPA-nocomments` (`emphon-ipa-nocomments`, `emPhon-ipa-nocomments`): The emPhon phonetic transcriber with IPAization but without comment lines
+- `emPhon-noIPA-comments` (`emphon-noipa-comments`, `emPhon-noipa-comments`): The emPhon phonetic transcriber without IPAization but with comment lines
+- `emPhon-noIPA-nocomments` (`emphon-noipa-nocomments`, `emPhon-noipa-nocomments`): The emPhon phonetic transcriber without IPAization and comment lines
 
 For an overview see [the topology of the current toolchain](docs/emtsv_modules.pdf)
 
@@ -259,7 +265,8 @@ The following presets are defined as shorthands for the common tasks:
 - `tok-ner`: From tokenisation to named-entity recognition, same as `emToken,emMorph,emTag,emNER`
 - `tok-udpos`: From tokenisation to POS-tagging in UD format, same as `emToken,emMorph,emTag,emmorph2ud`
 - `tok-dep`: From tokenisation to dependency parsing, same as `emToken,emMorph,emTag,emmorph2ud,emDep-ud`
-- `tok-cons`: From tokenisation to constituent parsing, same as `emToken,emMorph,emTag,emCons`
+- `tok-bert-ner`: Raw text to emBERT named-entity annotation, same as `emToken,emBERT-NER`
+- `tok-bert-chunk`: Raw text to emBERT maximal NP chunking, same as `emToken,emBERT-NP`
 
 ### Example
 
