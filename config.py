@@ -193,7 +193,7 @@ emphon_noipa_nocomments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber with
 # emPreverb ############################################################################################################
 
 em_preverb = ( 'emPreverb', 'EmPreverb', 'connect preverbs', (),
-        { 'source_fields': {'form', 'anas', 'lemma', 'xpostag'}, 'target_fields': ['separated', 'previd']})
+        { 'source_fields': {'form', 'anas', 'lemma', 'xpostag'}, 'target_fields': ['prev', 'previd', 'prevpos']})
 
 # emCompound ###########################################################################################################
 
