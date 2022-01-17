@@ -195,6 +195,11 @@ emphon_noipa_nocomments = ('emphon', 'EmPhon', 'emPhon phonetic transcriber with
 em_preverb = ( 'emPreverb', 'EmPreverb', 'connect preverbs', (),
         { 'source_fields': {'form', 'anas', 'lemma', 'xpostag'}, 'target_fields': ['separated', 'previd']})
 
+# emCompound ###########################################################################################################
+
+em_compound = ( 'emCompound', 'EmCompound', 'annotate compound boundaries', (),
+        { 'source_fields': {'anas', 'lemma', 'xpostag'}, 'target_fields': ['compound']})
+
 ########################################################################################################################
 
 # Map module personalities to aliases...
@@ -239,6 +244,7 @@ tools = [(em_token, ('tok', 'emToken')),
          (emphon_noipa_comments, ('emphon-noipa-comments', 'emPhon-noipa-comments', 'emPhon-noIPA-comments')),
          (emphon_noipa_nocomments, ('emphon-noipa-nocomments', 'emPhon-noipa-nocomments', 'emPhon-noIPA-nocomments')),
          (em_preverb, ('preverb', 'emPreverb')),
+         (em_compound, ('compound', 'emCompound')),
          ]
 
 # cat input.txt | ./main.py tok,morph,pos,conv-morph,dep -> cat input.txt | ./main.py tok-dep

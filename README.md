@@ -254,6 +254,7 @@ Modules are defined in `config.py`. The current toolchain consists of the follow
 - `emPhon-noIPA-comments` (`emphon-noipa-comments`, `emPhon-noipa-comments`): The emPhon phonetic transcriber without IPAization but with comment lines
 - `emPhon-noIPA-nocomments` (`emphon-noipa-nocomments`, `emPhon-noipa-nocomments`): The emPhon phonetic transcriber without IPAization and comment lines
 - `emPreverb` (`preverb`): module to connect a preverb to the verb or verb-derivative token to which it belong.
+- `emCompound` (`compound`): module to annotate compound boundaries.
 
 For an overview see [the topology of the current toolchain](docs/emtsv_modules.pdf)
 
