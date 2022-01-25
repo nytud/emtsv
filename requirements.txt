@@ -29,3 +29,5 @@ https://github.com/vadno/emconll/releases/download/v1.0.0/emconll-1.0.0-py3-none
 https://github.com/vadno/emzero/releases/download/v1.0.0/emzero-1.0.0-py3-none-any.whl
 https://github.com/ELTE-DH/emstanza/releases/download/v1.0.3/emstanza-1.0.3-py3-none-any.whl
 emphon>=1.3.1,<2.0.0
+https://github.com/ril-lexknowrep/empreverb/releases/download/v2.0.0/empreverb-2.0.0-py3-none-any.whl
+https://github.com/ril-lexknowrep/emcompound/releases/download/v1.0.3/emcompound-1.0.3-py3-none-any.whl
