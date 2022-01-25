@@ -58,7 +58,7 @@
                                                                     lemma & feats \\
                                                                     xpostag & \\
                                                                     \end{tabular}};
-\node (emmorph2ud2)     [module, left of=emmorph2ud]               {emmorph2ud2 \\
+\node (emmorph2ud2)     [module, left of=emmorph2ud, fill=white]    {emmorph2ud2 \\
                                                                     \texttt{(conv-morph2)} \\
                                                                     \begin{tabular}{ll}
                                                                     form & upostag \\
@@ -89,6 +89,21 @@
                                                                     lemma &  \\
                                                                     xpostag & \\
                                                                     \end{tabular}};
+\node (emcompound)          [module, left of=emcons]                    {emCompound \\
+                                                                    \texttt{(compound)} \\
+                                                                    \begin{tabular}{ll}
+                                                                    form & prev \\
+                                                                    anas & previd \\
+                                                                    lemma & prevpos \\
+                                                                    xpostag & \\
+                                                                    \end{tabular}};
+\node (empreverb)          [module, left of=emcompound]                    {emPreverb \\
+                                                                    \texttt{(preverb)} \\
+                                                                    \begin{tabular}{ll}
+                                                                    anas & compound \\
+                                                                    lemma &  \\
+                                                                    xpostag & \\
+                                                                    \end{tabular}};
 \node (embert_basenp)   [module, left of=emmorph_emlem]            {emBERT-baseNP \\
                                                                     \texttt{(bert-basenp)} \\
                                                                     \begin{tabular}{ll}
@@ -116,7 +131,7 @@
                                                                     form & NER-BIO \\
                                                                     xpostag & \\
                                                                     \end{tabular}};
-\node (emIOBUtils_chunk)           [module, below of=emchunk, yshift=-4mm]                   {emIOBUtils (chunk) \\
+\node (emIOBUtils_chunk)           [module, below of=emchunk, yshift=-4mm, fill=white]                   {emIOBUtils (chunk) \\
                                                                     \texttt{(fix-chunk)} \\
                                                                     \begin{tabular}{ll}
                                                                     NP-BIO & NP-BIO-FIXED \\
@@ -227,6 +242,14 @@
 \draw[dashed,->]   (emdep)       --  (GATEConv);
 \draw[dashed,->]   (emdep)       --  (emconll);
 \draw[dashed,->]   (emdep)       --  (emzero);
+
+\begin{pgfonlayer}{bg}
+    \draw[dashed,->]   (emtoken)       --  (emcompound);
+    \draw[dashed,->]   (emmorph_emlem)       --  (emcompound);
+    \draw[dashed,->]   (emmorph_emlem)       --  (empreverb);
+    \draw[dashed,->]   (emtag)       --  (emcompound);
+    \draw[dashed,->]   (emtag)       --  (empreverb);
+\end{pgfonlayer}
 
 \draw[dashed,->]   (emner)       --  (emIOBUtils_ner);
 \draw[dashed,->]   (emchunk)       --  (emIOBUtils_chunk);
