@@ -47,6 +47,10 @@ If you use __emtsv__, please cite the following articles (see cite.bib for [BibT
 If you use __emBERT__, please cite the following paper:
 
     Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
+    
+If you use __emTag__ (PurePos), please cite the following paper:
+
+    Orosz György, Novák Attila: PurePos 2.0: a hybrid tool for morphological disambiguation. In: Proceedings of the International Conference on Recent Advances in Natural Language Processing (RANLP 2013), 539-545.
 
 This system is a replacement for the original https://github.com/nytud/hunlp-GATE system.
 
