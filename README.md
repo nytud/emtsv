@@ -32,7 +32,9 @@ If a bug is found please leave feedback with the exact details.
 
 ## Citing and License
 
-If you use __emtsv__, please cite the following articles (see cite.bib for [BibTeX entries](docs/cite.bib)):
+See [`docs/cite.bib`](docs/cite.bib) for BibTeX entries.
+
+If you use the __emtsv__ system, please cite:
 
     Simon Eszter, Indig Balázs, Kalivoda Ágnes, Mittelholcz Iván, Sass Bálint, Vadász Noémi. Újabb fejlemények az e-magyar háza táján. In: Berend Gábor, Gosztolya Gábor, Vincze Veronika (szerk.): MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2020). Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 29-42.
 
@@ -44,17 +46,27 @@ If you use __emtsv__, please cite the following articles (see cite.bib for [BibT
 
     Váradi Tamás, Simon Eszter, Sass Bálint, Gerőcs Mátyás, Mittelholcz Iván, Novák Attila, Indig Balázs, Prószéky Gábor, Farkas Richárd, Vincze Veronika: Az e-magyar digitális nyelvfeldolgozó rendszer. In: MSZNY 2017, XIII. Magyar Számítógépes Nyelvészeti Konferencia, Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 49-60.
 
-If you use __emBERT__, please cite the following paper:
+If you use [__emMorph__](https://github.com/nytud/emMorph) module, please cite:
 
-    Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
-    
-If you use __emTag__ (PurePos), please cite the following paper:
+    Attila Novák, Borbála Siklósi, Csaba Oravecz: A New Integrated Open-source Morphological Analyzer for Hungarian. In: Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016), Paris: European Language Resources Association (ELRA).
+ 
+    Attila Novák: A New Form of Humor -- Mapping Constraint-Based Computational Morphologies to a Finite-State Representation. In: Proceedings of the Ninth International Conference on Language Resources and Evaluation (LREC 2014), Paris: European Language Resources Association (ELRA).
+   
+If you use [__emTag__ (PurePos)](https://github.com/ppke-nlpg/purepos) module, please cite:
 
     Orosz György, Novák Attila: PurePos 2.0: a hybrid tool for morphological disambiguation. In: Proceedings of the International Conference on Recent Advances in Natural Language Processing (RANLP 2013), 539-545.
 
-This system is a replacement for the original https://github.com/nytud/hunlp-GATE system.
+If you use __emBERT__ module, please cite:
 
-``emtsv`` is licensed under the LGPL 3.0 license. The submodules have their own license.
+    Nemeskey Dávid Márk: Egy emBERT próbáló feladat. In: MSZNY 2020, XVI. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Tanszékcsoport, 409-418.
+
+If you use __emPreverb__ or __emCompound__ module, please cite:
+
+    Pethő Gergely, Sass Bálint, Kalivoda Ágnes, Simon László, Lipp Veronika: Igekötő-kapcsolás. In: MSZNY 2022, XVIII. Magyar Számítógépes Nyelvészeti Konferencia. Szeged: Szegedi Tudományegyetem Informatikai Intézet, 77-91.
+ 
+The __emtsv__ system is a replacement for the original https://github.com/nytud/hunlp-GATE system.
+
+__emtsv__ is licensed under [LGPL 3.0](LICENSE). The submodules have their own licenses.
 
 ## Requirements
 
