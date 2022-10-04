@@ -12,14 +12,10 @@
 
 ## Clone the repository
 
-Clone together with submodules (it takes about 3 minutes):
+1. Initialize Git LFS: `git lfs install --skip-repo` command should write `Git LFS initialized.`
+2. Clone the repo with submodules and LFS objects (it takes about 3 minutes): `git clone --depth=1 --recurse-submodules https://github.com/nytud/emtsv`
 
-`git lfs clone --depth=1 --recurse-submodules https://github.com/nytud/emtsv`
-
-- _Note:_ please ignore the deprecation warning. (This command checks and ensures that `git-lfs` is installed and working.)
-- _Note2:_ If you are sure that `git-lfs` is installed, you can use `git clone` to avoid the warning. (This command also works without `git-lfs` installed, but `emtsv` might not work as the model files will not be downloaded. See [Troubleshooting](troubleshooting.md) section for details.)
-- _Note3:_ Just use `git clone` if you intend to install large files with `emtsv.download()` or `download_models.py` to download large files directly
-- _Note4:_ Do not clone all history if it is not needed, as you may run into errors e.g. `This repository is over its data quota.` because old LFS entries referring to ppke-nlpg repositories
+- _Note:_ Do not clone all history if it is not needed, as you may run into errors e.g. `This repository is over its data quota.` because old LFS entries referring to ppke-nlpg repositories
 
 ## Install Python dependencies
 
@@ -37,3 +33,23 @@ With the provided `Dockerfile` (see `docker` folder for other files used in the 
 ```bash
 docker build -t emtsv:stable .
 ```
+
+or 
+
+```bash
+make dbuild
+```
+
+## Testing Docker image
+
+```bash
+make dbuildtest drun dtest
+```
+
+## Releasing Docker image
+
+1. Update version in [\_\_init__.py](../__init__.py)
+2. Create docker image (optionally test it as described above): `make dbuild`
+3. Create a release commit (e.g. commit the change in `__init__.py`)
+4. Login to dockher hub: `docker login`
+5. Push the images: `docker push mtaril/emtsv:[VERSION_HERE]` and `docker push mtaril/emtsv:latest`

@@ -22,11 +22,11 @@ for output_file in ${SCRIPT_DIR}/test_output/*; do
     input_file=${output_file/.$act_modules1/}
 
     echo
-    echo "Testing make -f ${MAKEFILE} ${TEST_TYPE} RAWINPUT=${SCRIPT_DIR}/test_input/$input_file \
+    echo "Testing make --no-print-directory -f ${MAKEFILE} ${TEST_TYPE} RAWINPUT=${SCRIPT_DIR}/test_input/$input_file \
         MODULES=${act_modules2} > ${TEST_TMP}/$output_file 2> ${TEST_TMP}/log.$TEST_TYPE.$output_file" >&2
 
-    time make -f ${MAKEFILE} ${TEST_TYPE} RAWINPUT=${SCRIPT_DIR}/test_input/$input_file MODULES=${act_modules2} \
-        > ${TEST_TMP}/$output_file 2> ${TEST_TMP}/log.$TEST_TYPE.$output_file
+    time make --no-print-directory -f ${MAKEFILE} ${TEST_TYPE} RAWINPUT=${SCRIPT_DIR}/test_input/$input_file \
+        MODULES=${act_modules2} > ${TEST_TMP}/$output_file 2> ${TEST_TMP}/log.$TEST_TYPE.$output_file
 
     if [[ "$?" == "0" && -z "$(diff ${TEST_TMP}/$output_file ${SCRIPT_DIR}/test_output/$output_file)" ]]; then
         echo "Test succeeded! :)" >&2
