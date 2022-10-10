@@ -50,6 +50,6 @@ make dbuildtest drun dtest
 
 1. Update version in [\_\_init__.py](../__init__.py)
 2. Create docker image (optionally test it as described above): `make dbuild`
-3. Create a release commit (e.g. commit the change in `__init__.py`)
+3. If everything is right, create a release commit (e.g. commit the change in `__init__.py`)
 4. Login to dockher hub: `docker login`
 5. Push the images: `docker push mtaril/emtsv:[VERSION_HERE]` and `docker push mtaril/emtsv:latest`
