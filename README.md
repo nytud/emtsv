@@ -151,7 +151,7 @@ docker run --rm -p5000:5000 -it -e "EMTSV_NUM_PROCESSES=4" mtaril/emtsv
 
 #### Client:
 - Web frontend provided by `xtsv` (without any URL parameters)
-- From __any programming language (examples provided in Python) or tool (`curl`, `wget`, etc.)__:
+- From Python:
     ```python
     >>> import requests
     >>> # With input file
@@ -169,7 +169,10 @@ docker run --rm -p5000:5000 -it -e "EMTSV_NUM_PROCESSES=4" mtaril/emtsv
     ...
     ```
     The server checks whether the module order with the provided input data is feasible, and returns an error message if there are any problems.
-
+- By `curl`:
+   ```bash
+   echo "A kutya elment sétálni." | curl -F "file=@-" http://SERVER:PORT/tok/morph/pos
+   ```
 ### As Python Library
 
 1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
