@@ -92,7 +92,58 @@ Here we present the usage scenarios. [The individual modules are documented in d
 <br/>
 To extend the toolchain with new modules [just add new modules to `config.py`](#creating-a-module).
 
-### Command-line interface
+### #1 – by REST API
+
+#### Start the `emtsv` server
+- _(recommended way)_ Run the docker image to provide a REST API service for `emtsv`
+    ```bash
+    docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API starts listening at http://127.0.0.1:5000
+    ```
+    The container starts two emtsv processes by default. Should the throughput
+    be insufficient (or conversely, the memory requirements too great even
+    with two processes), this number can be configured via the
+    `EMTSV_NUM_PROCESSES` variable:
+    ```bash
+    docker run --rm -p5000:5000 -it -e "EMTSV_NUM_PROCESSES=4" mtaril/emtsv
+    ```
+
+- _(only for development)_ `Flask` debug server (single threaded, one request at a time):
+    ```bash
+    # Without parameters!
+    python3 ./main.py
+    ```
+    When the server outputs a message like `* Running on` then it is ready to accept requests at http://127.0.0.1:5000 .
+    _We do not recommend using this method in production as it is built atop of Flask debug server! Please consider using the Docker image for REST API in production!_
+
+- Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
+
+#### Use the `emtsv` server
+Given that the [server is running:](#start-the-emtsv-server)
+- by the __simple web frontend:__ point your browser simply to http://127.0.0.1:5000 (without any URL parameters!).
+- by `curl`:
+   ```bash
+   echo "A kutya elment sétálni." | curl -F "file=@-" http://127.0.0.1:5000/tok/morph/pos
+   ```
+- from Python:
+    ```python
+    >>> import requests
+    >>> # With input file
+    >>> # The URL contains the tools to be run separated by `/` instead of ',' used in the CLI
+    >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file': open('tests/test_input/input.test', encoding='UTF-8')})
+    >>> print(r.text)
+    ...
+    >>> # With input text
+    >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', data={'text': 'A kutya elment sétálni.'})
+    >>> print(r.text)
+    ...
+    >>> # CoNLL style comments can be enabled per request (disabled by default):
+    >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('tests/test_input/input.test', encoding='UTF-8')}, data={'conll_comments': True})
+    >>> print(r.text)
+    ...
+    ```
+    The server checks whether the module order with the provided input data is feasible, and returns an error message if there are any problems.
+   
+### #2 – directly by CLI
 
 - Multiple modules at once (not necessarily starting with raw text):
     ```bash
@@ -115,65 +166,12 @@ To extend the toolchain with new modules [just add new modules to `config.py`](#
     python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner -i input.txt -o output.txt
     python3 ./main.py tok,spell,morph,pos,conv-morph,dep,chunk,ner --text "A kutya elment sétálni."
     ```
-
-### Docker image
-
-#### Runnable docker form (CLI usage of docker image):
+ - Using the docker image in CLI:
     ```bash
     cat input.txt | docker run -i mtaril/emtsv tok,morph,pos > output.txt
     ```
-#### As service through Rest API (docker container)
-```bash
-docker run --rm -p5000:5000 -it mtaril/emtsv  # REST API listening on http://0.0.0.0:5000
-```
-The container starts two emtsv processes by default. Should the throughput
-be insufficient (or conversely, the memory requirements too great even
-with two processes), this number can be configured via the
-`EMTSV_NUM_PROCESSES` variable:
-```bash
-docker run --rm -p5000:5000 -it -e "EMTSV_NUM_PROCESSES=4" mtaril/emtsv
-```
 
-### REST API
-
-#### Server:
-- __RECOMMENDED WAY__: Docker image ([see above](#as-service-through-rest-api-docker-container))
-- Any wsgi server (`uwsgi`, `gunicorn`, `waitress`, etc.) can be configured to run with [docker/emtsvREST.wsgi](docker/emtsvREST.wsgi) .
-- Debug server (Flask) __only for development (single threaded, one request at a time)__:
-    ```bash
-    # Without parameters!
-    python3 ./main.py
-    ```
-    When the server outputs a message like `* Running on` then it is ready to accept requests on http://127.0.0.1:5000 .
-    (__We do not recommend using this method in production as it is built atop of Flask debug server! Please consider using the Docker image for REST API in production!__)
-
-
-
-#### Client:
-- Web frontend provided by `xtsv` (without any URL parameters)
-- From Python:
-    ```python
-    >>> import requests
-    >>> # With input file
-    >>> # The URL contains the tools to be run separated by `/` instead of ',' used in the CLI
-    >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file': open('tests/test_input/input.test', encoding='UTF-8')})
-    >>> print(r.text)
-    ...
-    >>> # With input text
-    >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', data={'text': 'A kutya elment sétálni.'})
-    >>> print(r.text)
-    ...
-    >>> # CoNLL style comments can be enabled per request (disabled by default):
-    >>> r = requests.post('http://127.0.0.1:5000/tok/morph/pos', files={'file':open('tests/test_input/input.test', encoding='UTF-8')}, data={'conll_comments': True})
-    >>> print(r.text)
-    ...
-    ```
-    The server checks whether the module order with the provided input data is feasible, and returns an error message if there are any problems.
-- By `curl`:
-   ```bash
-   echo "A kutya elment sétálni." | curl -F "file=@-" http://SERVER:PORT/tok/morph/pos
-   ```
-### As Python Library
+### #3 – as Python Library
 
 1. Install emtsv in `emtsv` directory or make sure the emtsv installation is in the `PYTHONPATH` environment variable
 2. `import emtsv`
