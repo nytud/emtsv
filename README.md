@@ -1,16 +1,3 @@
-
-<!--
- - M#2-nek megfelelő README.md legyen =
-maradjunk meg a production release-re (jelenleg ez a MILESTONE#2)
-vonatkozó infók közlésénél,
-minden, ami azon túl van, az legyen a
-[Work in progress](#work-in-progress)
-részben (jövőbeli MILESTONE-ok szerint).
-B) Vagy csináljunk egy linket a megfelelő kommitra, ami a MILESTONE#X README.md-t mutatja.
-Ezért hülyeség lenne kétszer dokumentálni a dolgokat.
-C) branch-be fejlesztünk és a MILESTONE-oknál merge-lünk.
--->
-
 # __e-magyar__ text processing system (emtsv)
 
 - inter-module communication via the [`xtsv` framework](https://github.com/nytud/xtsv)
@@ -22,11 +9,6 @@ C) branch-be fejlesztünk és a MILESTONE-oknál merge-lünk.
 - convenient REST API with simple web frontend
 - Python library API
 - Docker image and runnable docker form
-
- __17 Sep 2019 MILESTONE#4 (production)__ =
-xtsv and dummyTagger separated, UDPipe, Hunspell added,
-many API breaks compared to the previous milestone,
-Runnable Docker image, dropped DepToolPy, and many more changes.
 
 If a bug is found please leave feedback with the exact details.
 
