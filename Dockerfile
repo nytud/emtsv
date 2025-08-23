@@ -11,7 +11,8 @@ ENV EMTSV_NUM_PROCESSES=2
 
 
 # HFST, HUNSPELL
-RUN apt-get update ; \
+RUN sed -i 's#http://deb.debian.org/#http://archive.debian.org/#' /etc/apt/sources.list ; \
+    apt-get update ; \
     apt-get install -y \
     hfst \
     libhunspell-dev \
